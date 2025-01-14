@@ -1,0 +1,28 @@
+/* 폰트 */
+@import './fonts.css';
+
+/* tailwind 설정 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 사용자 지정 설정 */
+body {
+  width : 100%;
+  height : 100%;
+  margin: 0 auto;
+  position: relative;
+  overflow-x: hidden;
+  background-color: #F1F3F4;
+
+	/* 스크롤 설정 */
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background: none;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+      border-radius: 30px;
+      background-color: #DAE8FF;
+  }
+}
