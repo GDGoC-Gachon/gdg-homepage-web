@@ -1,7 +1,7 @@
 ---
-name: ISSUE [#number] [issue_name]
-about: Make new issue
-title: ''
+name: Project issue template
+about: Describe this issue template's purpose here.
+title: "[FEAT] "
 labels: ''
 assignees: ''
 
