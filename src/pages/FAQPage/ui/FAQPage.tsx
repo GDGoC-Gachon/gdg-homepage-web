@@ -26,7 +26,7 @@ function FAQPage() {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center py-[8.25rem]">
+    <div className="w-full min-h-screen flex flex-col items-center pt-[8.25rem] pb-[17.875rem]">
       <div className="max-w-5xl flex flex-col items-center text-black-800">
         <div className="text-4xl font-bold font-productSans">FAQ</div>
         <div className="text-base font-normal font-productSans leading-10">
