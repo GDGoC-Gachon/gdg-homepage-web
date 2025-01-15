@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import MainLayOut from "../widgets/MainLayOut";
 import MainPage from "../pages/MainPage";
 import FAQPage from "../pages/FAQPage/ui/FAQPage";
+import ContactPage from "../pages/ContactPage/ContactPage";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
         <Route path="/faq" element={<FAQPage />} />
 
         {/* 컨택트 페이지 */}
-        <Route path="/contact" element={<MainPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Route>
     </Routes>
   );
