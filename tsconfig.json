@@ -1,9 +1,6 @@
 {
   "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "node",
@@ -11,5 +8,5 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "types": ["vite/client"]
-  },
+  }
 }
