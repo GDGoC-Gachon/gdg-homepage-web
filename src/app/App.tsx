@@ -2,8 +2,8 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import MainLayOut from '../widgets/MainLayOut';
 import MainPage from '../pages/MainPage';
-import FAQPage from '../pages/FAQPage/ui/FAQPage';
-import ContactPage from '../pages/ContactPage/ContactPage';
+import FAQPage from '../pages/FAQPage';
+import ContactPage from '../pages/ContactPage';
 
 function App() {
   return (

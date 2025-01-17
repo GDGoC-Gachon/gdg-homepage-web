@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { FAQData } from "../constants/FAQData";
-import { FAQToggle } from "../components/FAQToggle";
-import LOGO from "../../../shared/assets/images/common/earth_logo.png";
-import { FAQButton } from "../components/FAQButton";
+import { FAQData } from "../features/faq/model/FAQData";
+import { FAQToggle } from "../features/faq/ui/FAQToggle";
+import LOGO from "../shared/assets/images/common/earth_logo.png";
+import { FAQButton } from "../features/faq/ui/FAQButton";
 
 function FAQPage() {
   const [closeQAs, setCloseQAs] = useState<Set<number>>(new Set()); // 닫혀있는 답변 상태
