@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faCircleMinus } from "@fortawesome/free-solid-svg-icons";
-import { FAQItem } from "../types/FAQItem";
+import { FAQItem } from "../type/FAQItem";
 
 type FAQToggleProps = {
   faq: FAQItem;

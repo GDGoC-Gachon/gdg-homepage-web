@@ -1,7 +1,7 @@
-import GITHUB from "../../shared/assets/icons/common/Github_logo.svg";
-import MEDIUM from "../../shared/assets/icons/common/Medium_logo.svg";
-import INSTAGRAM from "../../shared/assets/icons/common/Instagram_logo.svg";
-import KAKAO from "../../shared/assets/icons/common/Kakao_logo.svg";
+import GITHUB from "../shared/assets/icons/common/Github_logo.svg";
+import MEDIUM from "../shared/assets/icons/common/Medium_logo.svg";
+import INSTAGRAM from "../shared/assets/icons/common/Instagram_logo.svg";
+import KAKAO from "../shared/assets/icons/common/Kakao_logo.svg";
 
 function ContactPage() {
   const handleOpenSite = (site: string) => {
