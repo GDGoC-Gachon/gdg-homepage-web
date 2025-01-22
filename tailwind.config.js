@@ -21,12 +21,28 @@ export default {
       backgroundImage: {
         'mainBg': "url('/src/shared/assets/images/main/mainBackground.png')",
         'mainDot': "url('/src/shared/assets/images/main/dot.png')",
+        'mainSquarePattern': "url('/src/shared/assets/images/main/squarePattern.png')",
+        'mainMiniSquare': "url('/src/shared/assets/images/main/miniSquare.png')",
+      },
+      backgroundSize: {
+        'full-width': '100% auto',
       },
       height: {
         // 헤더 높이
         header: '4.125rem',
         // 헤더 높이를 제외한 화면 높이
         'screen-without-header': 'calc(100vh - 4.125rem)',
+      },
+      keyframes: {
+        // fadeInOut 애니메이션 정의
+        fadeInOut: {
+          '0%, 100%': { opacity: 0.2 },
+          '50%': { opacity: 1 },
+        },
+      },
+      animation: {
+        // fadeInOut 애니메이션 설정
+        fadeInOut: 'fadeInOut 2.5s ease-in-out infinite',
       },
     },
   },
