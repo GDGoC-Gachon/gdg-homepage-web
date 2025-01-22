@@ -23,6 +23,9 @@ export default {
         'mainDot': "url('/src/shared/assets/images/main/dot.png')",
         'mainSquarePattern': "url('/src/shared/assets/images/main/squarePattern.png')",
         'mainMiniSquare': "url('/src/shared/assets/images/main/miniSquare.png')",
+        'mainNewsCard1': "url('/src/shared/assets/images/main/newsCard1.png')",
+        'mainNewsCard2': "url('/src/shared/assets/images/main/newsCard2.png')",
+        'mainNewsCard3': "url('/src/shared/assets/images/main/newsCard3.png')",
       },
       backgroundSize: {
         'full-width': '100% auto',
