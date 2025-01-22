@@ -23,9 +23,6 @@ export default {
         'mainDot': "url('/src/shared/assets/images/main/dot.png')",
         'mainSquarePattern': "url('/src/shared/assets/images/main/squarePattern.png')",
         'mainMiniSquare': "url('/src/shared/assets/images/main/miniSquare.png')",
-        'mainNewsCard1': "url('/src/shared/assets/images/main/newsCard1.png')",
-        'mainNewsCard2': "url('/src/shared/assets/images/main/newsCard2.png')",
-        'mainNewsCard3': "url('/src/shared/assets/images/main/newsCard3.png')",
       },
       backgroundSize: {
         'full-width': '100% auto',
@@ -45,12 +42,13 @@ export default {
       },
       animation: {
         // fadeInOut 애니메이션 설정
-        fadeInOut: 'fadeInOut 2.5s ease-in-out infinite',
+        fadeInOut: 'fadeInOut 2s ease-in-out infinite',
       },
     },
   },
   plugins: [
     function ({ addUtilities }) {
+      // 레이아웃 관련 유틸리티
       addUtilities({
         // 레이아웃 범위 테스트용
         '.border-test': {
@@ -62,6 +60,48 @@ export default {
           'align-items': 'center',
           'justify-content': 'center',
         },
+      });
+
+      // Hover 관련 유틸리티
+      addUtilities({
+        // Hover 시 위로 올라가는 효과
+        '.hover-up': {
+          transform: 'translateY(0)',
+          transition: 'transform 0.3s ease',
+        },
+        '.hover-up:hover': {
+          transform: 'translateY(-0.8rem)',
+        },
+        // Hover 시 위로 이동하며 그림자 추가 효과
+        '.hover-up-shadow': {
+          transform: 'translateY(0)',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+          'box-shadow': '0 5px 8px rgba(0, 0, 0, 0.1)',
+        },
+        '.hover-up-shadow:hover': {
+          transform: 'translateY(-10px)',
+          'box-shadow': '0 8px 15px rgba(0, 0, 0, 0.2)',
+        },
+      });
+
+      // 텍스트 말줄임 관련 유틸리티
+      addUtilities({
+        // 한 줄일 경우
+        '.text-ellipsis-1': {
+          overflow: 'hidden',
+          'white-space': 'nowrap',
+          'text-overflow': 'ellipsis',
+          'word-break': 'break-all',
+        },
+        // 두 줄일 경우
+        '.text-ellipsis-2': {
+          overflow: 'hidden',
+          'text-overflow': 'ellipsis',
+          'word-break': 'break-word',
+          display: '-webkit-box',
+          '-webkit-line-clamp': '2',
+          '-webkit-box-orient': 'vertical',
+        }
       });
     },
   ]

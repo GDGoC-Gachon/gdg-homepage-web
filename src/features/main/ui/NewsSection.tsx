@@ -1,4 +1,5 @@
 import NewsCard from "./NewsCard";
+import { NewsCardData } from "../model/NewsCardData";
 
 function NewsSection() {
   return (
@@ -6,9 +7,12 @@ function NewsSection() {
       <p className="mt-8 text-sm text-[#5C5C5C] font-normal">Latest news</p>
       <h3 className="text-[1.6875rem] font-bold">최근 소식</h3>
       <div className="mt-10 mb-64 w-[62rem] flex justify-between">
-        <NewsCard/>
-        <NewsCard/>
-        <NewsCard/>
+        {NewsCardData.map((news) => (
+          <NewsCard
+            key={news.id}
+            news={news}
+          />
+        ))}
       </div>
     </div>
   )
