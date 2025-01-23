@@ -30,19 +30,19 @@ export default {
       height: {
         // 헤더 높이
         header: '4.125rem',
-        // 헤더 높이를 제외한 화면 높이
-        'screen-without-header': 'calc(100vh - 4.125rem)',
+        // 홈화면 섹션 화면 높이
+        'main-section': 'calc(100vh + 4.125rem)',
       },
       keyframes: {
         // fadeInOut 애니메이션 정의
         fadeInOut: {
-          '0%, 100%': { opacity: 0.2 },
-          '50%': { opacity: 1 },
+          '0%, 100%': { opacity: 0, transform: 'translateY(0)' },
+          '50%': { opacity: 1, transform: 'translateY(10px)' },
         },
       },
       animation: {
         // fadeInOut 애니메이션 설정
-        fadeInOut: 'fadeInOut 2s ease-in-out infinite',
+        fadeInOut: 'fadeInOut 2.5s ease-in-out infinite',
       },
     },
   },

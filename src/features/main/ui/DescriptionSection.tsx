@@ -1,8 +1,14 @@
 import { ReactComponent as ArrowIcon } from '../../../shared/assets/icons/main/arrow.svg';
 
-function DescriptionSection() {
+type WelcomeSectionProps = {
+  onArrowClick: () => void;
+};
+
+function DescriptionSection({ onArrowClick }: WelcomeSectionProps) {
   return (
-    <div className="flex-center flex-col w-screen h-screen-without-header text-xl font-productSans font-bold">
+    <div
+      className="flex-center flex-col w-screen h-main-section text-xl font-productSans font-bold"
+    >
       <div className="flex flex-col items-center w-[70rem] h-[18.9538rem] bg-mainSquarePattern bg-no-repeat bg-full-width">
         <p className="my-5"><span className="text-2xl">GDG on Campus</span>는</p>
         <p><span className="text-2xl">Google Developer Group on Campus</span>의 약자로,</p>
@@ -13,7 +19,10 @@ function DescriptionSection() {
         <div className="w-[6.25rem] h-[2.4125rem] bg-mainMiniSquare bg-no-repeat bg-full-width">#Learn</div>
         <div className="w-[6.25rem] h-[2.4125rem] bg-mainMiniSquare bg-no-repeat bg-full-width">#Grow</div>
       </div>
-      <ArrowIcon className="mt-20 cursor-pointer animate-fadeInOut"/>
+      <ArrowIcon
+        className="mt-20 cursor-pointer animate-fadeInOut"
+        onClick={onArrowClick}
+      />
     </div>
   )
 }
