@@ -6,7 +6,7 @@ function Header() {
   const navigate = useNavigate();
 
   return (
-    <div className="fixed w-full h-[4.125rem] bg-mainWhite flex items-center z-50">
+    <div className="fixed w-full h-header bg-mainWhite flex items-center z-50">
       <img className="mx-12 h-7 cursor-pointer" src={LogoImg} alt="logo image" onClick={() => navigate('/')} />
       <button
         className="ml-16 font-productSans hover:text-mainRed transition-all duration-200 ease-in-out"
