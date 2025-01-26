@@ -7,7 +7,7 @@ type WelcomeSectionProps = {
 
 function DescriptionSection({ onArrowClick }: WelcomeSectionProps) {
   return (
-    <Fade duration={2000} triggerOnce>
+    <Fade duration={2000}>
       <div
         className="flex-center flex-col w-screen h-main-section text-xl font-productSans font-bold"
       >
