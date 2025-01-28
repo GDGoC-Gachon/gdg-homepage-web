@@ -4,7 +4,10 @@ function Footer() {
     return (
         <footer className="h-[8.938rem] mt-[-8.938rem] flex items-center justify-between">
             <div className="ml-16 font-productSans leading-tight">
-                <div className="flex items-center justify-center">
+                <div
+                  className="flex items-center justify-center cursor-pointer"
+                  onClick={()=>window.open("https://developers.google.com/?hl=ko", "_blank")}
+                >
                     <LogoIcon className="mr-2"/>
                     <p className="text-[1.234em]">Google Developer Groups</p>
                 </div>
