@@ -34,14 +34,12 @@ export default {
         'main-section': 'calc(100vh + 4.125rem)',
       },
       keyframes: {
-        // fadeInOut 애니메이션 정의
         fadeInOut: {
           '0%, 100%': { opacity: 0, transform: 'translateY(0)' },
           '50%': { opacity: 1, transform: 'translateY(10px)' },
         },
       },
       animation: {
-        // fadeInOut 애니메이션 설정
         fadeInOut: 'fadeInOut 2.5s ease-in-out infinite',
       },
     },
@@ -102,6 +100,28 @@ export default {
           '-webkit-line-clamp': '2',
           '-webkit-box-orient': 'vertical',
         }
+      });
+
+      // 밑줄 애니메이션 유틸리티
+      addUtilities({
+        '.btn-underline': {
+          position: 'relative',
+          '&::after': {
+            content: "''",
+            position: 'absolute',
+            left: '0',
+            bottom: '-0.5px',
+            width: '100%',
+            height: '1.8px',
+            backgroundColor: '#EA4335',
+            transform: 'scaleX(0)',
+            transformOrigin: 'center',
+            transition: 'transform 0.2s ease-in-out',
+          },
+          '&:hover::after': {
+            transform: 'scaleX(1)',
+          },
+        },
       });
     },
   ]
