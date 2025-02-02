@@ -2,9 +2,12 @@ import { ReactComponent as LogoIcon } from '../assets/icons/common/logo.svg';
 
 function Footer() {
     return (
-        <footer className="h-[8.938rem] mt-[-8.938rem] flex items-center justify-between">
+        <footer className="h-[8.938rem] mt-[-8.938rem] flex items-center justify-between text-xs lg:text-base md:text-sm">
             <div className="ml-16 font-productSans leading-tight">
-                <div className="flex items-center justify-center">
+                <div
+                  className="flex items-center justify-center cursor-pointer"
+                  onClick={()=>window.open("https://developers.google.com/?hl=ko", "_blank")}
+                >
                     <LogoIcon className="mr-2"/>
                     <p className="text-[1.234em]">Google Developer Groups</p>
                 </div>
@@ -14,7 +17,7 @@ function Footer() {
                     <p className="text-[0.756em]">Gachon University</p>
                 </div>
             </div>
-            <p className="mr-16 text-[1.03125rem] font-inter font-semibold">Copyright &copy; GDG GCU</p>
+            <p className="mr-16 text-[1.03125em] font-inter font-semibold">Copyright &copy; GDG GCU</p>
         </footer>
     );
 }
