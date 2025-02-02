@@ -20,15 +20,15 @@ function Header() {
   const getButtonStyle = (path: string, type: string): string => {
     if (type === 'pc') {
       if (location.pathname === path) {
-        return 'btn-underline ml-16 font-productSans text-mainRed';
+        return 'btn-underline ml-16 font-productSans text-mainRed text-base text-sm lg:text-base';
       } else {
-        return 'btn-underline ml-16 font-productSans';
+        return 'btn-underline ml-16 font-productSans text-base text-sm lg:text-base';
       }
     } else {
       if (location.pathname === path) {
-        return 'btn-underline mb-10 font-productSans text-mainRed';
+        return 'btn-underline mb-10 font-productSans text-mainRed text-base';
       } else {
-        return 'btn-underline mb-10 font-productSans';
+        return 'btn-underline mb-10 font-productSans text-base';
       }
     }
   };
@@ -73,7 +73,7 @@ function Header() {
         {!isMobile && (
           <>
             <img
-              className="mx-12 h-7 cursor-pointer"
+              className="mx-12 h-6 cursor-pointer lg:h-7"
               src={LogoImg}
               alt="logo image"
               onClick={() => navigate('/')}
@@ -106,7 +106,7 @@ function Header() {
         {isMobile && (
           <div className='w-full flex justify-between items-center'>
             <img
-              className="ml-12 h-7 cursor-pointer"
+              className="ml-12 h-6 cursor-pointer"
               src={LogoImg}
               alt="logo image"
               onClick={() => navigate('/')}
