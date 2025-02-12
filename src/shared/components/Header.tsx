@@ -59,7 +59,7 @@ function Header() {
       document.body.style.overflow = 'auto';
     };
   }, [isVisibleMenu]);
-  
+
   // 페이지 이동
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -81,22 +81,13 @@ function Header() {
             <button className={getButtonStyle('/', 'pc')} onClick={() => navigate('/')}>
               Introduce
             </button>
-            <button
-              className={getButtonStyle('/recruitment', 'pc')}
-              onClick={() => navigate('/recruitment')}
-            >
-              Recruitment
+            <button className={getButtonStyle('/join', 'pc')} onClick={() => navigate('/join')}>
+              Joining
             </button>
-            <button
-              className={getButtonStyle('/faq', 'pc')}
-              onClick={() => navigate('/faq')}
-            >
+            <button className={getButtonStyle('/faq', 'pc')} onClick={() => navigate('/faq')}>
               FAQ
             </button>
-            <button
-              className={getButtonStyle('/contact', 'pc')}
-              onClick={() => navigate('/contact')}
-            >
+            <button className={getButtonStyle('/contact', 'pc')} onClick={() => navigate('/contact')}>
               Contact
             </button>
           </>
@@ -104,24 +95,13 @@ function Header() {
 
         {/* 모바일 화면 */}
         {isMobile && (
-          <div className='w-full flex justify-between items-center'>
-            <img
-              className="ml-12 h-6 cursor-pointer"
-              src={LogoImg}
-              alt="logo image"
-              onClick={() => navigate('/')}
-            />
-            { isVisibleMenu ?
-              <CancelIcon
-                className='mr-14 w-5 cursor-pointer'
-                onClick={() => handleMenu()}
-              />
-              :
-              <MenuIcon
-                className='mr-12 w-5 cursor-pointer'
-                onClick={() => handleMenu()}
-              />
-            }
+          <div className="w-full flex justify-between items-center">
+            <img className="ml-12 h-6 cursor-pointer" src={LogoImg} alt="logo image" onClick={() => navigate('/')} />
+            {isVisibleMenu ? (
+              <CancelIcon className="mr-14 w-5 cursor-pointer" onClick={() => handleMenu()} />
+            ) : (
+              <MenuIcon className="mr-12 w-5 cursor-pointer" onClick={() => handleMenu()} />
+            )}
           </div>
         )}
       </div>
@@ -131,32 +111,20 @@ function Header() {
         <div
           className={`fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center z-40 backdrop-blur-xl
             transition-all duration-300 ease-in-out
-            ${ isVisibleMenu ? "opacity-100 visible" : "opacity-0 invisible" }
+            ${isVisibleMenu ? 'opacity-100 visible' : 'opacity-0 invisible'}
           `}
           ref={menuRef}
         >
-          <button
-            className={getButtonStyle('/', 'mobile')}
-            onClick={() => handleNavigation('/')}
-          >
+          <button className={getButtonStyle('/', 'mobile')} onClick={() => handleNavigation('/')}>
             Introduce
           </button>
-          <button
-            className={getButtonStyle('/recruitment', 'mobile')}
-            onClick={() => handleNavigation('/recruitment')}
-          >
-            Recruitment
+          <button className={getButtonStyle('/join', 'mobile')} onClick={() => handleNavigation('/join')}>
+            Joining
           </button>
-          <button
-            className={getButtonStyle('/faq', 'mobile')}
-            onClick={() => handleNavigation('/faq')}
-          >
+          <button className={getButtonStyle('/faq', 'mobile')} onClick={() => handleNavigation('/faq')}>
             FAQ
           </button>
-          <button
-            className={getButtonStyle('/contact', 'mobile')}
-            onClick={() => handleNavigation('/contact')}
-          >
+          <button className={getButtonStyle('/contact', 'mobile')} onClick={() => handleNavigation('/contact')}>
             Contact
           </button>
         </div>
