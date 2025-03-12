@@ -2,6 +2,7 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import MainLayOut from '../widgets/MainLayOut';
 import MainPage from '../pages/MainPage';
+import JoinPage from '../pages/JoinPage';
 import FAQPage from '../pages/FAQPage';
 import ContactPage from '../pages/ContactPage';
 
@@ -14,14 +15,13 @@ function App() {
         <Route path="/" element={<MainPage />} />
 
         {/* 모집 페이지 */}
-        <Route path="/recruitment" element={<MainPage />} />
+        <Route path="/join" element={<JoinPage />} />
 
         {/* FAQ 페이지 */}
         <Route path="/faq" element={<FAQPage />} />
 
         {/* 컨택트 페이지 */}
         <Route path="/contact" element={<ContactPage />} />
-
       </Route>
     </Routes>
   );

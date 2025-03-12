@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        mainWhite: "#F1F3F4",
+        mainWhite: '#F1F3F4',
         mainRed: '#EA4335',
         mainBlue: '#4285F4',
         black: {
@@ -14,15 +14,16 @@ export default {
         },
       },
       fontFamily: {
-        productSans: ["ProductSans", "sans-serif"],
-        inter: ["Inter", "sans-serif"],
-        googleSansDisplay: ["GoogleSansDisplay", "sans-serif"],
+        productSans: ['ProductSans', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+        googleSansDisplay: ['GoogleSansDisplay', 'sans-serif'],
       },
       backgroundImage: {
-        'mainBg': "url('/src/shared/assets/images/main/mainBackground.png')",
-        'mainDot': "url('/src/shared/assets/images/main/dot.png')",
-        'mainSquarePattern': "url('/src/shared/assets/images/main/squarePattern.png')",
-        'mainMiniSquare': "url('/src/shared/assets/images/main/miniSquare.png')",
+        mainBg: "url('/src/shared/assets/images/main/mainBackground.png')",
+        mainDot: "url('/src/shared/assets/images/main/dot.png')",
+        mainSquarePattern: "url('/src/shared/assets/images/main/squarePattern.png')",
+        mainMiniSquare: "url('/src/shared/assets/images/main/miniSquare.png')",
+        joinBg: "url('/src/shared/assets/images/join/joinBackground.png')",
       },
       backgroundSize: {
         'full-width': '100% auto',
@@ -99,7 +100,7 @@ export default {
           display: '-webkit-box',
           '-webkit-line-clamp': '2',
           '-webkit-box-orient': 'vertical',
-        }
+        },
       });
 
       // 밑줄 애니메이션 유틸리티
@@ -124,5 +125,5 @@ export default {
         },
       });
     },
-  ]
+  ],
 };
