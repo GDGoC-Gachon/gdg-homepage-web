@@ -68,27 +68,32 @@ function Header() {
 
   return (
     <>
-      <div className="fixed w-full h-header bg-mainWhite flex items-center z-50">
+      <div className="fixed px-12 w-full h-header bg-mainWhite flex items-center justify-between z-50">
         {/* PC, 테블릿 화면 */}
         {!isMobile && (
           <>
-            <img
-              className="mx-12 h-6 cursor-pointer lg:h-7"
-              src={LogoImg}
-              alt="logo image"
-              onClick={() => navigate('/')}
-            />
-            <button className={getButtonStyle('/', 'pc')} onClick={() => navigate('/')}>
-              Introduce
-            </button>
-            <button className={getButtonStyle('/join', 'pc')} onClick={() => navigate('/join')}>
-              Joining
-            </button>
-            <button className={getButtonStyle('/faq', 'pc')} onClick={() => navigate('/faq')}>
-              FAQ
-            </button>
-            <button className={getButtonStyle('/contact', 'pc')} onClick={() => navigate('/contact')}>
-              Contact
+            <div className="flex items-center">
+              <img
+                className="mr-12 h-6 cursor-pointer lg:h-7"
+                src={LogoImg}
+                alt="logo image"
+                onClick={() => navigate('/')}
+              />
+              <button className={getButtonStyle('/', 'pc')} onClick={() => navigate('/')}>
+                Introduce
+              </button>
+              <button className={getButtonStyle('/join', 'pc')} onClick={() => navigate('/join')}>
+                Joining
+              </button>
+              <button className={getButtonStyle('/faq', 'pc')} onClick={() => navigate('/faq')}>
+                FAQ
+              </button>
+              <button className={getButtonStyle('/contact', 'pc')} onClick={() => navigate('/contact')}>
+                Contact
+              </button>
+            </div>
+            <button className={getButtonStyle('/login', 'pc')} onClick={() => navigate('/login')}>
+              Login
             </button>
           </>
         )}
@@ -126,6 +131,9 @@ function Header() {
           </button>
           <button className={getButtonStyle('/contact', 'mobile')} onClick={() => handleNavigation('/contact')}>
             Contact
+          </button>
+          <button className={getButtonStyle('/login', 'mobile')} onClick={() => handleNavigation('/login')}>
+            Login
           </button>
         </div>
       )}
