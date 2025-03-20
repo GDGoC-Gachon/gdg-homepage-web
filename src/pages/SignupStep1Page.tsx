@@ -4,15 +4,16 @@ import CustomInput from "../features/auth/ui/CustomInput";
 import CustomButton from "../features/auth/ui/CustomButton";
 import CustomSubmitButton from "../features/auth/ui/CustomSubmitButton";
 
-function SignupStep2() {
+function SignupStep1Page() {
   // state 관리
   const [isAvailable, setIsAvailable] = useState(false);
 
   // 입력 필드 상태 관리
   const [formData, setFormData] = useState({
-    name: "",
-    phoneNumber: "",
+    email: "",
     verificationCode: "",
+    password: "",
+    passwordConfirm: "",
   });
 
   // 입력값 변경 핸들러
@@ -25,8 +26,8 @@ function SignupStep2() {
 
   // 모든 필드가 입력되었는지 확인하여 버튼 활성화 여부 업데이트
   useEffect(() => {
-    const { name, phoneNumber, verificationCode } = formData;
-    setIsAvailable(name.trim() !== "" && phoneNumber.trim() !== "" && verificationCode.trim() !== "");
+    const { email, verificationCode, password, passwordConfirm } = formData;
+    setIsAvailable(email.trim() !== "" && verificationCode.trim() !== "" && password.trim() !== "" && passwordConfirm.trim() !== "");
   }, [formData]);
 
 
@@ -34,44 +35,31 @@ function SignupStep2() {
     <div className="p-16 flex-center flex-col">
       {/* 프로그래스 바 */}
       <div className="flex-center gap-8">
-        <div className="w-[13rem] h-[1.5rem] bg-gradient-to-r from-[#E3EAF4] to-mainBlue rounded-full"></div>
         <div className="w-[13rem] h-[1.5rem] bg-[#E3EAF4] rounded-full overflow-hidden">
           <Fade triggerOnce direction="left" className="w-full h-full rounded-full">
             <div className="w-full h-full bg-gradient-to-r from-[#E3EAF4] to-mainBlue rounded-full"></div>
           </Fade>
         </div>
         <div className="w-[13rem] h-[1.5rem] bg-[#E3EAF4] rounded-full"></div>
+        <div className="w-[13rem] h-[1.5rem] bg-[#E3EAF4] rounded-full"></div>
       </div>
 
       {/* 타이틀 */}
       <div className="m-14 text-2xl font-bold font-googleSansDisplay">회원가입</div>
 
-      {/* 이름 입력 */}
-      <div className="w-[42rem] flex flex-col gap-2">
-        <div className="font-bold font-googleSansDisplay">이름</div>
-        <CustomInput
-          type="text"
-          width="full"
-          placeholder="이름"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-        />
-      </div>
-
-      {/* 번호 입력 */}
-      <div className="mt-14 w-[42rem] flex flex-col gap-2">
-        <div className="font-bold font-googleSansDisplay">휴대폰 번호</div>
+      {/* 아이디 입력 */}
+      <div className="mt-8 w-[42rem] flex flex-col gap-2">
+        <div className="font-bold font-googleSansDisplay">아이디</div>
         <div className="flex items-center justify-between">
           <CustomInput
-            type="tel"
+            type="email"
             width="30rem"
-            placeholder="휴대폰 번호"
-            name="phoneNumber"
-            value={formData.phoneNumber}
+            placeholder="아이디(이메일)"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
           />
-          <CustomButton text="인증번호 전송"/>
+          <CustomButton text="이메일 전송"/>
         </div>
         <div className="mt-8 flex items-center justify-between">
           <CustomInput
@@ -85,14 +73,43 @@ function SignupStep2() {
           <CustomButton text="확인"/>
         </div>
       </div>
+
+      {/* 비밀번호 입력 */}
+      <div className="mt-24 w-[42rem] flex flex-col gap-2">
+        <div className="font-bold font-googleSansDisplay">비밀번호</div>
+        <CustomInput
+          type="password"
+          width="full"
+          placeholder="영문/숫자/특수문자 포함 8~20자"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+      </div>
+
+      {/* 비밀번호 확인 입력 */}
+      <div className="mt-8 w-[42rem] flex flex-col gap-2">
+        <div className="font-bold font-googleSansDisplay">비밀번호 확인</div>
+        <CustomInput
+          type="password"
+          width="full"
+          placeholder="비밀번호 확인"
+          name="passwordConfirm"
+          value={formData.passwordConfirm}
+          onChange={handleChange}
+        />
+      </div>
+
+      {/* 제출 버튼 */}
       <div className="mt-20 mb-32 flex-center">
         <CustomSubmitButton
           text="다음"
           isAvailable={isAvailable}
+          navigateURL="/signup/step2"
         />
       </div>
     </div>
   );
 }
 
-export default SignupStep2;
+export default SignupStep1Page;
