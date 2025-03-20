@@ -6,6 +6,7 @@ export default {
       height: {
         header: '4.125rem', // 헤더 높이
         'main-section': 'calc(100vh + 4.125rem)', // 홈화면 섹션 화면 높이
+        'view': 'calc(100vh - 4.125rem)', // 100vh - 헤더 높이
       },
       colors: {
         mainWhite: '#F1F3F4',
