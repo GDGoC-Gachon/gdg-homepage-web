@@ -3,6 +3,11 @@ export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      height: {
+        header: '4.125rem', // 헤더 높이
+        'main-section': 'calc(100vh + 4.125rem)', // 홈화면 섹션 화면 높이
+        'view': 'calc(100vh - 4.125rem)', // 100vh - 헤더 높이
+      },
       colors: {
         mainWhite: '#F1F3F4',
         mainRed: '#EA4335',
@@ -28,11 +33,8 @@ export default {
       backgroundSize: {
         'full-width': '100% auto',
       },
-      height: {
-        // 헤더 높이
-        header: '4.125rem',
-        // 홈화면 섹션 화면 높이
-        'main-section': 'calc(100vh + 4.125rem)',
+      boxShadow: {
+        'button-shadow': '9px 9px 12px #C0C0D9, -9px -9px 12px white',
       },
       keyframes: {
         fadeInOut: {

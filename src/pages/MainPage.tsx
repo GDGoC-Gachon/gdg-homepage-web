@@ -17,12 +17,17 @@ function MainPage() {
   
   return (
     <div 
-      className="h-[3006px] flex flex-col justify-between bg-mainBg bg-contain min-w-[1440px]"
+      className="w-full h-[187.875rem] flex flex-col justify-between bg-mainBg bg-contain overflow-x-hidden"
     >
+      {/* 환영 문구 섹션 */}
       <WelcomeSection onArrowClick={() => descriptionRef.current && scrollToSection(descriptionRef.current)} />
+
+      {/* 소개 섹션 */}
       <div ref={descriptionRef}>
         <DescriptionSection onArrowClick={() => newsRef.current && scrollToSection(newsRef.current)} />
       </div>
+
+      {/* 뉴스 섹션 */}
       <div ref={newsRef}>
         <NewsSection/>
       </div>

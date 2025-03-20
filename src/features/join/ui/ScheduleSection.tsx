@@ -1,9 +1,12 @@
-import { useState } from 'react';
 import modal from '../../../shared/assets/images/common/schedule_modal.png';
 import SectionHeader from './SectionHeader';
 import { Fade } from 'react-awesome-reveal';
-function ScheduleSection() {
-  const [isRecruit] = useState(false);
+
+interface ScheduleSectionProps {
+  isRecruit: boolean;
+}
+
+function ScheduleSection({ isRecruit }: ScheduleSectionProps) {
   return (
     <div className="w-[100vw] w-max-[62rem]">
       <SectionHeader title="가입일정" sub_title="Schedule" />

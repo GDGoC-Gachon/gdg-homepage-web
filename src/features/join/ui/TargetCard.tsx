@@ -1,4 +1,9 @@
-function TargetCard({ emoji, text }: { emoji: string; text: string }) {
+interface TargetCardProps {
+  emoji: string;
+  text: string;
+}
+
+function TargetCard({ emoji, text }: TargetCardProps) {
   // \n을 기준으로 볼드체, 일반처리 처리
   const [boldText, ...restText] = text.split('\n');
 
