@@ -5,6 +5,7 @@ import MainPage from '../pages/MainPage';
 import JoinPage from '../pages/JoinPage';
 import FAQPage from '../pages/FAQPage';
 import ContactPage from '../pages/ContactPage';
+import SignupStep1 from '../pages/SignupStep2';
 
 function App() {
   return (
@@ -24,10 +25,10 @@ function App() {
         <Route path='/contact' element={<ContactPage />} />
 
         {/* 회원가입 페이지 */}
-        <Route path='/signup/step1' element={<MainPage />} />
-        <Route path='/signup/step2' element={<MainPage />} />
-        <Route path='/signup/step3' element={<MainPage />} />
-        <Route path='/signup/submit' element={<MainPage />} />
+        <Route path='/signup/step1' element={<SignupStep1 />} />
+        <Route path='/signup/step2' element={<SignupStep1 />} />
+        <Route path='/signup/step3' element={<SignupStep1 />} />
+        <Route path='/signup/submit' element={<SignupStep1 />} />
 
         {/* 로그인 페이지 */}
         <Route path='/login' element={<MainPage />} />

@@ -16,20 +16,22 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // join 버튼 스타일
+  const joinPaths = ["/join", "/signup/step1", "/signup/step2", "/signup/step3", "/signup/submit"];
+  const join = joinPaths.includes(location.pathname);
+
   // 버튼 스타일에 동적으로 active 클래스 추가
   const getButtonStyle = (path: string, type: string): string => {
-    if (type === 'pc') {
-      if (location.pathname === path) {
-        return 'btn-underline ml-16 font-productSans text-mainRed text-base text-sm lg:text-base';
-      } else {
-        return 'btn-underline ml-16 font-productSans text-base text-sm lg:text-base';
-      }
+    const isActive = path === location.pathname || (path === "/join" && join);
+
+    if (type === "pc") {
+      return `btn-underline ml-16 font-productSans ${
+        isActive ? "text-mainRed" : "text-black"
+      } text-base text-sm lg:text-base`;
     } else {
-      if (location.pathname === path) {
-        return 'btn-underline mb-10 font-productSans text-mainRed text-base';
-      } else {
-        return 'btn-underline mb-10 font-productSans text-base';
-      }
+      return `btn-underline mb-10 font-productSans ${
+        isActive ? "text-mainRed" : "text-black"
+      } text-base`;
     }
   };
 
