@@ -38,7 +38,7 @@ function FAQPage() {
           <FAQToggle
             key={faq.id}
             faq={faq}
-            isClose={closeQAs.has(faq.id)}
+            isClose={!closeQAs.has(faq.id)}
             onToggle={() => toggleQA(faq.id)}
           />
         ))}
