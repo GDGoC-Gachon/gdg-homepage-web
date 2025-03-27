@@ -29,7 +29,6 @@ function SignupStep1Page() {
     setIsAvailable(email.trim() !== "" && verificationCode.trim() !== "" && password.trim() !== "" && passwordConfirm.trim() !== "");
   }, [formData]);
 
-
   return (
     <div className="p-4 flex-center flex-col">
       {/* 타이틀 */}
