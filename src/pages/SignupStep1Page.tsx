@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Fade } from "react-awesome-reveal";
 import CustomInput from "../features/auth/ui/CustomInput";
 import CustomButton from "../features/auth/ui/CustomButton";
 import CustomSubmitButton from "../features/auth/ui/CustomSubmitButton";
@@ -32,24 +31,16 @@ function SignupStep1Page() {
 
 
   return (
-    <div className="p-16 flex-center flex-col">
-      {/* 프로그래스 바 */}
-      <div className="flex-center gap-8">
-        <div className="w-[13rem] h-[1.5rem] bg-[#E3EAF4] rounded-full overflow-hidden">
-          <Fade triggerOnce direction="left" className="w-full h-full rounded-full">
-            <div className="w-full h-full bg-gradient-to-r from-[#E3EAF4] to-mainBlue rounded-full"></div>
-          </Fade>
-        </div>
-        <div className="w-[13rem] h-[1.5rem] bg-[#E3EAF4] rounded-full"></div>
-        <div className="w-[13rem] h-[1.5rem] bg-[#E3EAF4] rounded-full"></div>
-      </div>
-
+    <div className="p-4 flex-center flex-col">
       {/* 타이틀 */}
       <div className="m-14 text-2xl font-bold font-googleSansDisplay">회원가입</div>
 
       {/* 아이디 입력 */}
       <div className="mt-8 w-[42rem] flex flex-col gap-2">
-        <div className="font-bold font-googleSansDisplay">아이디</div>
+        <div className="font-bold font-googleSansDisplay">
+          아이디
+          <span className="ml-2 text-mainBlue">*</span>
+        </div>
         <div className="flex items-center justify-between">
           <CustomInput
             type="email"
@@ -76,7 +67,10 @@ function SignupStep1Page() {
 
       {/* 비밀번호 입력 */}
       <div className="mt-24 w-[42rem] flex flex-col gap-2">
-        <div className="font-bold font-googleSansDisplay">비밀번호</div>
+        <div className="font-bold font-googleSansDisplay">
+          비밀번호
+          <span className="ml-2 text-mainBlue">*</span>
+        </div>
         <CustomInput
           type="password"
           width="full"
@@ -89,7 +83,10 @@ function SignupStep1Page() {
 
       {/* 비밀번호 확인 입력 */}
       <div className="mt-8 w-[42rem] flex flex-col gap-2">
-        <div className="font-bold font-googleSansDisplay">비밀번호 확인</div>
+        <div className="font-bold font-googleSansDisplay">
+          비밀번호 확인
+          <span className="ml-2 text-mainBlue">*</span>
+        </div>
         <CustomInput
           type="password"
           width="full"

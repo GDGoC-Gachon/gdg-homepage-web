@@ -63,8 +63,12 @@ export default {
         },
       });
 
-      // Hover 관련 유틸리티
+      // 애니메이션 관련 유틸리티
       addUtilities({
+        // transition 효과
+        '.transition-0.3': {
+          transition: 'all 0.3s ease-in-out',
+        },
         // Hover 시 위로 올라가는 효과
         '.hover-up': {
           transform: 'translateY(0)',
