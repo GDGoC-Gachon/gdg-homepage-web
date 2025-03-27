@@ -15,8 +15,8 @@ function ContactPage() {
   };
 
   return (
-    <div className="w-full flex-center flex-col">
-      <div className="pt-24 max-w-5xl flex-center flex-col text-black-800">
+    <div className="w-full h-view flex-center flex-col">
+      <div className="max-w-5xl flex-center flex-col text-black-800">
         <div className="text-4xl font-bold font-productSans">Contact</div>
         <div className="text-base font-normal font-productSans leading-10">
           GDG GACHON에게 더 궁금한 점이 있으신가요?

@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { Fade } from "react-awesome-reveal";
 import CustomInput from "../features/auth/ui/CustomInput";
 import CustomSubmitButton from "../features/auth/ui/CustomSubmitButton";
 import CustomCheckBox from "../features/auth/ui/CustomCheckBox";
-import CustomRadioBox from "../features/auth/ui/\bCustomRadioBox";
+import CustomRadioBox from "../features/auth/ui/CustomRadioBox";
 import StackTag from "../features/auth/ui/StackTag";
 
 function SignupStep3Page() {
@@ -35,6 +34,8 @@ function SignupStep3Page() {
 
   // 입력 필드 상태 관리
   const [formData, setFormData] = useState({
+    name: "",
+    phoneNumber: "",
     grade: "",
     number: "",
     major: "",
@@ -51,9 +52,21 @@ function SignupStep3Page() {
 
   // 모든 필드가 입력되었는지 확인하여 버튼 활성화 여부 업데이트
   useEffect(() => {
-    const { grade, number, major } = formData;
-    setIsAvailable(grade.trim() !== "" && number.trim() !== "" && major.trim() !== "");
-  }, [formData]);
+    const { name, phoneNumber, grade, number, major } = formData;
+  
+    const hasCareer = Object.values(checkedCareer).some(Boolean);
+    const hasStack = Object.values(checkedStack).some(Boolean);
+  
+    setIsAvailable(
+      name.trim() !== "" &&
+      phoneNumber.trim() !== "" &&
+      grade.trim() !== "" &&
+      number.trim() !== "" &&
+      major.trim() !== "" &&
+      hasCareer &&
+      hasStack
+    );
+  }, [formData, checkedCareer, checkedStack]);
 
   // 역할 선택 핸들러
   const handleSelectRole = (role: string) => {
@@ -82,24 +95,16 @@ function SignupStep3Page() {
 
 
   return (
-    <div className="p-16 flex-center flex-col">
-      {/* 프로그래스 바 */}
-      <div className="flex-center gap-8">
-        <div className="w-[13rem] h-[1.5rem] bg-gradient-to-r from-[#E3EAF4] to-mainBlue rounded-full"></div>
-        <div className="w-[13rem] h-[1.5rem] bg-gradient-to-r from-[#E3EAF4] to-mainBlue rounded-full"></div>
-        <div className="w-[13rem] h-[1.5rem] bg-[#E3EAF4] rounded-full overflow-hidden">
-          <Fade triggerOnce direction="left" className="w-full h-full rounded-full">
-            <div className="w-full h-full bg-gradient-to-r from-[#E3EAF4] to-mainBlue rounded-full"></div>
-          </Fade>
-        </div>
-      </div>
-
+    <div className="p-4 flex-center flex-col">
       {/* 타이틀 */}
       <div className="m-14 text-2xl font-bold font-googleSansDisplay">가입 신청서</div>
 
       {/* 역할 선택 */}
       <div className="mt-8 w-[42rem] flex flex-col gap-3">
-        <div className="font-bold font-googleSansDisplay">신청</div>
+        <div className="font-bold font-googleSansDisplay">
+          신청
+          <span className="ml-2 text-mainBlue">*</span>
+        </div>
         <div className="flex items-center gap-5">
           <CustomRadioBox 
             isChecked={selectedRole === "member"} 
@@ -114,9 +119,44 @@ function SignupStep3Page() {
         </div>
       </div>
 
+      {/* 이름 입력 */}
+      <div className="mt-14 w-[42rem] flex flex-col gap-2">
+        <div className="font-bold font-googleSansDisplay">
+          이름
+          <span className="ml-2 text-mainBlue">*</span>
+        </div>
+        <CustomInput
+          type="text"
+          width="full"
+          placeholder="이름"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+        />
+      </div>
+
+      {/* 번호 입력 */}
+      <div className="mt-14 w-[42rem] flex flex-col gap-2">
+        <div className="font-bold font-googleSansDisplay">
+          휴대폰 번호
+          <span className="ml-2 text-mainBlue">*</span>
+        </div>
+        <CustomInput
+          type="tel"
+          width="full"
+          placeholder="휴대폰 번호"
+          name="phoneNumber"
+          value={formData.phoneNumber}
+          onChange={handleChange}
+        />
+      </div>
+
       {/* 학년 입력 */}
       <div className="mt-14 w-[42rem] flex flex-col gap-2">
-        <div className="font-bold font-googleSansDisplay">학년</div>
+        <div className="font-bold font-googleSansDisplay">
+          학년
+          <span className="ml-2 text-mainBlue">*</span>
+        </div>
         <CustomInput
           type="text"
           width="full"
@@ -129,7 +169,10 @@ function SignupStep3Page() {
 
       {/* 학번 입력 */}
       <div className="mt-14 w-[42rem] flex flex-col gap-2">
-        <div className="font-bold font-googleSansDisplay">학번</div>
+        <div className="font-bold font-googleSansDisplay">
+          학번
+          <span className="ml-2 text-mainBlue">*</span>
+        </div>
         <CustomInput
           type="text"
           width="full"
@@ -142,7 +185,10 @@ function SignupStep3Page() {
 
       {/* 전공 입력 */}
       <div className="mt-14 w-[42rem] flex flex-col gap-2">
-        <div className="font-bold font-googleSansDisplay">전공</div>
+        <div className="font-bold font-googleSansDisplay">
+          전공
+          <span className="ml-2 text-mainBlue">*</span>
+        </div>
         <CustomInput
           type="text"
           width="full"
@@ -155,7 +201,10 @@ function SignupStep3Page() {
 
       {/* 분야 선택 */}
       <div className="mt-14 w-[42rem] flex flex-col gap-3">
-        <div className="font-bold font-googleSansDisplay">관심 기술 분야</div>
+        <div className="font-bold font-googleSansDisplay">
+          관심 기술 분야
+          <span className="ml-2 text-mainBlue">*</span>
+        </div>
         <div className="flex items-center gap-5">
           {Object.entries(checkedCareer).map(([key, isChecked]) => (
               <CustomCheckBox isChecked={isChecked} onChange={() => handleSelectCarrer(key)} label={key} />
@@ -165,7 +214,10 @@ function SignupStep3Page() {
 
       {/* 기술 선택 */}
       <div className="mt-14 w-[42rem] flex flex-col gap-2">
-        <div className="font-bold font-googleSansDisplay">보유/관심 기술 스택 &#40;최대 5개 선택 가능&#41;</div>
+        <div className="font-bold font-googleSansDisplay">
+          보유/관심 기술 스택 &#40;최대 5개 선택 가능&#41;
+          <span className="ml-2 text-mainBlue">*</span>
+        </div>
         <div className="w-full flex flex-wrap items-center gap-4">
           {Object.entries(checkedStack).map(([key, isChecked]) => (
               <StackTag isChecked={isChecked} onChange={() => handleSelectStack(key)} label={key} />
@@ -193,7 +245,6 @@ function SignupStep3Page() {
         <p className="text-sm">신청자 식별, 본인 확인, 승인 여부 확인 및 문의 등의 원활한 처리</p>
         <p className="mt-4 text-sm">2. 수집하는 개인 정보의 항목</p>
         <p className="text-sm">이름, 학번, 학년, 전공, 이메일, 관심 기술 분야, 보유/관심 기술 스택</p>
-        <p className="mt-4 text-sm">이름, 학번 정보는 모집 이후 모두 파기되며, </p>
       </div>
 
       {/* 제출 버튼 */}
