@@ -8,6 +8,9 @@ import ContactPage from '../pages/ContactPage';
 import SignupStep1Page from '../pages/SignupStep1Page';
 import SignupStep2Page from '../pages/SignupStep2Page';
 import SignupSubmitPage from '../pages/SignupSubmitPage';
+import LoginPage from '../pages/LoginPage';
+import FindPasswordPage from '../pages/FindPasswordPage';
+import ChangePasswordPage from '../pages/ChangePasswordPage';
 
 function App() {
   return (
@@ -32,7 +35,11 @@ function App() {
         <Route path='/signup/submit' element={<SignupSubmitPage />} />
 
         {/* 로그인 페이지 */}
-        <Route path='/login' element={<MainPage />} />
+        <Route path='/login' element={<LoginPage />} />
+
+        {/* 비밀번호 찾기, 수정 페이지 */}
+        <Route path='/find-password' element={<FindPasswordPage />} />
+        <Route path='/change-password' element={<ChangePasswordPage />} />
       </Route>
     </Routes>
   );
