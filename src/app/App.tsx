@@ -6,7 +6,7 @@ import JoinPage from '../pages/JoinPage';
 import FAQPage from '../pages/FAQPage';
 import ContactPage from '../pages/ContactPage';
 import SignupStep1Page from '../pages/SignupStep1Page';
-import SignupStep3Page from '../pages/SignupStep3Page';
+import SignupStep2Page from '../pages/SignupStep2Page';
 import SignupSubmitPage from '../pages/SignupSubmitPage';
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
 
         {/* 회원가입 페이지 */}
         <Route path='/signup/step1' element={<SignupStep1Page />} />
-        <Route path='/signup/step2' element={<SignupStep3Page />} />
+        <Route path='/signup/step2' element={<SignupStep2Page />} />
         <Route path='/signup/submit' element={<SignupSubmitPage />} />
 
         {/* 로그인 페이지 */}
