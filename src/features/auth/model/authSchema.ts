@@ -47,8 +47,38 @@ export type SignupStep2FormData = yup.InferType<typeof signupStep2Schema>;
 
 // 로그인 스키마
 export const loginSchema = yup.object({
-  email: yup.string().required("아이디를 입력해주세요."),
+  email: yup
+  .string()
+  .email("이메일 형식이 올바르지 않습니다.")
+  .required("아이디를 입력해주세요."),
   password: yup.string().required("비밀번호를 입력해주세요."),
 });
 // 로그인 폼 데이터 타입
 export type LoginFormData = yup.InferType<typeof loginSchema>;
+
+// 비밀번호 찾기 스키마
+export const findPasswordSchema = yup.object({
+  email: yup
+  .string()
+  .email("이메일 형식이 올바르지 않습니다.")
+  .required("아이디를 입력해주세요."),
+});
+// 비밀번호 찾기 폼 데이터 타입
+export type FindPasswordFormData = yup.InferType<typeof findPasswordSchema>;
+
+// 비밀번호 변경 스키마
+export const changePasswordSchema = yup.object({
+  password: yup
+    .string()
+    .required("비밀번호를 입력해주세요.")
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,20}$/,
+      "영문/숫자/특수문자 포함 8~20자로 입력해주세요."
+    ),
+  passwordConfirm: yup
+    .string()
+    .oneOf([yup.ref("password")], "비밀번호가 일치하지 않습니다.")
+    .required("비밀번호 확인이 필요합니다."),
+});
+// 비밀번호 변경 폼 데이터 타입
+export type ChangePasswordFormData = yup.InferType<typeof changePasswordSchema>;

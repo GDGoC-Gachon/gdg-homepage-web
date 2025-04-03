@@ -37,7 +37,6 @@ function LoginPage() {
         <div className="font-bold font-googleSansDisplay">아이디</div>
         <CustomInput
           {...register("email")}
-          type="email"
           width="full"
           placeholder="아이디(이메일)"
           hasError={!!errors.email}
