@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import LogoImg from '../assets/images/common/logo.png';
 import ProfileImg from '../assets/images/common/profile.png';
 import { useNavigate } from 'react-router-dom';
@@ -7,8 +8,12 @@ import { ReactComponent as AnalyzeIcon } from '../assets/icons/common/memberAnal
 import { ReactComponent as JoinIcon } from '../assets/icons/common/memberJoinIcon.svg';
 import { ReactComponent as ManagementIcon } from '../assets/icons/common/memberManagementIcon.svg';
 import { ReactComponent as FaqIcon } from '../assets/icons/common/memberFaqIcon.svg';
+import LogoutModal from './LogoutModal';
 
 function MemberHeader() {
+  // 상태 관리
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   // 직책: member, team, root
   const position = "team" as "member" | "team" | "root";
 
@@ -120,8 +125,11 @@ function MemberHeader() {
           />
           <div>홍길동</div>
         </div>
-        <div className="mt-4 text-sm cursor-pointer">로그아웃</div>
+        <div className="mt-4 text-sm cursor-pointer" onClick={() => setIsModalVisible(true)}>로그아웃</div>
       </div>
+
+      {/* 모달 */}
+      {isModalVisible && <LogoutModal onClose={() => setIsModalVisible(false)} />}
     </div>
   )
 }
