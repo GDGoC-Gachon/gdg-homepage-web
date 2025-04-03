@@ -14,6 +14,10 @@ import ChangePasswordPage from '../pages/ChangePasswordPage';
 import SignupPending from '../pages/SignupPendingPage';
 import MemberLayOut from '../widgets/MemberLayOut';
 import MemberMainPage from '../pages/MemberMainPage';
+import MemberAnalyzePage from '../pages/MemberAnalyzePage';
+import MemberJoinPage from '../pages/MemberJoinPage';
+import MemberManagementPage from '../pages/MemberManagementPage';
+import MemberFaqPage from '../pages/MemberFaqPage';
 
 function App() {
   return (
@@ -52,16 +56,16 @@ function App() {
         <Route path='/member/home' element={<MemberMainPage />} />
 
         {/* 멤버 분석 페이지 */}
-        <Route path='/member/analyze' element={<MemberMainPage />} />
+        <Route path='/member/analyze' element={<MemberAnalyzePage />} />
 
         {/* 멤버 가입 페이지 */}
-        <Route path='/member/join' element={<MemberMainPage />} />
+        <Route path='/member/join' element={<MemberJoinPage />} />
 
         {/* 멤버 회원 페이지 */}
-        <Route path='/member/management' element={<MemberMainPage />} />
+        <Route path='/member/management' element={<MemberManagementPage />} />
 
         {/* 멤버 설정 페이지 */}
-        <Route path='/member/faq' element={<MemberMainPage />} />
+        <Route path='/member/faq' element={<MemberFaqPage />} />
       </Route>
     </Routes>
   );

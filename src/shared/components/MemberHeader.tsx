@@ -38,12 +38,12 @@ function MemberHeader() {
           {
             location.pathname === '/member/home' ? (
               <HomeIcon2
-                className="cursor-pointer text-[#0B63F8]"
+                className="w-[1.5rem] cursor-pointer text-[#0B63F8]"
                 onClick={() => navigate('/member/home')}
               />
             ) : (
               <HomeIcon
-                className="cursor-pointer text-[#828282]"
+                className="w-[1.5rem] cursor-pointer text-[#828282]"
                 onClick={() => navigate('/member/home')}
               />
             )
@@ -60,7 +60,7 @@ function MemberHeader() {
             <p className="mt-6">----------------------</p>
             <div className="mt-6 flex items-end gap-2">
               <AnalyzeIcon
-                className={`cursor-pointer ${getIconColor('/member/analyze')}`}
+                className={`w-[1.5rem] cursor-pointer ${getIconColor('/member/analyze')}`}
                 onClick={() => navigate('/member/analyze')}
               />
               <button
@@ -72,7 +72,7 @@ function MemberHeader() {
             </div>
             <div className="mt-6 flex items-end gap-2">
               <JoinIcon
-                className={`cursor-pointer ${getIconColor('/member/join')}`}
+                className={`w-[1.5rem] cursor-pointer ${getIconColor('/member/join')}`}
                 onClick={() => navigate('/member/join')}
               />
               <button
@@ -84,7 +84,7 @@ function MemberHeader() {
             </div>
             <div className="mt-6 flex items-end gap-2">
               <ManagementIcon
-                className={`cursor-pointer ${getIconColor('/member/management')}`}
+                className={`w-[1.5rem] cursor-pointer ${getIconColor('/member/management')}`}
                 onClick={() => navigate('/member/management')}
               />
                 <button
@@ -96,7 +96,7 @@ function MemberHeader() {
             </div>
             <div className="mt-6 flex items-end gap-2">
               <FaqIcon
-                className={`cursor-pointer ${getIconColor('/member/faq')}`}
+                className={`w-[1.5rem] cursor-pointer ${getIconColor('/member/faq')}`}
                 onClick={() => navigate('/member/faq')}
               />
                 <button
