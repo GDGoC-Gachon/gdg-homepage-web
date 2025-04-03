@@ -1,14 +1,10 @@
-import { useNavigate } from "react-router-dom";
-
-interface LoginButtonProps {
+interface LoginButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   color: string;
   font_color: string;
 }
 
-function LoginButton({ children, color, font_color }: LoginButtonProps) {
-  const navigate = useNavigate();
-  
+function LoginButton({ children, color, font_color, ...rest }: LoginButtonProps) {
   return (
     <button
       style={{
@@ -24,7 +20,7 @@ function LoginButton({ children, color, font_color }: LoginButtonProps) {
       onMouseLeave={(e) => {
         e.currentTarget.style.backgroundColor = color;
       }}
-      onClick={() => navigate('/')}
+      {...rest}
     >
       {children}
     </button>

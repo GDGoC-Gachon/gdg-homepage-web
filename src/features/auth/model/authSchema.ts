@@ -42,5 +42,13 @@ export const signupStep2Schema = yup.object({
     .required("전공을 입력해주세요."),
   info: yup.string().optional().default(""),
 });
-
+// 회원가입 2페이지 폼 데이터 타입
 export type SignupStep2FormData = yup.InferType<typeof signupStep2Schema>;
+
+// 로그인 스키마
+export const loginSchema = yup.object({
+  email: yup.string().required("아이디를 입력해주세요."),
+  password: yup.string().required("비밀번호를 입력해주세요."),
+});
+// 로그인 폼 데이터 타입
+export type LoginFormData = yup.InferType<typeof loginSchema>;
