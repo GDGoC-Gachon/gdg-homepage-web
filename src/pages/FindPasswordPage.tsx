@@ -1,13 +1,33 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { findPasswordSchema, FindPasswordFormData } from "../features/auth/model/authSchema";
 import CustomInput from "../features/auth/ui/CustomInput";
 import SendEmailModal from "../features/auth/ui/SendEmailModal";
+import ErrorText from "../features/auth/ui/ErrorText";
 
 function FindPasswordPage() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [email, setEmail] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FindPasswordFormData>({
+    resolver: yupResolver(findPasswordSchema),
+    mode: "onSubmit",
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEmail(e.target.value);
+  // };
+  const onSubmit = (data: FindPasswordFormData) => {
+    setEmail(data.email);
+    setIsModalVisible(true);
   };
 
   return (
@@ -21,24 +41,23 @@ function FindPasswordPage() {
       <div className="mt-8 w-[42rem] flex flex-col gap-2">
         <div className="font-bold font-googleSansDisplay">아이디</div>
         <CustomInput
-          type="email"
+          {...register("email")}
           width="full"
           placeholder="아이디(이메일)"
-          name="email"
-          value={email}
-          onChange={handleChange}
+          hasError={!!errors.email}
         />
+        {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
       </div>
 
       {/* 버튼 */}
-      <div className="mt-16 mb-10 flex-center">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-16 mb-10 flex-center">
         <button
+          type="submit"
           className="w-80 p-4 rounded-full flex-center font-bold transition-all duration-150 ease-in-out bg-mainBlue text-mainWhite hover:bg-[#3D72CB]"
-          onClick={() => setIsModalVisible(true)}
         >
           변경 링크 전송하기
         </button>
-      </div>
+      </form>
 
       {/* 모달 */}
       {isModalVisible && <SendEmailModal email={email} onClose={() => setIsModalVisible(false)} />}

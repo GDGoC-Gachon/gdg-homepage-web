@@ -1,59 +1,69 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginSchema, LoginFormData } from "../features/auth/model/authSchema";
 import CustomInput from "../features/auth/ui/CustomInput";
 import LoginButton from "../features/auth/ui/LoginButton";
+import ErrorText from "../features/auth/ui/ErrorText";
 import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const navigate = useNavigate();
 
-  // 입력 필드 상태 관리
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: yupResolver(loginSchema),
+    mode: "onSubmit",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  // 입력값 변경 핸들러
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value, // name 속성을 이용하여 동적으로 상태 업데이트
-    });
+  const onSubmit = (data: LoginFormData) => {
+    console.log("로그인 시도:", data);
+    alert("로그인에 성공하였습니다");
+    navigate("/");
   };
 
   return (
-    <div className="p-4 flex-center flex-col">
-      {/* 타이틀 */}
+    <form onSubmit={handleSubmit(onSubmit)} className="p-4 flex-center flex-col">
       <div className="m-14 text-2xl font-bold font-googleSansDisplay">로그인</div>
 
       {/* 아이디 입력 */}
       <div className="mt-8 w-[42rem] flex flex-col gap-2">
         <div className="font-bold font-googleSansDisplay">아이디</div>
         <CustomInput
-          type="email"
+          {...register("email")}
           width="full"
           placeholder="아이디(이메일)"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
+          hasError={!!errors.email}
         />
+        {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
       </div>
 
       {/* 비밀번호 입력 */}
       <div className="mt-8 w-[42rem] flex flex-col gap-2">
         <div className="font-bold font-googleSansDisplay">비밀번호</div>
         <CustomInput
+          {...register("password")}
           type="password"
           width="full"
           placeholder="비밀번호"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
+          hasError={!!errors.password}
         />
+        {errors.password && <ErrorText>{errors.password.message}</ErrorText>}
       </div>
 
       {/* 로그인 버튼 */}
       <div className="mt-16 mb-10 flex-center">
-        <LoginButton color="#F1F3F4" font_color="#4285F4">
+        <LoginButton
+          color="#F1F3F4"
+          font_color="#4285F4"
+          type="submit"
+        >
           로그인
         </LoginButton>
       </div>
@@ -61,18 +71,18 @@ function LoginPage() {
       <div className="mb-32 flex-center gap-10 font-googleSansDisplay text-sm">
         <p
           className="underline cursor-pointer"
-          onClick={() => navigate('/join')}
+          onClick={() => navigate("/join")}
         >
           가입 신청하기
         </p>
         <p
           className="underline cursor-pointer"
-          onClick={() => navigate('/find-password')}
+          onClick={() => navigate("/find-password")}
         >
           비밀번호 찾기
         </p>
       </div>
-    </div>
+    </form>
   );
 }
 
