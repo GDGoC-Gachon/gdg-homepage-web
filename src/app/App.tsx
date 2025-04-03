@@ -11,6 +11,7 @@ import SignupSubmitPage from '../pages/SignupSubmitPage';
 import LoginPage from '../pages/LoginPage';
 import FindPasswordPage from '../pages/FindPasswordPage';
 import ChangePasswordPage from '../pages/ChangePasswordPage';
+import SignupPending from '../pages/SignupPendingPage';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path='/signup/step1' element={<SignupStep1Page />} />
         <Route path='/signup/step2' element={<SignupStep2Page />} />
         <Route path='/signup/submit' element={<SignupSubmitPage />} />
+        <Route path='/signup/pending' element={<SignupPending />} />
 
         {/* 로그인 페이지 */}
         <Route path='/login' element={<LoginPage />} />
@@ -40,6 +42,7 @@ function App() {
         {/* 비밀번호 찾기, 수정 페이지 */}
         <Route path='/find-password' element={<FindPasswordPage />} />
         <Route path='/change-password' element={<ChangePasswordPage />} />
+
       </Route>
     </Routes>
   );

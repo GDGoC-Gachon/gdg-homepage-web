@@ -24,8 +24,9 @@ function LoginPage() {
 
   const onSubmit = (data: LoginFormData) => {
     console.log("로그인 시도:", data);
-    alert("로그인에 성공하였습니다");
-    navigate("/");
+    // alert("로그인에 성공하였습니다");
+    // navigate("/");
+    navigate("/signup/pending");
   };
 
   return (
