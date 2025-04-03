@@ -1,110 +1,122 @@
-import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import CustomInput from "../features/auth/ui/CustomInput";
 import CustomButton from "../features/auth/ui/CustomButton";
 import CustomSubmitButton from "../features/auth/ui/CustomSubmitButton";
+import { signupStep1Schema } from "../features/auth/model/authSchema";
+
+interface SignupStep1FormData {
+  email: string;
+  verificationCode: string;
+  password: string;
+  passwordConfirm: string;
+}
 
 function SignupStep1Page() {
-  // state 관리
-  const [isAvailable, setIsAvailable] = useState(false);
-
-  // 입력 필드 상태 관리
-  const [formData, setFormData] = useState({
-    email: "",
-    verificationCode: "",
-    password: "",
-    passwordConfirm: "",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<SignupStep1FormData>({
+    mode: "onChange",
+    resolver: yupResolver(signupStep1Schema),
+    defaultValues: {
+      email: "",
+      verificationCode: "",
+      password: "",
+      passwordConfirm: "",
+    },
   });
 
-  // 입력값 변경 핸들러
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value, // name 속성을 이용하여 동적으로 상태 업데이트
-    });
+  const onSubmit = (data: SignupStep1FormData) => {
+    console.log("회원가입 1단계 성공:", data);
   };
 
-  // 모든 필드가 입력되었는지 확인하여 버튼 활성화 여부 업데이트
-  useEffect(() => {
-    const { email, verificationCode, password, passwordConfirm } = formData;
-    setIsAvailable(email.trim() !== "" && verificationCode.trim() !== "" && password.trim() !== "" && passwordConfirm.trim() !== "");
-  }, [formData]);
-
   return (
-    <div className="p-4 flex-center flex-col">
-      {/* 타이틀 */}
+    <form onSubmit={handleSubmit(onSubmit)} className="p-4 flex-center flex-col">
       <div className="m-14 text-2xl font-bold font-googleSansDisplay">회원가입</div>
 
-      {/* 아이디 입력 */}
+      {/* 이메일 */}
       <div className="mt-8 w-[42rem] flex flex-col gap-2">
         <div className="font-bold font-googleSansDisplay">
-          아이디
-          <span className="ml-2 text-mainBlue">*</span>
+          아이디 <span className="ml-2 text-mainBlue">*</span>
         </div>
         <div className="flex items-center justify-between">
           <CustomInput
-            type="email"
+            {...register("email")}
+            type="text"
             width="30rem"
             placeholder="아이디(이메일)"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
+            hasError={!!errors.email}
           />
-          <CustomButton text="이메일 전송"/>
+          <CustomButton
+            text="이메일 전송"
+            disabled={!!errors.email || !watch("email")}
+            onClick={() => console.log("이메일 전송")}
+          />
         </div>
+        {errors.email && <p className="text-[#FF2929] text-sm ml-2">{errors.email.message}</p>}
+
         <div className="mt-8 flex items-center justify-between">
           <CustomInput
+            {...register("verificationCode")}
             type="tel"
             width="30rem"
             placeholder="인증 번호"
-            name="verificationCode"
-            value={formData.verificationCode}
-            onChange={handleChange}
+            hasError={!!errors.verificationCode}
           />
-          <CustomButton text="확인"/>
+          <CustomButton
+            text="확인"
+            onClick={() => console.log("인증번호 확인")}
+          />
         </div>
+        {errors.verificationCode && (
+          <p className="text-[#FF2929] text-sm ml-2">{errors.verificationCode.message}</p>
+        )}
       </div>
 
-      {/* 비밀번호 입력 */}
+      {/* 비밀번호 */}
       <div className="mt-24 w-[42rem] flex flex-col gap-2">
         <div className="font-bold font-googleSansDisplay">
-          비밀번호
-          <span className="ml-2 text-mainBlue">*</span>
+          비밀번호 <span className="ml-2 text-mainBlue">*</span>
         </div>
         <CustomInput
+          {...register("password")}
           type="password"
           width="full"
           placeholder="영문/숫자/특수문자 포함 8~20자"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
+          hasError={!!errors.password}
         />
+        {errors.password && <p className="text-[#FF2929] text-sm ml-2">{errors.password.message}</p>}
       </div>
 
-      {/* 비밀번호 확인 입력 */}
+      {/* 비밀번호 확인 */}
       <div className="mt-8 w-[42rem] flex flex-col gap-2">
         <div className="font-bold font-googleSansDisplay">
-          비밀번호 확인
-          <span className="ml-2 text-mainBlue">*</span>
+          비밀번호 확인 <span className="ml-2 text-mainBlue">*</span>
         </div>
         <CustomInput
+          {...register("passwordConfirm")}
           type="password"
           width="full"
           placeholder="비밀번호 확인"
-          name="passwordConfirm"
-          value={formData.passwordConfirm}
-          onChange={handleChange}
+          hasError={!!errors.passwordConfirm}
         />
+        {errors.passwordConfirm && (
+          <p className="text-[#FF2929] text-sm ml-2">{errors.passwordConfirm.message}</p>
+        )}
       </div>
 
-      {/* 제출 버튼 */}
+      {/* 제출 */}
       <div className="mt-20 mb-32 flex-center">
         <CustomSubmitButton
           text="다음"
-          isAvailable={isAvailable}
+          isAvailable={isValid}
           navigateURL="/signup/step2"
         />
       </div>
-    </div>
+    </form>
   );
 }
 
