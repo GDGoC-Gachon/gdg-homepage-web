@@ -12,6 +12,8 @@ import LoginPage from '../pages/LoginPage';
 import FindPasswordPage from '../pages/FindPasswordPage';
 import ChangePasswordPage from '../pages/ChangePasswordPage';
 import SignupPending from '../pages/SignupPendingPage';
+import MemberLayOut from '../widgets/MemberLayOut';
+import MemberMainPage from '../pages/MemberMainPage';
 
 function App() {
   return (
@@ -42,7 +44,24 @@ function App() {
         {/* 비밀번호 찾기, 수정 페이지 */}
         <Route path='/find-password' element={<FindPasswordPage />} />
         <Route path='/change-password' element={<ChangePasswordPage />} />
+      </Route>
 
+      {/* 멤버 레이아웃 적용 */}
+      <Route element={<MemberLayOut />}>
+        {/* 멤버 메인 페이지 */}
+        <Route path='/member/home' element={<MemberMainPage />} />
+
+        {/* 멤버 분석 페이지 */}
+        <Route path='/member/analyze' element={<MemberMainPage />} />
+
+        {/* 멤버 가입 페이지 */}
+        <Route path='/member/join' element={<MemberMainPage />} />
+
+        {/* 멤버 회원 페이지 */}
+        <Route path='/member/management' element={<MemberMainPage />} />
+
+        {/* 멤버 설정 페이지 */}
+        <Route path='/member/faq' element={<MemberMainPage />} />
       </Route>
     </Routes>
   );

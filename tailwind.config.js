@@ -129,6 +129,24 @@ export default {
             transform: 'scaleX(1)',
           },
         },
+        '.member-btn-underline': {
+          position: 'relative',
+          '&::after': {
+            content: "''",
+            position: 'absolute',
+            left: '0',
+            bottom: '-0.5px',
+            width: '100%',
+            height: '1.8px',
+            backgroundColor: '#0B63F8',
+            transform: 'scaleX(0)',
+            transformOrigin: 'center',
+            transition: 'transform 0.2s ease-in-out',
+          },
+          '&:hover::after': {
+            transform: 'scaleX(1)',
+          },
+        },
       });
     },
   ],
