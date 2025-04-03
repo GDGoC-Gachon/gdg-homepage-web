@@ -7,6 +7,7 @@ import SendEmailModal from "../features/auth/ui/SendEmailModal";
 import ErrorText from "../features/auth/ui/ErrorText";
 
 function FindPasswordPage() {
+  // 상태 관리
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [email, setEmail] = useState("");
 
