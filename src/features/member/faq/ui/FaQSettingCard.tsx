@@ -38,7 +38,7 @@ function FaQSettingCard({ question, answer, onDelete }: FaQSettingCardProps) {
             value={isQuestion}
             onChange={(e) => setIsQuestion(e.target.value)}
             maxLength={100}
-            className="p-2 border border-[#E7EAEE] rounded-sm flex-1 bg-[#F7F8F9] text-sm focus:outline-none"
+            className='p-2 w-[34.5rem] border-[1.5px] border-[#E7EAEE] rounded-lg text-sm focus:outline-none'
           />
         ) : (
           <div className="flex items-center">{isQuestion}</div>
@@ -54,7 +54,7 @@ function FaQSettingCard({ question, answer, onDelete }: FaQSettingCardProps) {
             value={isAnswer}
             onChange={(e) => setIsAnswer(e.target.value)}
             maxLength={500}
-            className="p-2 border border-[#E7EAEE] rounded-sm flex-1 bg-[#F7F8F9] text-sm focus:outline-none"
+            className='p-2 w-[34.5rem] border-[1.5px] border-[#E7EAEE] rounded-lg text-sm focus:outline-none'
           />
         ) : (
           <div className="flex items-center">{isAnswer}</div>
