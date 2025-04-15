@@ -81,7 +81,7 @@ function MemberHeader() {
                 onClick={() => navigate('/member/join')}
               />
               <button
-                className={`cursor-pointer ${getIconColor('/member/join')}`}
+                className={getButtonStyle('/member/join')}
                 onClick={() => navigate('/member/join')}
               >
                 가입

@@ -38,8 +38,8 @@ function JoinListCard({ title, startDate, endDate, member, isFinished, onFinish,
       <div className="flex gap-10">
         <div className="w-[15rem] overflow-hidden">{isTitle}</div>
         <div className="w-[15rem]">{formatDate(isStartDate)} ~ {formatDate(isEndDate)}</div>
-        <div className="w-[5rem]">n</div>
-        <div className="w-[5rem]">n</div>
+        <div className="w-[5rem]">0</div>
+        <div className="w-[5rem]">0</div>
       </div>
 
       {!isFinished && (
