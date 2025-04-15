@@ -1,4 +1,4 @@
-import { ReactComponent as AnalyzeIcon } from '../shared/assets/icons/common/memberAnalyzeIcon.svg';
+import { ReactComponent as AnalyzeIcon } from '../shared/assets/icons/member/common/memberAnalyzeIcon.svg';
 import AnalyzeCard from '../features/member/analyze/ui/AnalyzeCard';
 
 function MemberAnalyzePage() {

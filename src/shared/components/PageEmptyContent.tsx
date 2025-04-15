@@ -1,4 +1,4 @@
-import PageEmptyIcon from '../assets/images/common/pageEmptyIcon.png';
+import PageEmptyIcon from '../assets/images/member/pageEmptyIcon.png';
 
 function PageEmptyContent() {
   return (

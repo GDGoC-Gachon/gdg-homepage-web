@@ -2,12 +2,12 @@ import { useState } from 'react';
 import LogoImg from '../assets/images/common/logo.png';
 import ProfileImg from '../assets/images/common/profile.png';
 import { useNavigate } from 'react-router-dom';
-import { ReactComponent as HomeIcon } from '../assets/icons/common/memberHomeIcon.svg';
-import { ReactComponent as HomeIcon2 } from '../assets/icons/common/memberHomeIcon2.svg';
-import { ReactComponent as AnalyzeIcon } from '../assets/icons/common/memberAnalyzeIcon.svg';
-import { ReactComponent as JoinIcon } from '../assets/icons/common/memberJoinIcon.svg';
-import { ReactComponent as ManagementIcon } from '../assets/icons/common/memberManagementIcon.svg';
-import { ReactComponent as FaqIcon } from '../assets/icons/common/memberFaqIcon.svg';
+import { ReactComponent as HomeIcon } from '../assets/icons/member/common/memberHomeIcon.svg';
+import { ReactComponent as HomeIcon2 } from '../assets/icons/member/common/memberHomeIcon2.svg';
+import { ReactComponent as AnalyzeIcon } from '../assets/icons/member/common/memberAnalyzeIcon.svg';
+import { ReactComponent as JoinIcon } from '../assets/icons/member/common/memberJoinIcon.svg';
+import { ReactComponent as ManagementIcon } from '../assets/icons/member/common/memberManagementIcon.svg';
+import { ReactComponent as FaqIcon } from '../assets/icons/member/common/memberFaqIcon.svg';
 import LogoutModal from './LogoutModal';
 
 function MemberHeader() {
