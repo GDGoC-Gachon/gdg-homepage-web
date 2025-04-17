@@ -20,18 +20,30 @@ interface JoinListCardProps {
 }
 
 function JoinListCard({ title, startDate, endDate, member, isFinished, onFinish, onEdit }: JoinListCardProps) {
-  const [isTitle, ] = useState(title);
-  const [isStartDate, ] = useState(startDate);
+  const [isTitle, setIsTitle] = useState(title);
+  const [isStartDate, setIsStartDate] = useState(startDate);
   const [isEndDate, setIsEndDate] = useState(endDate);
-  const [isMember, ] = useState(member);
+  const [isMember, setIsMember] = useState(member);
   const [isFinishModalVisible, setIsFinishModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   const formatDate = (date: string) => date.replace(/-/g, '.');
 
   useEffect(() => {
+    setIsTitle(title);
+  }, [title]);
+  
+  useEffect(() => {
+    setIsStartDate(startDate);
+  }, [startDate]);
+  
+  useEffect(() => {
     setIsEndDate(endDate);
   }, [endDate]);
+  
+  useEffect(() => {
+    setIsMember(member);
+  }, [member]);
 
   return (
     <div className={`p-8 w-full flex justify-between text-[#64748B] ${isFinished ? 'bg-[#E7EAEE]' : ''}`}>
