@@ -119,7 +119,7 @@ function MemberHeader() {
         <div className="px-4 py-[0.08rem] rounded-full bg-mainBlue flex-center text-mainWhite text-[0.6rem]">Lead</div>
         <div className="mt-2 flex items-center gap-2 text-sm text-[#171D23] cursor-pointer">
           <img
-            className="w-8"
+            className="w-8 h-8 rounded-full"
             src={ProfileImg}
             alt="profile image"
           />
