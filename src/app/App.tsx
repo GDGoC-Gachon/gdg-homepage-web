@@ -18,6 +18,8 @@ import MemberAnalyzePage from '../pages/MemberAnalyzePage';
 import MemberJoinPage from '../pages/MemberJoinPage';
 import MemberManagementPage from '../pages/MemberManagementPage';
 import MemberFaqPage from '../pages/MemberFaqPage';
+import MemberDetailPage from '../pages/MemberDetailPage';
+import ApplicantManagementPage from '../pages/ApplicantManagementPage';
 
 function App() {
   return (
@@ -63,6 +65,8 @@ function App() {
 
         {/* 멤버 회원 페이지 */}
         <Route path='/member/management' element={<MemberManagementPage />} />
+        <Route path='/member/management/member' element={<MemberDetailPage />} />
+        <Route path='/member/management/applicant' element={<ApplicantManagementPage />} />
 
         {/* 멤버 설정 페이지 */}
         <Route path='/member/faq' element={<MemberFaqPage />} />

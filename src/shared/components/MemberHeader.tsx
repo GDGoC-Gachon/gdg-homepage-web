@@ -21,14 +21,14 @@ function MemberHeader() {
 
   // 버튼 스타일에 동적으로 active 클래스 추가
   const getButtonStyle = (path: string): string => {
-    const isActive = path === location.pathname;
+    const isActive = location.pathname.startsWith(path);
       return `member-btn-underline font-productSans ${
         isActive ? "text-[#0B63F8]" : "text-[#828282]"
       } text-base text-sm lg:text-base`;
   };
 
   const getIconColor = (path: string) =>
-    location.pathname === path ? 'text-[#0B63F8]' : 'text-[#828282]';
+    location.pathname.startsWith(path) ? 'text-[#0B63F8]' : 'text-[#828282]';
 
   return (
     <div className="px-10 py-8 h-full flex flex-col justify-between fixed bg-[#FFF] shadow-xl">
@@ -119,7 +119,7 @@ function MemberHeader() {
         <div className="px-4 py-[0.08rem] rounded-full bg-mainBlue flex-center text-mainWhite text-[0.6rem]">Lead</div>
         <div className="mt-2 flex items-center gap-2 text-sm text-[#171D23] cursor-pointer">
           <img
-            className="w-8"
+            className="w-8 h-8 rounded-full"
             src={ProfileImg}
             alt="profile image"
           />

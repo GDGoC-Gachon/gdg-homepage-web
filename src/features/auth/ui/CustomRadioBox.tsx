@@ -1,7 +1,7 @@
 interface CustomRadioBoxProps {
   isChecked: boolean;
   onChange: () => void;
-  label: string;
+  label: React.ReactNode;
 }
 
 const CustomRadioBox: React.FC<CustomRadioBoxProps> = ({ isChecked, onChange, label }) => {

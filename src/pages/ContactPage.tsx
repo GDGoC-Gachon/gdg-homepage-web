@@ -1,7 +1,7 @@
 import GITHUB from "../shared/assets/icons/contact/Github_logo.svg";
 import MEDIUM from "../shared/assets/icons/contact/Medium_logo.svg";
 import INSTAGRAM from "../shared/assets/icons/contact/Instagram_logo.svg";
-import KAKAO from "../shared/assets/icons/contact/Kakao_logo.svg";
+import KAKAO from "../shared/assets/images/contact/Kakao_logo.png";
 
 function ContactPage() {
   const handleOpenSite = (site: string) => {
