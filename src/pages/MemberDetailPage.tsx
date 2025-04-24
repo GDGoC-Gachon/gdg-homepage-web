@@ -3,7 +3,7 @@ import { ReactComponent as MemberManagementIcon } from '../shared/assets/icons/m
 import ProfileImg from '../shared/assets/images/common/profile.png';
 import CustomRadioBox from '../features/auth/ui/CustomRadioBox';
 import CustomManagementButton from '../features/member/management/ui/CustomManagementButton';
-import ExileModal from '../features/member/management/ui/ExileModal';
+import MemberExileModal from '../features/member/management/ui/MemberExileModal';
 
 function MemberDetailPage() {
   // 상태 관리
@@ -13,12 +13,22 @@ function MemberDetailPage() {
   return (
     <div className="pl-48 w-full flex">
       <div className="px-[8rem] py-[4rem] w-full flex flex-col items-start gap-10">
-        <div className="flex-center gap-2 text-[#0B63F8]">
-          <MemberManagementIcon className="w-8" />
-          <span className="font-bold text-2xl">회원</span>
+        <div className="w-full flex items-center justify-between text-[#0B63F8]">
+          <div className="flex gap-2">
+            <MemberManagementIcon className="w-8"/>
+            <span className="font-bold text-2xl">회원</span>
+          </div>
+          <div className="flex-center gap-8">
+            <div className="flex-center gap-1 text-xl font-bold text-[#B4B4B4] cursor-default">
+              &#60;<span className="text-sm">Prev</span>
+            </div>
+            <div className="flex-center gap-1 text-xl font-bold text-[#666666] cursor-pointer">
+              <span className="text-sm">Next</span>&#62;
+            </div>
+          </div>
         </div>
 
-        {/* 회원정보 */}
+        {/* 회원 정보 */}
         <div className="w-full flex flex-col items-start gap-4">
           <div className="px-3 py-2 w-full rounded-md flex items-center bg-[#D9D9D9] font-semibold">
             회원 정보
@@ -78,7 +88,7 @@ function MemberDetailPage() {
           </div>
         </div>
 
-        {/* 회원정보 */}
+        {/* 역할 관리 */}
         <div className="mt-5 w-full flex flex-col items-start gap-4">
           <div className="px-3 py-2 w-full rounded-md flex items-center bg-[#D9D9D9] font-semibold">
             역할 관리
@@ -111,32 +121,32 @@ function MemberDetailPage() {
                 </>
               }
             />
-            <div className="mt-8">
+            <div className="mt-4">
               <CustomManagementButton
                 text="저장"
                 option="positive"
               />
             </div>
           </div>
+        </div>
 
-          {/* 회원정보 */}
-          <div className="mt-5 w-full flex flex-col items-start gap-4">
-            <div className="px-3 py-2 w-full rounded-md flex items-center bg-[#D9D9D9] font-semibold">
-              회원 관리
-            </div>
-            <div className="pt-1 pl-6 mt-4 flex flex-col">
-              <CustomManagementButton
-                text="추방"
-                option="negaitve"
-                onClick={() => setIsModalVisible(true)}
-              />
-            </div>
+        {/* 회원 관리 */}
+        <div className="mt-5 w-full flex flex-col items-start gap-4">
+          <div className="px-3 py-2 w-full rounded-md flex items-center bg-[#D9D9D9] font-semibold">
+            회원 관리
+          </div>
+          <div className="pt-1 pl-6 mt-2 flex flex-col">
+            <CustomManagementButton
+              text="추방"
+              option="negaitve"
+              onClick={() => setIsModalVisible(true)}
+            />
           </div>
         </div>
       </div>
 
       {/* 모달 */}
-      {isModalVisible && <ExileModal onClose={() => setIsModalVisible(false)} />}
+      {isModalVisible && <MemberExileModal onClose={() => setIsModalVisible(false)} />}
     </div>
   );
 }

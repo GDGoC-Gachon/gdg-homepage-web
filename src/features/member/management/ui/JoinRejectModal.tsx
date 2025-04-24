@@ -1,8 +1,8 @@
-interface ExileModalProps {
+interface JoinRejectModalProps {
   onClose: () => void;
 }
 
-function ExileModal({ onClose }: ExileModalProps) {
+function JoinRejectModal({ onClose }: JoinRejectModalProps) {
   // 바깥을 누르면 닫히도록
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -29,11 +29,11 @@ function ExileModal({ onClose }: ExileModalProps) {
         onClick={handleModalClick}
       >
         <div className="w-full h-12 rounded-t-xl flex-center bg-mainBlue text-sm font-bold text-[white]">
-          멤버 추방하기
+          신청 거절하기
         </div>
         <div className="flex-center flex-col text-center text-sm">
-          <p>해당 멤버를 추방하시겠습니까?<br/>
-          추방하면 되돌릴 수 없습니다.</p>
+          <p>신청 거절하시겠습니까?<br/>
+          거절하면 되돌릴 수 없습니다.</p>
         </div>
         <div className="mb-4 flex-center gap-5">
           <button
@@ -55,4 +55,4 @@ function ExileModal({ onClose }: ExileModalProps) {
   );
 }
 
-export default ExileModal;
+export default JoinRejectModal;
