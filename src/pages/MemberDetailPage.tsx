@@ -3,10 +3,12 @@ import { ReactComponent as MemberManagementIcon } from '../shared/assets/icons/m
 import ProfileImg from '../shared/assets/images/common/profile.png';
 import CustomRadioBox from '../features/auth/ui/CustomRadioBox';
 import CustomManagementButton from '../features/member/management/ui/CustomManagementButton';
+import ExileModal from '../features/member/management/ui/ExileModal';
 
 function MemberDetailPage() {
   // 상태 관리
   const [selectedRole, setSelectedRole] = useState("team-member");
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
     <div className="pl-48 w-full flex">
@@ -126,11 +128,15 @@ function MemberDetailPage() {
               <CustomManagementButton
                 text="추방"
                 option="negaitve"
+                onClick={() => setIsModalVisible(true)}
               />
             </div>
           </div>
         </div>
       </div>
+
+      {/* 모달 */}
+      {isModalVisible && <ExileModal onClose={() => setIsModalVisible(false)} />}
     </div>
   );
 }
