@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomInput from "../features/auth/ui/CustomInput";
 import CustomButton from "../features/auth/ui/CustomButton";
 import CustomSubmitButton from "../features/auth/ui/CustomSubmitButton";
 import { signupStep1Schema } from "../features/auth/model/authSchema";
+import { postEmailSend, postEmailVerification } from "../features/auth/api/authAPI";
 
 interface SignupStep1FormData {
   email: string;
@@ -13,6 +15,9 @@ interface SignupStep1FormData {
 }
 
 function SignupStep1Page() {
+  const [isSending, setIsSending] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -31,6 +36,37 @@ function SignupStep1Page() {
 
   const onSubmit = (data: SignupStep1FormData) => {
     console.log("회원가입 1단계 성공:", data);
+  };
+
+  // 이메일 인증 요청 함수
+  const handleEmailSend = async () => {
+    setIsSending(true);
+    try {
+      const email = watch("email");
+      const message = await postEmailSend({ email });
+      alert(message);
+    } catch (error) {
+      console.error("이메일 인증 요청 실패:", error);
+      alert("인증 코드 전송에 실패하였습니다.");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  // 이메일 검증 요청 함수
+  const handleEmailVerification = async () => {
+    setIsVerifying(true);
+    try {
+      const email = watch("email");
+      const code = watch("verificationCode");
+      const message = await postEmailVerification({ email, code });
+      alert(message);
+    } catch (error) {
+      console.error("이메일 검증 요청 실패:", error);
+      alert("이메일 인증에 실패하였습니다.");
+    } finally {
+      setIsVerifying(false);
+    }
   };
 
   return (
@@ -52,8 +88,8 @@ function SignupStep1Page() {
           />
           <CustomButton
             text="이메일 전송"
-            disabled={!!errors.email || !watch("email")}
-            onClick={() => console.log("이메일 전송")}
+            disabled={!!errors.email || !watch("email") || isSending}
+            onClick={handleEmailSend}
           />
         </div>
         {errors.email && <p className="text-[#FF2929] text-sm ml-2">{errors.email.message}</p>}
@@ -61,14 +97,15 @@ function SignupStep1Page() {
         <div className="mt-8 flex items-center justify-between">
           <CustomInput
             {...register("verificationCode")}
-            type="tel"
+            type="text"
             width="30rem"
             placeholder="인증 번호"
             hasError={!!errors.verificationCode}
           />
           <CustomButton
             text="확인"
-            onClick={() => console.log("인증번호 확인")}
+            disabled={!watch("verificationCode") || isVerifying}
+            onClick={handleEmailVerification}
           />
         </div>
         {errors.verificationCode && (
