@@ -21,7 +21,6 @@ const techStacks = [
   "Elasticsearch"
 ];
 
-
 function SignupStep2Page() {
   const {
     register,
@@ -35,7 +34,6 @@ function SignupStep2Page() {
     defaultValues: {
       name: "",
       phoneNumber: "",
-      grade: "",
       number: "",
       major: "",
       info: "",
@@ -43,6 +41,7 @@ function SignupStep2Page() {
   });
 
   const [selectedRole, setSelectedRole] = useState("member");
+  const [selectedGrade, setSelectedGrade] = useState(1);
   const [checkedCareer, setCheckedCareer] = useState<{ [key: string]: boolean }>({
     "Front-end": false,
     "Back-end": false,
@@ -93,6 +92,7 @@ function SignupStep2Page() {
     console.log({
       ...data,
       selectedRole,
+      selectedGrade,
       selectedCareers,
       selectedStacks,
     });
@@ -147,16 +147,37 @@ function SignupStep2Page() {
       </div>
 
       {/* 학년 */}
-      <div className="mt-14 w-[42rem] flex flex-col gap-2">
-        <LabelWithAsterisk>학년</LabelWithAsterisk>
-        <CustomInput
-          {...register("grade")}
-          placeholder="졸업생인 경우 ‘졸업생’으로 입력해 주세요"
-          width="full"
-          maxLength={20}
-          hasError={!!errors.grade}
-        />
-        {errors.grade && <ErrorText>{errors.grade.message}</ErrorText>}
+      <div className="mt-14 w-[42rem] flex flex-col gap-3">
+        <div className="font-bold font-googleSansDisplay">
+          학년 <span className="ml-2 text-mainBlue">*</span>
+        </div>
+        <div className="flex items-center gap-5">
+          <CustomRadioBox
+            isChecked={selectedGrade === 1}
+            onChange={() => setSelectedGrade(1)}
+            label="1학년"
+          />
+          <CustomRadioBox
+            isChecked={selectedGrade === 2}
+            onChange={() => setSelectedGrade(2)}
+            label="2학년"
+          />
+          <CustomRadioBox
+            isChecked={selectedGrade === 3}
+            onChange={() => setSelectedGrade(3)}
+            label="3학년"
+          />
+          <CustomRadioBox
+            isChecked={selectedGrade === 4}
+            onChange={() => setSelectedGrade(4)}
+            label="4학년"
+          />
+          <CustomRadioBox
+            isChecked={selectedGrade === 5}
+            onChange={() => setSelectedGrade(5)}
+            label="졸업생"
+          />
+        </div>
       </div>
 
       {/* 학번 */}
