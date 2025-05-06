@@ -1,3 +1,4 @@
+import { useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signupStep2Schema, SignupStep2FormData } from "../features/auth/model/authSchema";
@@ -9,6 +10,7 @@ import StackTag from "../features/auth/ui/StackTag";
 import { useEffect, useState } from "react";
 import LabelWithAsterisk from "../features/auth/ui/LabelWithAsterisk";
 import ErrorText from "../features/auth/ui/ErrorText";
+import { postSignupAPI, PostSignupAPIRequest } from "../features/auth/api/authAPI";
 
 // 기술 스택 리스트
 const techStacks = [
@@ -54,6 +56,10 @@ function SignupStep2Page() {
   );
   const [isAvailable, setIsAvailable] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { email, password } = location.state || {};
+
   // 핸드폰 번호 자동 하이픈
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\D/g, ""); // 숫자만 허용
@@ -74,29 +80,50 @@ function SignupStep2Page() {
     trigger("number");
   };
 
-  // 필드 + 체크 항목 모두 입력돼야 다음 버튼 활성화
-  useEffect(() => {
-    const hasCareer = Object.values(checkedCareer).some(Boolean);
-    const hasStack = Object.values(checkedStack).some(Boolean);
-    setIsAvailable(isValid && hasCareer && hasStack);
-  }, [isValid, checkedCareer, checkedStack]);
-
-  const onSubmit = (data: SignupStep2FormData) => {
+  // 회원가입 요청 함수
+  const onSubmit = async (data: SignupStep2FormData) => {
     const selectedCareers = Object.entries(checkedCareer)
       .filter(([, v]) => v)
       .map(([k]) => k);
     const selectedStacks = Object.entries(checkedStack)
       .filter(([, v]) => v)
       .map(([k]) => k);
-
-    console.log({
-      ...data,
-      selectedRole,
-      selectedGrade,
-      selectedCareers,
-      selectedStacks,
-    });
+  
+    const requestBody: PostSignupAPIRequest = {
+      member: {
+        email,
+        password,
+        name: data.name,
+        phoneNumber: data.phoneNumber,
+      },
+      apply: {
+        role: (selectedRole === "team-member" ? "TEAM_MEMBER" : "MEMBER") as "TEAM_MEMBER" | "MEMBER",
+        grade: selectedGrade,
+        studentId: data.number,
+        major: data.major,
+        techField: selectedCareers,
+        techStack: selectedStacks,
+      },
+    };
+  
+    try {
+      const response = await postSignupAPI(requestBody);
+      alert(response.data);
+      navigate("/signup/submit");
+    } catch (error) {
+      alert("회원가입 요청 중 오류가 발생했습니다.");
+      console.error("회원가입 실패:", error);
+    } finally {
+      console.log("회원가입 정보: ", requestBody);
+    }
   };
+
+  // 필드 + 체크 항목 모두 입력돼야 다음 버튼 활성화
+  useEffect(() => {
+    const hasCareer = Object.values(checkedCareer).some(Boolean);
+    const hasStack = Object.values(checkedStack).some(Boolean);
+    setIsAvailable(isValid && hasCareer && hasStack);
+  }, [isValid, checkedCareer, checkedStack]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="p-4 flex-center flex-col">
@@ -267,7 +294,11 @@ function SignupStep2Page() {
 
       {/* 제출 버튼 */}
       <div className="mt-20 mb-32 flex-center">
-        <CustomSubmitButton text="제출" isAvailable={isAvailable} navigateURL="/signup/submit" />
+        <CustomSubmitButton
+          text="제출"
+          isAvailable={isAvailable}
+          onClick={handleSubmit(onSubmit)}
+        />
       </div>
     </form>
   );

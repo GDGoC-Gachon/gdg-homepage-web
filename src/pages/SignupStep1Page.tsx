@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomInput from "../features/auth/ui/CustomInput";
 import CustomButton from "../features/auth/ui/CustomButton";
 import CustomSubmitButton from "../features/auth/ui/CustomSubmitButton";
 import { signupStep1Schema } from "../features/auth/model/authSchema";
-import { postEmailSend, postEmailVerification } from "../features/auth/api/authAPI";
+import { postEmailSendAPI, postEmailVerificationAPI } from "../features/auth/api/authAPI";
 
 interface SignupStep1FormData {
   email: string;
@@ -15,9 +16,12 @@ interface SignupStep1FormData {
 }
 
 function SignupStep1Page() {
+  // 상태 관리
   const [isSending, setIsSending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
 
+  const navigate = useNavigate();
+  
   const {
     register,
     handleSubmit,
@@ -43,7 +47,7 @@ function SignupStep1Page() {
     setIsSending(true);
     try {
       const email = watch("email");
-      const message = await postEmailSend({ email });
+      const message = await postEmailSendAPI({ email });
       alert(message);
     } catch (error) {
       console.error("이메일 인증 요청 실패:", error);
@@ -59,7 +63,7 @@ function SignupStep1Page() {
     try {
       const email = watch("email");
       const code = watch("verificationCode");
-      const message = await postEmailVerification({ email, code });
+      const message = await postEmailVerificationAPI({ email, code });
       alert(message);
     } catch (error) {
       console.error("이메일 검증 요청 실패:", error);
@@ -150,7 +154,14 @@ function SignupStep1Page() {
         <CustomSubmitButton
           text="다음"
           isAvailable={isValid}
-          navigateURL="/signup/step2"
+          onClick={() =>
+            navigate("/signup/step2", {
+              state: {
+                email: watch("email"),
+                password: watch("password"),
+              },
+            })
+          }
         />
       </div>
     </form>
