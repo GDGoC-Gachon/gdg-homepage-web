@@ -1,7 +1,23 @@
-import { defineConfig } from 'vite';
+import { defineConfig, UserConfigExport } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from '@svgr/rollup';
 
-export default defineConfig({
+const config: UserConfigExport = defineConfig({
   plugins: [react(), svgr()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://13.124.225.23:8080',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/admin': {
+        target: 'http://13.124.225.23:8080',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });
+
+export default config;

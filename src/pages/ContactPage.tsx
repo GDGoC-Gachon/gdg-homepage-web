@@ -11,7 +11,8 @@ function ContactPage() {
       window.open("https://medium.com/gdg-on-campus-gachon", "_blank");
     else if (site === "INSTAGRAM")
       window.open("https://www.instagram.com/gdg.gachon/", "_blank");
-    else if (site === "KAKAO") window.open("/", "_blank");
+    else if (site === "KAKAO")
+      window.open("https://open.kakao.com/o/sGSokjUg", "_blank");
   };
 
   return (

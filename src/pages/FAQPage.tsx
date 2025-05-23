@@ -22,7 +22,7 @@ function FAQPage() {
 
   // 카카오톡 문의하러가기
   const inquiryKaKao = () => {
-    window.open("/", "_blank"); // 임시링크
+    window.open("https://open.kakao.com/o/sGSokjUg", "_blank");
   };
 
   return (

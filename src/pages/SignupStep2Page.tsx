@@ -1,3 +1,4 @@
+import { useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signupStep2Schema, SignupStep2FormData } from "../features/auth/model/authSchema";
@@ -9,18 +10,8 @@ import StackTag from "../features/auth/ui/StackTag";
 import { useEffect, useState } from "react";
 import LabelWithAsterisk from "../features/auth/ui/LabelWithAsterisk";
 import ErrorText from "../features/auth/ui/ErrorText";
-
-// 기술 스택 리스트
-const techStacks = [
-  "React", "Vue.js", "Angular", "Next.js", "Svelte",
-  "Node.js", "Express.js", "NestJS", "Spring Boot", "Django",
-  "Flask", "FastAPI", "Ruby on Rails", "Swift", "Kotlin",
-  "Flutter", "React Native", "TensorFlow", "PyTorch", "Kubernetes",
-  "Docker", "AWS", "Azure", "Google Cloud", "Firebase",
-  "GraphQL", "MongoDB", "MySQL", "PostgreSQL", "Redis",
-  "Elasticsearch"
-];
-
+import { postSignupAPI, PostSignupAPIRequest } from "../features/auth/api/authAPI";
+import { techCareer, techStacks } from "../features/auth/model/techOptionsData";
 
 function SignupStep2Page() {
   const {
@@ -35,7 +26,6 @@ function SignupStep2Page() {
     defaultValues: {
       name: "",
       phoneNumber: "",
-      grade: "",
       number: "",
       major: "",
       info: "",
@@ -43,17 +33,18 @@ function SignupStep2Page() {
   });
 
   const [selectedRole, setSelectedRole] = useState("member");
-  const [checkedCareer, setCheckedCareer] = useState<{ [key: string]: boolean }>({
-    "Front-end": false,
-    "Back-end": false,
-    "Mobile": false,
-    "AI/ML": false,
-    "DevOps/Cloud": false,
-  });
+  const [selectedGrade, setSelectedGrade] = useState(1);
+  const [checkedCareer, setCheckedCareer] = useState<{ [key: string]: boolean }>(
+    techCareer.reduce((acc, cur) => ({ ...acc, [cur.label]: false }), {})
+  );
   const [checkedStack, setCheckedStack] = useState<{ [key: string]: boolean }>(
-    techStacks.reduce((acc, stack) => ({ ...acc, [stack]: false }), {})
+    techStacks.reduce((acc, cur) => ({ ...acc, [cur.label]: false }), {})
   );
   const [isAvailable, setIsAvailable] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { email, password } = location.state || {};
 
   // 핸드폰 번호 자동 하이픈
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,28 +66,52 @@ function SignupStep2Page() {
     trigger("number");
   };
 
-  // 필드 + 체크 항목 모두 입력돼야 다음 버튼 활성화
+  // 회원가입 요청 함수
+  const onSubmit = async (data: SignupStep2FormData) => {
+    const selectedCareers = techCareer
+      .filter(({ label }) => checkedCareer[label])
+      .map(({ value }) => value);
+
+    const selectedStacks = techStacks
+      .filter(({ label }) => checkedStack[label])
+      .map(({ value }) => value);
+
+    const requestBody: PostSignupAPIRequest = {
+      member: {
+        email,
+        password,
+        name: data.name,
+        phoneNumber: data.phoneNumber,
+      },
+      apply: {
+        role: (selectedRole === "team-member" ? "TEAM_MEMBER" : "MEMBER") as "TEAM_MEMBER" | "MEMBER",
+        grade: selectedGrade,
+        studentId: data.number,
+        major: data.major,
+        techField: selectedCareers,
+        techStack: selectedStacks,
+        other: data.info,
+      },
+    };
+  
+    try {
+      const response = await postSignupAPI(requestBody);
+      alert(response.data);
+      navigate("/signup/submit");
+    } catch (error) {
+      alert("회원가입 요청 중 오류가 발생했습니다.");
+      console.error("회원가입 실패:", error);
+    } finally {
+      console.log("회원가입 정보: ", requestBody);
+    }
+  };
+
+  // 필드 + 체크 항목 모두 입력돼야 제출 버튼 활성화
   useEffect(() => {
     const hasCareer = Object.values(checkedCareer).some(Boolean);
     const hasStack = Object.values(checkedStack).some(Boolean);
     setIsAvailable(isValid && hasCareer && hasStack);
   }, [isValid, checkedCareer, checkedStack]);
-
-  const onSubmit = (data: SignupStep2FormData) => {
-    const selectedCareers = Object.entries(checkedCareer)
-      .filter(([, v]) => v)
-      .map(([k]) => k);
-    const selectedStacks = Object.entries(checkedStack)
-      .filter(([, v]) => v)
-      .map(([k]) => k);
-
-    console.log({
-      ...data,
-      selectedRole,
-      selectedCareers,
-      selectedStacks,
-    });
-  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="p-4 flex-center flex-col">
@@ -147,16 +162,42 @@ function SignupStep2Page() {
       </div>
 
       {/* 학년 */}
-      <div className="mt-14 w-[42rem] flex flex-col gap-2">
-        <LabelWithAsterisk>학년</LabelWithAsterisk>
-        <CustomInput
-          {...register("grade")}
-          placeholder="졸업생인 경우 ‘졸업생’으로 입력해 주세요"
-          width="full"
-          maxLength={20}
-          hasError={!!errors.grade}
-        />
-        {errors.grade && <ErrorText>{errors.grade.message}</ErrorText>}
+      <div className="mt-14 w-[42rem] flex flex-col gap-3">
+        <div className="font-bold font-googleSansDisplay">
+          학년 <span className="ml-2 text-mainBlue">*</span>
+        </div>
+        <div className="flex items-center gap-5">
+          <CustomRadioBox
+            isChecked={selectedGrade === 1}
+            onChange={() => setSelectedGrade(1)}
+            label="1학년"
+          />
+          <CustomRadioBox
+            isChecked={selectedGrade === 2}
+            onChange={() => setSelectedGrade(2)}
+            label="2학년"
+          />
+          <CustomRadioBox
+            isChecked={selectedGrade === 3}
+            onChange={() => setSelectedGrade(3)}
+            label="3학년"
+          />
+          <CustomRadioBox
+            isChecked={selectedGrade === 4}
+            onChange={() => setSelectedGrade(4)}
+            label="4학년"
+          />
+          <CustomRadioBox
+            isChecked={selectedGrade === 5}
+            onChange={() => setSelectedGrade(5)}
+            label="5학년"
+          />
+          <CustomRadioBox
+            isChecked={selectedGrade === 6}
+            onChange={() => setSelectedGrade(6)}
+            label="졸업생"
+          />
+        </div>
       </div>
 
       {/* 학번 */}
@@ -246,7 +287,11 @@ function SignupStep2Page() {
 
       {/* 제출 버튼 */}
       <div className="mt-20 mb-32 flex-center">
-        <CustomSubmitButton text="제출" isAvailable={isAvailable} navigateURL="/signup/submit" />
+        <CustomSubmitButton
+          text="제출"
+          isAvailable={isAvailable}
+          onClick={handleSubmit(onSubmit)}
+        />
       </div>
     </form>
   );

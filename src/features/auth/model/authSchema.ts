@@ -30,9 +30,6 @@ export const signupStep2Schema = yup.object({
     .string()
     .required("휴대폰 번호를 입력해주세요.")
     .min(13, "휴대폰 번호 형식이 올바르지 않습니다."),
-  grade: yup
-    .string()
-    .required("학년을 입력해주세요."),
   number: yup
     .string()
     .required("학번을 입력해주세요.")

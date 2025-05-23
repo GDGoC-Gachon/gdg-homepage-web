@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import CustomSubmitButton from "../features/auth/ui/CustomSubmitButton";
 import LogoImg from '../shared/assets/images/common/logo.png';
 
 function SignupSubmitPage() {
+  const navigate = useNavigate();
+  
   return (
     <div className="w-screen h-view flex flex-col flex-center">
       <img
@@ -12,7 +15,7 @@ function SignupSubmitPage() {
       <CustomSubmitButton
         text="홈으로 이동하기"
         isAvailable={true}
-        navigateURL="/"
+        onClick={() => navigate("/")}
       />
     </div>
   )

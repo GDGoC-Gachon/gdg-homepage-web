@@ -1,0 +1,43 @@
+// 관심 기술 분야
+export const techCareer = [
+  { label: "Front-end", value: "FRONT" },
+  { label: "Back-end", value: "BACK" },
+  { label: "Mobile", value: "MOBILE" },
+  { label: "AI/ML", value: "AI" },
+  { label: "DevOps/Cloud", value: "INFRA" },
+];
+
+// 관심 기술 스택
+export const techStacks = [
+  { label: "React", value: "REACT" },
+  { label: "Vue.js", value: "VUE_JS" },
+  { label: "Angular", value: "ANGULAR" },
+  { label: "Next.js", value: "NEXT_JS" },
+  { label: "Svelte", value: "SVELTE" },
+  { label: "Node.js", value: "NODE_JS" },
+  { label: "Express.js", value: "EXPRESS_JS" },
+  { label: "NestJS", value: "NEST_JS" },
+  { label: "Spring Boot", value: "SPRING_BOOT" },
+  { label: "Django", value: "DJANGO" },
+  { label: "Flask", value: "FLASK" },
+  { label: "FastAPI", value: "FAST_API" },
+  { label: "Ruby on Rails", value: "RUBY_ON_RAILS" },
+  { label: "Swift", value: "SWIFT" },
+  { label: "Kotlin", value: "KOTLIN" },
+  { label: "Flutter", value: "FLUTTER" },
+  { label: "React Native", value: "REACT_NATIVE" },
+  { label: "TensorFlow", value: "TENSORFLOW" },
+  { label: "PyTorch", value: "PYTORCH" },
+  { label: "Kubernetes", value: "KUBERNETES" },
+  { label: "Docker", value: "DOCKER" },
+  { label: "AWS", value: "AWS" },
+  { label: "Azure", value: "AZURE" },
+  { label: "Google Cloud", value: "GOOGLE_CLOUD" },
+  { label: "Firebase", value: "FIREBASE" },
+  { label: "GraphQL", value: "GRAPHQL" },
+  { label: "MongoDB", value: "MONGODB" },
+  { label: "MySQL", value: "MYSQL" },
+  { label: "PostgreSQL", value: "POSTGRESQL" },
+  { label: "Redis", value: "REDIS" },
+  { label: "Elasticsearch", value: "ELASTICSEARCH" },
+];
