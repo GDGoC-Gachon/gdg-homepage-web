@@ -15,7 +15,7 @@ function AnalyzeCard({ value, title, changeNum }: AnalyzeCardProps) {
       ? 'text-[#EA4335]'
       : changeNum < 0
       ? 'text-[#0B63F8]'
-      : 'text-[#000]';
+      : 'text-[#D3D3D3]';
 
   return (
     <div className="rounded-lg w-[18rem] h-[9rem] flex-center flex-col shadow-xl">
