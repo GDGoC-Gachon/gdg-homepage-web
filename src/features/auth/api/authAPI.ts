@@ -6,7 +6,7 @@ interface PostEmailVerificationSendAPIRequest {
 }
 export const postEmailSendAPI = async (data: PostEmailVerificationSendAPIRequest) => {
   try {
-    const response = await api.post('/api/v1/member', data);
+    const response = await api.post('/api/v1/member/email', data);
     console.log('이메일 인증 코드 전송 성공:', response.data);
     return response.data;
   } catch (error) {
@@ -46,6 +46,7 @@ export interface PostSignupAPIRequest {
     major: string;
     techField: string[];
     techStack: string[];
+    other?: string;
   };
 }
 export const postSignupAPI = async (data: PostSignupAPIRequest ) => {

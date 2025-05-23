@@ -11,17 +11,7 @@ import { useEffect, useState } from "react";
 import LabelWithAsterisk from "../features/auth/ui/LabelWithAsterisk";
 import ErrorText from "../features/auth/ui/ErrorText";
 import { postSignupAPI, PostSignupAPIRequest } from "../features/auth/api/authAPI";
-
-// 기술 스택 리스트
-const techStacks = [
-  "React", "Vue.js", "Angular", "Next.js", "Svelte",
-  "Node.js", "Express.js", "NestJS", "Spring Boot", "Django",
-  "Flask", "FastAPI", "Ruby on Rails", "Swift", "Kotlin",
-  "Flutter", "React Native", "TensorFlow", "PyTorch", "Kubernetes",
-  "Docker", "AWS", "Azure", "Google Cloud", "Firebase",
-  "GraphQL", "MongoDB", "MySQL", "PostgreSQL", "Redis",
-  "Elasticsearch"
-];
+import { techCareer, techStacks } from "../features/auth/model/techOptionsData";
 
 function SignupStep2Page() {
   const {
@@ -44,15 +34,11 @@ function SignupStep2Page() {
 
   const [selectedRole, setSelectedRole] = useState("member");
   const [selectedGrade, setSelectedGrade] = useState(1);
-  const [checkedCareer, setCheckedCareer] = useState<{ [key: string]: boolean }>({
-    "Front-end": false,
-    "Back-end": false,
-    "Mobile": false,
-    "AI/ML": false,
-    "DevOps/Cloud": false,
-  });
+  const [checkedCareer, setCheckedCareer] = useState<{ [key: string]: boolean }>(
+    techCareer.reduce((acc, cur) => ({ ...acc, [cur.label]: false }), {})
+  );
   const [checkedStack, setCheckedStack] = useState<{ [key: string]: boolean }>(
-    techStacks.reduce((acc, stack) => ({ ...acc, [stack]: false }), {})
+    techStacks.reduce((acc, cur) => ({ ...acc, [cur.label]: false }), {})
   );
   const [isAvailable, setIsAvailable] = useState(false);
 
@@ -82,13 +68,14 @@ function SignupStep2Page() {
 
   // 회원가입 요청 함수
   const onSubmit = async (data: SignupStep2FormData) => {
-    const selectedCareers = Object.entries(checkedCareer)
-      .filter(([, v]) => v)
-      .map(([k]) => k);
-    const selectedStacks = Object.entries(checkedStack)
-      .filter(([, v]) => v)
-      .map(([k]) => k);
-  
+    const selectedCareers = techCareer
+      .filter(({ label }) => checkedCareer[label])
+      .map(({ value }) => value);
+
+    const selectedStacks = techStacks
+      .filter(({ label }) => checkedStack[label])
+      .map(({ value }) => value);
+
     const requestBody: PostSignupAPIRequest = {
       member: {
         email,
@@ -103,6 +90,7 @@ function SignupStep2Page() {
         major: data.major,
         techField: selectedCareers,
         techStack: selectedStacks,
+        other: data.info,
       },
     };
   
@@ -118,7 +106,7 @@ function SignupStep2Page() {
     }
   };
 
-  // 필드 + 체크 항목 모두 입력돼야 다음 버튼 활성화
+  // 필드 + 체크 항목 모두 입력돼야 제출 버튼 활성화
   useEffect(() => {
     const hasCareer = Object.values(checkedCareer).some(Boolean);
     const hasStack = Object.values(checkedStack).some(Boolean);
@@ -202,6 +190,11 @@ function SignupStep2Page() {
           <CustomRadioBox
             isChecked={selectedGrade === 5}
             onChange={() => setSelectedGrade(5)}
+            label="5학년"
+          />
+          <CustomRadioBox
+            isChecked={selectedGrade === 6}
+            onChange={() => setSelectedGrade(6)}
             label="졸업생"
           />
         </div>

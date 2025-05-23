@@ -7,12 +7,12 @@ const config: UserConfigExport = defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'http://13.124.225.23:8080',
         changeOrigin: true,
         secure: false,
       },
       '/admin': {
-        target: 'http://localhost:8080',
+        target: 'http://13.124.225.23:8080',
         changeOrigin: true,
         secure: false,
       },

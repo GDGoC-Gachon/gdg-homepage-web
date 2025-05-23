@@ -19,6 +19,7 @@ function SignupStep1Page() {
   // 상태 관리
   const [isSending, setIsSending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
 
   const navigate = useNavigate();
   
@@ -48,7 +49,7 @@ function SignupStep1Page() {
     try {
       const email = watch("email");
       const message = await postEmailSendAPI({ email });
-      alert(message);
+      alert(message.data);
     } catch (error) {
       console.error("이메일 인증 요청 실패:", error);
       alert("인증 코드 전송에 실패하였습니다.");
@@ -64,9 +65,11 @@ function SignupStep1Page() {
       const email = watch("email");
       const code = watch("verificationCode");
       const message = await postEmailVerificationAPI({ email, code });
-      alert(message);
+      setIsEmailVerified(true);
+      alert(message.data);
     } catch (error) {
       console.error("이메일 검증 요청 실패:", error);
+      setIsEmailVerified(false);
       alert("이메일 인증에 실패하였습니다.");
     } finally {
       setIsVerifying(false);
@@ -153,7 +156,7 @@ function SignupStep1Page() {
       <div className="mt-20 mb-32 flex-center">
         <CustomSubmitButton
           text="다음"
-          isAvailable={isValid}
+          isAvailable={isValid && isEmailVerified}
           onClick={() =>
             navigate("/signup/step2", {
               state: {
