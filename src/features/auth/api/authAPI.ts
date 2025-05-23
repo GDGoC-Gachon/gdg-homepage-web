@@ -59,3 +59,19 @@ export const postSignupAPI = async (data: PostSignupAPIRequest ) => {
     throw error;
   }
 };
+
+// 로그인 api
+export interface PostLoginAPIRequest {
+  email: string;
+  password: string;
+}
+export const postLoginAPI = async (data: PostLoginAPIRequest ) => {
+  try {
+    const response = await api.post('/api/v1/member/login', data);
+    console.log('로그인 성공:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('로그인 api 요청 실패:', error);
+    throw error;
+  }
+};

@@ -5,6 +5,7 @@ import CustomInput from "../features/auth/ui/CustomInput";
 import LoginButton from "../features/auth/ui/LoginButton";
 import ErrorText from "../features/auth/ui/ErrorText";
 import { useNavigate } from "react-router-dom";
+import { postLoginAPI } from "../features/auth/api/authAPI";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -22,11 +23,17 @@ function LoginPage() {
     },
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log("로그인 시도:", data);
-    // alert("로그인에 성공하였습니다");
-    // navigate("/signup/pending"); // 승인 전
-    navigate("/member/home"); // 멤버
+  // 로그인 함수
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      const result = await postLoginAPI(data);
+      console.log("로그인 성공:", result);
+      alert("로그인에 성공하였습니다");
+      // if (result.status === "PENDING") return navigate("/signup/pending"); // 승인 전
+      navigate("/member/home"); // 승인 후
+    } catch {
+      alert("로그인에 실패하였습니다");
+    }
   };
 
   return (
