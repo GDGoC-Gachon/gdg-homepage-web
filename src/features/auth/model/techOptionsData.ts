@@ -1,10 +1,10 @@
 // 관심 기술 분야
 export const techCareer = [
-  { label: "Front-end", value: "FRONT" },
-  { label: "Back-end", value: "BACK" },
+  { label: "Front-end", value: "FRONT_END" },
+  { label: "Back-end", value: "BACK_END" },
   { label: "Mobile", value: "MOBILE" },
-  { label: "AI/ML", value: "AI" },
-  { label: "DevOps/Cloud", value: "INFRA" },
+  { label: "AI/ML", value: "AI_ML" },
+  { label: "DevOps/Cloud", value: "DEVOPS_CLOUD" },
 ];
 
 // 관심 기술 스택

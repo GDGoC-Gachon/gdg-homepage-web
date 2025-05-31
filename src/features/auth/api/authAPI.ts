@@ -41,7 +41,7 @@ export interface PostSignupAPIRequest {
   };
   apply: {
     role: 'MEMBER' | 'TEAM_MEMBER';
-    grade: number;
+    grade: string;
     studentId: string;
     major: string;
     techField: string[];
