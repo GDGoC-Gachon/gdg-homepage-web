@@ -1,7 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ReactComponent as JoinIcon } from '../shared/assets/icons/member/common/memberJoinIcon.svg';
 import JoinListCard from '../features/member/join/ui/JoinListCard';
-import { postJoinPeriodAPI } from '../features/member/join/api/joinAPI';
+import { postJoinPeriodAPI, getJoinPeriodAPI } from '../features/member/join/api/joinAPI';
+
+interface JoinPeriod {
+  id: number;
+  title: string;
+  startDate: string;
+  endDate: string;
+  maxMember: number;
+  status: boolean;
+}
 
 function MemberJoinPage() {
   const [titleInput, setTitleInput] = useState('');
@@ -13,6 +22,7 @@ function MemberJoinPage() {
     startDate: string;
     endDate: string;
     maxMember: number;
+    isFinished?: boolean;
   }[]>([]);
 
   // 날짜 변환 함수
@@ -82,6 +92,28 @@ function MemberJoinPage() {
       alert("가입 일정 생성에 실패하였습니다.");
     }
   };
+
+  // 가입 일정 조회 함수
+  useEffect(() => {
+    const fetchJoinPeriods = async () => {
+      try {
+        const res = await getJoinPeriodAPI();
+        if (res?.success && Array.isArray(res.data)) {
+          const formatted = (res.data as JoinPeriod[]).map((item) => ({
+            title: item.title,
+            startDate: item.startDate.slice(0, 10),
+            endDate: item.endDate.slice(0, 10),
+            maxMember: item.maxMember,
+            isFinished: item.status,
+          }));
+          setJoinList(formatted);
+        }
+      } catch (err) {
+        console.error('가입 일정 목록 불러오기 실패:', err);
+      }
+    };
+    fetchJoinPeriods();
+  }, []);
 
   return (
     <div className="pl-48 w-full flex">
@@ -165,6 +197,7 @@ function MemberJoinPage() {
                 startDate={list.startDate}
                 endDate={list.endDate}
                 member={list.maxMember}
+                isFinished={list.isFinished}
                 onFinish={() => handleFinish(index)}
                 onEdit={(updated) => handleEdit(index, updated)}
               />
