@@ -18,6 +18,7 @@ function MemberJoinPage() {
   const [endDateInput, setEndDateInput] = useState('');
   const [memberInput, setMemberInput] = useState('');
   const [joinList, setJoinList] = useState<{
+    id?: number;
     title: string;
     startDate: string;
     endDate: string;
@@ -100,6 +101,7 @@ function MemberJoinPage() {
         const res = await getJoinPeriodAPI();
         if (res?.success && Array.isArray(res.data)) {
           const formatted = (res.data as JoinPeriod[]).map((item) => ({
+            id: item.id,
             title: item.title,
             startDate: item.startDate.slice(0, 10),
             endDate: item.endDate.slice(0, 10),
@@ -193,6 +195,7 @@ function MemberJoinPage() {
             {joinList.map((list, index) => (
               <JoinListCard
                 key={index}
+                id={list.id}
                 title={list.title}
                 startDate={list.startDate}
                 endDate={list.endDate}

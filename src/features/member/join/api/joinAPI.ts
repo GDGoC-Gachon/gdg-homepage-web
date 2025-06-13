@@ -29,3 +29,21 @@ export const getJoinPeriodAPI = async () => {
     throw error;
   }
 };
+
+// 가입일정 수정 api
+interface PutJoinPeriodAPIRequest {
+  title: string;
+  startDate: string;
+  endDate: string;
+  maxMember: number;
+}
+export const putJoinPeriodAPI = async (id: number, data: PutJoinPeriodAPIRequest) => {
+  try {
+    const response = await api.put(`/admin/joinPeriod/update/${id}`, data);
+    console.log('가입일정 수정 api 연동 성공:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('가입일정 수정 api 연동 실패:', error);
+    throw error;
+  }
+};

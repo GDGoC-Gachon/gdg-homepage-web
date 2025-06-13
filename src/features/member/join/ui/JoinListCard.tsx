@@ -3,8 +3,10 @@ import { ReactComponent as EditIcon } from '../../../../shared/assets/icons/memb
 import { ReactComponent as FinishIcon } from '../../../../shared/assets/icons/member/join/finishIcon.svg';
 import JoinFinishModal from "./JoinFinishModal";
 import JoinEditModal from "./JoinEditModal";
+import { putJoinPeriodAPI } from "../api/joinAPI";
 
 interface JoinListCardProps {
+  id?: number;
   title: string;
   startDate: string;
   endDate: string;
@@ -19,7 +21,7 @@ interface JoinListCardProps {
   }) => void;
 }
 
-function JoinListCard({ title, startDate, endDate, member, isFinished, onFinish, onEdit }: JoinListCardProps) {
+function JoinListCard({ id, title, startDate, endDate, member, isFinished, onFinish, onEdit }: JoinListCardProps) {
   const [isTitle, setIsTitle] = useState(title);
   const [isStartDate, setIsStartDate] = useState(startDate);
   const [isEndDate, setIsEndDate] = useState(endDate);
@@ -91,8 +93,31 @@ function JoinListCard({ title, startDate, endDate, member, isFinished, onFinish,
           member={isMember}
           onClose={() => setIsEditModalVisible(false)}
           onConfirm={(updated) => {
-            onEdit(updated);
-            setIsEditModalVisible(false);
+            const toISOStringWithMidnight = (date: string) =>
+              new Date(date + 'T00:00:00').toISOString();
+
+            const updatedData = {
+              title: updated.title,
+              startDate: toISOStringWithMidnight(updated.startDate),
+              endDate: toISOStringWithMidnight(updated.endDate),
+              maxMember: updated.member,
+            };
+
+            // 가입 일정 수정 api 호출
+            if (typeof id === 'number') {
+              putJoinPeriodAPI(id, updatedData)
+                .then(() => {
+                  onEdit(updated);
+                  setIsEditModalVisible(false);
+                  alert('가입 일정이 수정되었습니다.');
+                })
+                .catch((err) => {
+                  console.error(err);
+                  alert('가입 일정 수정에 실패했습니다.');
+                });
+            } else {
+              alert('가입 일정 ID가 없습니다. 수정할 수 없습니다.');
+            }
           }}
         />
       )}
