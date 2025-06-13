@@ -9,7 +9,6 @@ interface JoinListCardProps {
   startDate: string;
   endDate: string;
   member: number;
-  isFinished: boolean;
   onFinish: () => void;
   onEdit: (updated: {
     title: string;
@@ -19,13 +18,14 @@ interface JoinListCardProps {
   }) => void;
 }
 
-function JoinListCard({ title, startDate, endDate, member, isFinished, onFinish, onEdit }: JoinListCardProps) {
+function JoinListCard({ title, startDate, endDate, member, onFinish, onEdit }: JoinListCardProps) {
   const [isTitle, setIsTitle] = useState(title);
   const [isStartDate, setIsStartDate] = useState(startDate);
   const [isEndDate, setIsEndDate] = useState(endDate);
   const [isMember, setIsMember] = useState(member);
   const [isFinishModalVisible, setIsFinishModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const isFinished = false;
 
   const formatDate = (date: string) => date.replace(/-/g, '.');
 
