@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ReactComponent as EditIcon } from '../../../../shared/assets/icons/member/join/editIcon.svg';
 import { ReactComponent as FinishIcon } from '../../../../shared/assets/icons/member/join/finishIcon.svg';
 import JoinFinishModal from "./JoinFinishModal";
 import JoinEditModal from "./JoinEditModal";
-import { putJoinPeriodAPI } from "../api/joinAPI";
+import { putJoinPeriodAPI, deleteJoinPeriodAPI } from "../api/joinAPI";
 
 interface JoinListCardProps {
   id?: number;
@@ -11,7 +11,7 @@ interface JoinListCardProps {
   startDate: string;
   endDate: string;
   member: number;
-  isFinished?: boolean;
+  isStatus?: boolean;
   onFinish: () => void;
   onEdit: (updated: {
     title: string;
@@ -21,42 +21,22 @@ interface JoinListCardProps {
   }) => void;
 }
 
-function JoinListCard({ id, title, startDate, endDate, member, isFinished, onFinish, onEdit }: JoinListCardProps) {
-  const [isTitle, setIsTitle] = useState(title);
-  const [isStartDate, setIsStartDate] = useState(startDate);
-  const [isEndDate, setIsEndDate] = useState(endDate);
-  const [isMember, setIsMember] = useState(member);
+function JoinListCard({ id, title, startDate, endDate, member, isStatus, onFinish, onEdit }: JoinListCardProps) {
   const [isFinishModalVisible, setIsFinishModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   const formatDate = (date: string) => date.replace(/-/g, '.');
 
-  useEffect(() => {
-    setIsTitle(title);
-  }, [title]);
-  
-  useEffect(() => {
-    setIsStartDate(startDate);
-  }, [startDate]);
-  
-  useEffect(() => {
-    setIsEndDate(endDate);
-  }, [endDate]);
-  
-  useEffect(() => {
-    setIsMember(member);
-  }, [member]);
-
   return (
-    <div className={`p-8 w-full flex justify-between text-[#64748B] ${isFinished ? '' : 'bg-[#E7EAEE]'}`}>
+    <div className={`p-8 w-full flex justify-between text-[#64748B] ${isStatus ? '' : 'bg-[#E7EAEE]'}`}>
       <div className="flex gap-10">
-        <div className="w-[15rem] overflow-hidden">{isTitle}</div>
-        <div className="w-[15rem]">{formatDate(isStartDate)} ~ {formatDate(isEndDate)}</div>
+        <div className="w-[15rem] overflow-hidden">{title}</div>
+        <div className="w-[15rem]">{formatDate(startDate)} ~ {formatDate(endDate)}</div>
         <div className="w-[5rem]">0</div>
         <div className="w-[5rem]">0</div>
       </div>
 
-      {isFinished && (
+      {isStatus && (
         <div className="flex gap-10">
           <div
             onClick={() => setIsEditModalVisible(true)}
@@ -79,27 +59,39 @@ function JoinListCard({ id, title, startDate, endDate, member, isFinished, onFin
         <JoinFinishModal
           onClose={() => setIsFinishModalVisible(false)}
           onConfirm={() => {
-            onFinish();
-            setIsFinishModalVisible(false);
+            // 가입 일정 마감 api 호출
+            if (typeof id === 'number') {
+              deleteJoinPeriodAPI(id)
+                .then(() => {
+                  onFinish();
+                  setIsFinishModalVisible(false);
+                  alert('가입 일정이 마감되었습니다.');
+                })
+                .catch((err) => {
+                  console.error(err);
+                  alert('가입 일정 마감에 실패했습니다.');
+                });
+            } else {
+              alert('가입 일정 ID가 없습니다. 마감할 수 없습니다.');
+            }
           }}
         />
       )}
 
       {isEditModalVisible && (
         <JoinEditModal
-          title={isTitle}
-          startDate={isStartDate}
-          endDate={isEndDate}
-          member={isMember}
+          title={title}
+          startDate={startDate}
+          endDate={endDate}
+          member={member}
           onClose={() => setIsEditModalVisible(false)}
           onConfirm={(updated) => {
-            const toISOStringWithMidnight = (date: string) =>
-              new Date(date + 'T00:00:00').toISOString();
+            const appendT = (date: string) => `${date}T00:00:00`;
 
             const updatedData = {
               title: updated.title,
-              startDate: toISOStringWithMidnight(updated.startDate),
-              endDate: toISOStringWithMidnight(updated.endDate),
+              startDate: appendT(updated.startDate),
+              endDate: appendT(updated.endDate),
               maxMember: updated.member,
             };
 

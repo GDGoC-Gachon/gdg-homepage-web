@@ -47,3 +47,15 @@ export const putJoinPeriodAPI = async (id: number, data: PutJoinPeriodAPIRequest
     throw error;
   }
 };
+
+// 가입일정 삭제 api
+export const deleteJoinPeriodAPI = async (id: number) => {
+  try {
+    const response = await api.delete(`/admin/joinPeriod/terminate/${id}`);
+    console.log('가입일정 삭제 api 연동 성공:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('가입일정 삭제 api 연동 실패:', error);
+    throw error;
+  }
+};

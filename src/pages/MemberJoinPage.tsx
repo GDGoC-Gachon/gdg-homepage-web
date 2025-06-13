@@ -23,7 +23,7 @@ function MemberJoinPage() {
     startDate: string;
     endDate: string;
     maxMember: number;
-    isFinished?: boolean;
+    isStatus?: boolean;
   }[]>([]);
 
   // 날짜 변환 함수
@@ -31,39 +31,12 @@ function MemberJoinPage() {
     return new Date(dateStr + 'T00:00:00').toISOString();
   };
 
-  // const handleAddList = () => {
-  //   if (!titleInput.trim() || !startDateInput.trim() || !endDateInput.trim() || !memberInput.trim()) return;
-  //   setJoinList(prev => [
-  //     ...prev,
-  //     {
-  //       title: titleInput,
-  //       startDate: startDateInput,
-  //       endDate: endDateInput,
-  //       member: Number(memberInput),
-  //       isFinished: false,
-  //     }
-  //   ]);
-  //   setTitleInput('');
-  //   setStartDateInput('');
-  //   setEndDateInput('');
-  //   setMemberInput('');
-  // };
-
-  const handleFinish = (index: number) => {
-    const today = new Date().toISOString().slice(0, 10);
-    setJoinList(prev =>
-      prev.map((item, i) =>
-        i === index ? { ...item, isFinished: true, endDate: today } : item
-      )
-    );
+  const handleFinish = () => {
+    fetchJoinPeriods();
   };
 
-  const handleEdit = (index: number, updated: { title: string; startDate: string; endDate: string; member: number }) => {
-    setJoinList(prev =>
-      prev.map((item, i) =>
-        i === index ? { ...item, ...updated } : item
-      )
-    );
+  const handleEdit = () => {
+    fetchJoinPeriods();
   };
 
   // 가입 일정 생성 함수
@@ -78,10 +51,8 @@ function MemberJoinPage() {
         maxMember: Number(memberInput),
       };
 
-      const response = await postJoinPeriodAPI(newItem);
-      console.log('가입 일정 api 요청 결과: ', response);
-
-      setJoinList(prev => [...prev, newItem]);
+      await postJoinPeriodAPI(newItem);
+      await fetchJoinPeriods();
 
       setTitleInput('');
       setStartDateInput('');
@@ -95,8 +66,7 @@ function MemberJoinPage() {
   };
 
   // 가입 일정 조회 함수
-  useEffect(() => {
-    const fetchJoinPeriods = async () => {
+  const fetchJoinPeriods = async () => {
       try {
         const res = await getJoinPeriodAPI();
         if (res?.success && Array.isArray(res.data)) {
@@ -106,7 +76,7 @@ function MemberJoinPage() {
             startDate: item.startDate.slice(0, 10),
             endDate: item.endDate.slice(0, 10),
             maxMember: item.maxMember,
-            isFinished: item.status,
+            isStatus: item.status,
           }));
           setJoinList(formatted);
         }
@@ -114,6 +84,7 @@ function MemberJoinPage() {
         console.error('가입 일정 목록 불러오기 실패:', err);
       }
     };
+  useEffect(() => {
     fetchJoinPeriods();
   }, []);
 
@@ -200,9 +171,9 @@ function MemberJoinPage() {
                 startDate={list.startDate}
                 endDate={list.endDate}
                 member={list.maxMember}
-                isFinished={list.isFinished}
-                onFinish={() => handleFinish(index)}
-                onEdit={(updated) => handleEdit(index, updated)}
+                isStatus={list.isStatus}
+                onFinish={handleFinish}
+                onEdit={handleEdit}
               />
             ))}
           </div>
