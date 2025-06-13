@@ -10,11 +10,13 @@ const config: UserConfigExport = defineConfig({
         target: 'http://13.124.225.23:8080',
         changeOrigin: true,
         secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '/api'),
       },
       '/admin': {
         target: 'http://13.124.225.23:8080',
         changeOrigin: true,
         secure: false,
+        rewrite: (path) => path.replace(/^\/admin/, '/admin'),
       },
     },
   },

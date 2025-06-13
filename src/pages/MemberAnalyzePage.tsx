@@ -19,6 +19,11 @@ function MemberAnalyzePage() {
   // 분석결과 조회 api
   useEffect(() => {
     const fetchAnalytics = async () => {
+      const token = localStorage.getItem('accessToken');
+      if (!token) {
+        console.warn('토큰 없음. API 요청 생략');
+        return;
+      }
       try {
         const data = await getAdminAnalyticAPI();
         setAnalytics(data);
@@ -26,7 +31,6 @@ function MemberAnalyzePage() {
         console.error("분석결과 조회 api 호출 중 에러 발생");
       }
     };
-  
     fetchAnalytics();
   }, []);
 

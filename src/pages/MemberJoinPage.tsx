@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ReactComponent as JoinIcon } from '../shared/assets/icons/member/common/memberJoinIcon.svg';
 import JoinListCard from '../features/member/join/ui/JoinListCard';
+import { postJoinPeriodAPI } from '../features/member/join/api/joinAPI';
 
 function MemberJoinPage() {
   const [titleInput, setTitleInput] = useState('');
@@ -48,6 +49,23 @@ function MemberJoinPage() {
         i === index ? { ...item, ...updated } : item
       )
     );
+  };
+
+  // 이메일 검증 요청 함수 --> 이거부터 수정 ㄱ
+  const handleCreateJoinPeriod = async () => {
+    try {
+      const email = watch("email");
+      const code = watch("verificationCode");
+      const message = await postJoinPeriodAPI({ data });
+      setIsEmailVerified(true);
+      alert(message.data);
+    } catch (error) {
+      console.error("이메일 검증 요청 실패:", error);
+      setIsEmailVerified(false);
+      alert("이메일 인증에 실패하였습니다.");
+    } finally {
+      setIsVerifying(false);
+    }
   };
 
   return (
