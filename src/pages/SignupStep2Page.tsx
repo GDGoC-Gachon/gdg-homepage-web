@@ -33,7 +33,7 @@ function SignupStep2Page() {
   });
 
   const [selectedRole, setSelectedRole] = useState("member");
-  const [selectedGrade, setSelectedGrade] = useState(1);
+  const [selectedGrade, setSelectedGrade] = useState("1");
   const [checkedCareer, setCheckedCareer] = useState<{ [key: string]: boolean }>(
     techCareer.reduce((acc, cur) => ({ ...acc, [cur.label]: false }), {})
   );
@@ -168,33 +168,33 @@ function SignupStep2Page() {
         </div>
         <div className="flex items-center gap-5">
           <CustomRadioBox
-            isChecked={selectedGrade === 1}
-            onChange={() => setSelectedGrade(1)}
+            isChecked={selectedGrade === "1"}
+            onChange={() => setSelectedGrade("1")}
             label="1학년"
           />
           <CustomRadioBox
-            isChecked={selectedGrade === 2}
-            onChange={() => setSelectedGrade(2)}
+            isChecked={selectedGrade === "2"}
+            onChange={() => setSelectedGrade("2")}
             label="2학년"
           />
           <CustomRadioBox
-            isChecked={selectedGrade === 3}
-            onChange={() => setSelectedGrade(3)}
+            isChecked={selectedGrade === "3"}
+            onChange={() => setSelectedGrade("3")}
             label="3학년"
           />
           <CustomRadioBox
-            isChecked={selectedGrade === 4}
-            onChange={() => setSelectedGrade(4)}
+            isChecked={selectedGrade === "4"}
+            onChange={() => setSelectedGrade("4")}
             label="4학년"
           />
           <CustomRadioBox
-            isChecked={selectedGrade === 5}
-            onChange={() => setSelectedGrade(5)}
+            isChecked={selectedGrade === "5"}
+            onChange={() => setSelectedGrade("5")}
             label="5학년"
           />
           <CustomRadioBox
-            isChecked={selectedGrade === 6}
-            onChange={() => setSelectedGrade(6)}
+            isChecked={selectedGrade === "6"}
+            onChange={() => setSelectedGrade("6")}
             label="졸업생"
           />
         </div>

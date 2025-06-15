@@ -41,7 +41,7 @@ export interface PostSignupAPIRequest {
   };
   apply: {
     role: 'MEMBER' | 'TEAM_MEMBER';
-    grade: number;
+    grade: string;
     studentId: string;
     major: string;
     techField: string[];
@@ -65,13 +65,19 @@ export interface PostLoginAPIRequest {
   email: string;
   password: string;
 }
-export const postLoginAPI = async (data: PostLoginAPIRequest ) => {
+export const postLoginAPI = async (data: PostLoginAPIRequest) => {
   try {
     const response = await api.post('/api/v1/member/login', data);
-    console.log('로그인 성공:', response.data);
+    // JWT 토큰
+    const jwtToken = response.data.data.jwtToken;
+
+    localStorage.setItem('accessToken', jwtToken);
+    api.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
+    console.log('로그인 성공: ', jwtToken);
+
     return response.data;
   } catch (error) {
-    console.error('로그인 api 요청 실패:', error);
+    console.error('로그인 실패', error);
     throw error;
   }
 };
