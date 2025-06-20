@@ -65,8 +65,8 @@ function App() {
 
         {/* 멤버 회원 페이지 */}
         <Route path='/member/management' element={<MemberManagementPage />} />
-        <Route path='/member/management/member' element={<MemberDetailPage />} />
-        <Route path='/member/management/applicant' element={<ApplicantManagementPage />} />
+        <Route path='/member/management/member/:id' element={<MemberDetailPage />} />
+        <Route path='/member/management/applicant/:id' element={<ApplicantManagementPage />} />
 
         {/* 멤버 설정 페이지 */}
         <Route path='/member/faq' element={<MemberFaqPage />} />

@@ -1,25 +1,22 @@
 import { useNavigate } from "react-router-dom";
 
 interface MemberListCardProps {
+  memberId: number;
   name: string;
   email: string;
   grade: string;
-  number: number;
+  studentId: string;
   phoneNumber: string;
   role: string;
   isMember: boolean;
 }
 
-function MemberListCard({ name, email, grade, number, phoneNumber, role, isMember }: MemberListCardProps) {
+function MemberListCard({ memberId, name, email, grade, studentId, phoneNumber, role, isMember }: MemberListCardProps) {
   const navigate = useNavigate();
 
   // 관리페이지 이동 핸들러
-  const handleNavigate = (isMember: boolean) => {
-    if (isMember) {
-      navigate('/member/management/member');
-    } else {
-      navigate('/member/management/applicant');
-    }
+  const handleNavigate = () => {
+    navigate(isMember ? `/member/management/member/${memberId}` : `/member/management/applicant/${memberId}`);
   };
 
   return (
@@ -28,12 +25,12 @@ function MemberListCard({ name, email, grade, number, phoneNumber, role, isMembe
         <div className="w-[5rem] truncate">{name}</div>
         <div className="w-[12rem] truncate">{email}</div>
         <div className="w-[5rem] truncate">{grade}</div>
-        <div className="w-[5rem] truncate">{number}</div>
+        <div className="w-[5rem] truncate">{studentId}</div>
         <div className="w-[7rem] truncate">{phoneNumber}</div>
         <div>{role}</div>
       </div>
       <div
-        onClick={() => handleNavigate(isMember)}
+        onClick={handleNavigate}
         className="flex items-center gap-2 truncate cursor-pointer"
       >
         관리
