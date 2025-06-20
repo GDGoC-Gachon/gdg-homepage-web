@@ -17,7 +17,6 @@ interface MemberListItemType {
 
 function MemberManagementPage() {
   // 상태 관리
-  // const [memberButton, setMemberButton] = useState('member');
   const [memberList, setMemberList] = useState<MemberListItemType[]>([]);
   const [applicantList, setApplicantList] = useState<MemberListItemType[]>([]);
   const [memberButton, setMemberButton] = useState<'member' | 'apply'>('member');
@@ -29,7 +28,7 @@ function MemberManagementPage() {
         if (memberButton === 'member') {
           const res = await getMemberListAPI(commonParams);
           if (res.success && Array.isArray(res.data.result)) {
-            setMemberList(res.data.result); // 가공 필요하면 여기서 가공
+            setMemberList(res.data.result);
           }
         } else {
           const res = await getApplicantListAPI(commonParams);
