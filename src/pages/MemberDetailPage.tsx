@@ -1,14 +1,47 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { ReactComponent as MemberManagementIcon } from '../shared/assets/icons/member/common/memberManagementIcon.svg';
-import ProfileImg from '../shared/assets/images/common/profile.png';
 import CustomRadioBox from '../features/auth/ui/CustomRadioBox';
 import CustomManagementButton from '../features/member/management/ui/CustomManagementButton';
 import MemberExileModal from '../features/member/management/ui/MemberExileModal';
+import { getMemberDetailAPI } from '../features/member/management/api/managementAPI';
+
+// 멤버 상세정보 인터페이스
+interface MemberDetail {
+  member: {
+    memberId: number;
+    email: string;
+    name: string;
+    grade: string;
+    studentId: string;
+    phoneNumber: string;
+    role: string;
+    approved: boolean;
+  };
+  major: string;
+  field: string;
+  stack: string;
+}
 
 function MemberDetailPage() {
   // 상태 관리
   const [selectedRole, setSelectedRole] = useState("team-member");
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [memberDetail, setMemberDetail] = useState<MemberDetail | null>(null);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchMemberDetail = async () => {
+      try {
+        const res = await getMemberDetailAPI(Number(id));
+        setMemberDetail(res.data);
+      } catch (error) {
+        console.error('멤버 상세 조회 실패:', error);
+      }
+    };
+
+    if (id) fetchMemberDetail();
+  }, [id]);
 
   return (
     <div className="pl-48 w-full flex">
@@ -34,54 +67,49 @@ function MemberDetailPage() {
             회원 정보
           </div>
           <div className="pt-4 pl-6 w-full flex gap-20">
-            <img
-              src={ProfileImg}
-              alt="Profile"
-              className="w-48 h-48 rounded-full"
-            />
             <div className="flex flex-col gap-7">
               <div className="flex">
                 <div className="w-72 flex flex-col gap-2">
                   <p className="font-bold">
                     이름:&nbsp;
-                    <span className="font-normal">홍길동</span>
+                    <span className="font-normal">{memberDetail?.member.name}</span>
                   </p>
                   <p className="font-bold">
                     학년:&nbsp;
-                    <span className="font-normal">3학년</span>
+                    <span className="font-normal">{memberDetail?.member.grade}</span>
                   </p>
                   <p className="font-bold">
                     학번:&nbsp;
-                    <span className="font-normal">123456789</span>
+                    <span className="font-normal">{memberDetail?.member.studentId}</span>
                   </p>
                   <p className="font-bold">
                     역할:&nbsp;
-                    <span className="font-normal">Team Member</span>
+                    <span className="font-normal">{memberDetail?.member.role}</span>
                   </p>
                 </div>
                 <div className="w-80 flex flex-col gap-2">
                   <p className="font-bold">
                     이메일:&nbsp;
-                    <span className="font-normal">test@test.com</span>
+                    <span className="font-normal">{memberDetail?.member.email}</span>
                   </p>
                   <p className="font-bold">
                     휴대폰 번호:&nbsp;
-                    <span className="font-normal">010-1234-5678</span>
+                    <span className="font-normal">{memberDetail?.member.phoneNumber}</span>
                   </p>
                   <p className="font-bold">
                     가입일:&nbsp;
-                    <span className="font-normal">2025/02/26</span>
+                    {/* <span className="font-normal">2025/02/26</span> */}
                   </p>
                 </div>
               </div>
               <div className="flex flex-col gap-2">
                 <p className="font-bold">
                   관심 기술 분야:&nbsp;
-                  <span className="font-normal">Backend</span>
+                  <span className="font-normal">{memberDetail?.field}</span>
                 </p>
                 <p className="font-bold">
                   보유/관심 기술 스택:&nbsp;
-                  <span className="font-normal">Springboot</span>
+                  <span className="font-normal">{memberDetail?.stack}</span>
                 </p>
               </div>
             </div>
