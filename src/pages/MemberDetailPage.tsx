@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ReactComponent as MemberManagementIcon } from '../shared/assets/icons/member/common/memberManagementIcon.svg';
 import CustomRadioBox from '../features/auth/ui/CustomRadioBox';
 import CustomManagementButton from '../features/member/management/ui/CustomManagementButton';
 import MemberExileModal from '../features/member/management/ui/MemberExileModal';
-import { getMemberDetailAPI } from '../features/member/management/api/managementAPI';
+import { getMemberDetailAPI, getMemberListAPI } from '../features/member/management/api/managementAPI';
 
 // 멤버 상세정보 인터페이스
 interface MemberDetail {
@@ -23,13 +23,33 @@ interface MemberDetail {
   stack: string;
 }
 
+// 페이지 전환용 인터페이스
+interface Member {
+  memberId: number;
+  email: string;
+  name: string;
+  grade: string;
+  studentId: string;
+  phoneNumber: string;
+  role: string;
+  approved: boolean;
+}
+
 function MemberDetailPage() {
   // 상태 관리
   const [selectedRole, setSelectedRole] = useState("team-member");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [memberDetail, setMemberDetail] = useState<MemberDetail | null>(null);
+  const [memberList, setMemberList] = useState<Member[]>([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
+  // 현재 페이지 위치
+  const currentIndex = memberList.findIndex((item) => item.memberId === Number(id));
+  const isFirst = currentIndex <= 0;
+  const isLast = currentIndex === memberList.length - 1 || currentIndex === -1;
+
+  // 멤버 상세 조회 api 호출
   useEffect(() => {
     const fetchMemberDetail = async () => {
       try {
@@ -39,9 +59,34 @@ function MemberDetailPage() {
         console.error('멤버 상세 조회 실패:', error);
       }
     };
-
     if (id) fetchMemberDetail();
   }, [id]);
+
+  // 멤버 리스트 조회 api 호출
+  useEffect(() => {
+    const fetchMemberList = async () => {
+      try {
+        const res = await getMemberListAPI({ page: 1, size: 100 });
+        setMemberList(res.data.data.result);
+      } catch (error) {
+        console.error('신청자 목록 조회 실패:', error);
+      }
+    };
+    fetchMemberList();
+  }, []);
+
+  // 이전 페이지 이동
+  const handlePrev = () => {
+    if (isFirst) return;
+    const prevId = memberList[currentIndex - 1].memberId;
+    navigate(`/member/management/member/${prevId}`);
+  };
+  // 다음 페이지 이동
+  const handleNext = () => {
+    if (isLast) return;
+    const nextId = memberList[currentIndex + 1].memberId;
+    navigate(`/member/management/member/${nextId}`);
+  };
 
   return (
     <div className="pl-48 w-full flex">
@@ -52,10 +97,10 @@ function MemberDetailPage() {
             <span className="font-bold text-2xl">회원</span>
           </div>
           <div className="flex-center gap-8">
-            <div className="flex-center gap-1 text-xl font-bold text-[#B4B4B4] cursor-default">
+            <div className={`flex-center gap-1 text-xl font-bold ${isFirst ? 'text-[#B4B4B4] cursor-default' : 'text-[#666666] cursor-pointer'}`} onClick={handlePrev}>
               &#60;<span className="text-sm">Prev</span>
             </div>
-            <div className="flex-center gap-1 text-xl font-bold text-[#666666] cursor-pointer">
+            <div className={`flex-center gap-1 text-xl font-bold ${isLast ? 'text-[#B4B4B4] cursor-default' : 'text-[#666666] cursor-pointer'}`} onClick={handleNext}>
               <span className="text-sm">Next</span>&#62;
             </div>
           </div>

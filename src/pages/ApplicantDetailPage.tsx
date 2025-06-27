@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ReactComponent as MemberManagementIcon } from '../shared/assets/icons/member/common/memberManagementIcon.svg';
 import CustomManagementButton from '../features/member/management/ui/CustomManagementButton';
 import JoinRejectModal from '../features/member/management/ui/JoinRejectModal';
-import { getMemberDetailAPI } from '../features/member/management/api/managementAPI';
+import { getApplicantListAPI, getMemberDetailAPI } from '../features/member/management/api/managementAPI';
 
 // 멤버 상세정보 인터페이스
 interface MemberDetail {
@@ -22,24 +22,69 @@ interface MemberDetail {
   stack: string;
 }
 
-function ApplicantManagementPage() {
+// 페이지 전환용 인터페이스
+interface Applicant {
+  memberId: number;
+  email: string;
+  name: string;
+  grade: string;
+  studentId: string;
+  phoneNumber: string;
+  role: string;
+  approved: boolean;
+}
+
+function ApplicantDetailPage() {
   // 상태 관리
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [memberDetail, setMemberDetail] = useState<MemberDetail | null>(null);
+  const [applicantList, setApplicantList] = useState<Applicant[]>([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
+  // 현재 페이지 위치
+  const currentIndex = applicantList.findIndex((item) => item.memberId === Number(id));
+  const isFirst = currentIndex <= 0;
+  const isLast = currentIndex === applicantList.length - 1 || currentIndex === -1;
+
+  // 신청자 상세 조회 api 호출
   useEffect(() => {
     const fetchMemberDetail = async () => {
       try {
         const res = await getMemberDetailAPI(Number(id));
         setMemberDetail(res.data);
       } catch (error) {
-        console.error('멤버 상세 조회 실패:', error);
+        console.error('신청자 상세 조회 실패:', error);
       }
     };
-
     if (id) fetchMemberDetail();
   }, [id]);
+
+  // 신청자 리스트 조회 api 호출
+  useEffect(() => {
+    const fetchApplicantList = async () => {
+      try {
+        const res = await getApplicantListAPI({ page: 1, size: 100 });
+        setApplicantList(res.data.data.result);
+      } catch (error) {
+        console.error('신청자 목록 조회 실패:', error);
+      }
+    };
+    fetchApplicantList();
+  }, []);
+
+  // 이전 페이지 이동
+  const handlePrev = () => {
+    if (isFirst) return;
+    const prevId = applicantList[currentIndex - 1].memberId;
+    navigate(`/member/management/applicant/${prevId}`);
+  };
+  // 다음 페이지 이동
+  const handleNext = () => {
+    if (isLast) return;
+    const nextId = applicantList[currentIndex + 1].memberId;
+    navigate(`/member/management/applicant/${nextId}`);
+  };
 
   return (
     <div className="pl-48 w-full flex">
@@ -50,10 +95,10 @@ function ApplicantManagementPage() {
             <span className="font-bold text-2xl">회원</span>
           </div>
           <div className="flex-center gap-8">
-            <div className="flex-center gap-1 text-xl font-bold text-[#B4B4B4] cursor-default">
+            <div className={`flex-center gap-1 text-xl font-bold ${isFirst ? 'text-[#B4B4B4] cursor-default' : 'text-[#666666] cursor-pointer'}`} onClick={handlePrev}>
               &#60;<span className="text-sm">Prev</span>
             </div>
-            <div className="flex-center gap-1 text-xl font-bold text-[#666666] cursor-pointer">
+            <div className={`flex-center gap-1 text-xl font-bold ${isLast ? 'text-[#B4B4B4] cursor-default' : 'text-[#666666] cursor-pointer'}`} onClick={handleNext}>
               <span className="text-sm">Next</span>&#62;
             </div>
           </div>
@@ -137,4 +182,4 @@ function ApplicantManagementPage() {
   );
 }
 
-export default ApplicantManagementPage;
+export default ApplicantDetailPage;
