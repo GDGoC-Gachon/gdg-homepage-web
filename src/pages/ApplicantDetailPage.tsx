@@ -96,6 +96,14 @@ function ApplicantDetailPage() {
       const res = await putMemberApproveAPI(data);
       setMemberDetail(res.data);
       alert('승인이 완료되었습니다.');
+
+      // 승인 후 다음 멤버로 자동 이동
+      if (!isLast) {
+        const nextId = applicantList[currentIndex + 1].memberId;
+        navigate(`/member/management/applicant/${nextId}`);
+      } else {
+        navigate('/member/managemnt');
+      }
     } catch (error) {
       console.error('멤버 승인 실패:', error);
     }

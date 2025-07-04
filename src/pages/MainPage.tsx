@@ -3,13 +3,24 @@ import { scrollToSection } from "../features/main/lib/scrollToSection";
 import WelcomeSection from "../features/main/ui/WelcomeSection";
 import DescriptionSection from "../features/main/ui/DescriptionSection";
 import NewsSection from "../features/main/ui/NewsSection";
+import { postViewIncreaseAPI } from "../features/auth/api/viewAPI";
 
 function MainPage() {
   const descriptionRef = useRef<HTMLDivElement | null>(null);
   const newsRef = useRef<HTMLDivElement | null>(null);
   
-  // 새로고침 시 페이지 상단으로 이동
   useEffect(() => {
+    // 조회 수 증가
+    const increasePageView = async () => {
+      try {
+        await postViewIncreaseAPI();
+      } catch (error) {
+        console.error('조회 수 증가 실패:', error);
+      }
+    };
+    increasePageView();
+
+    // 새로고침 시 상단 이동
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 0);
