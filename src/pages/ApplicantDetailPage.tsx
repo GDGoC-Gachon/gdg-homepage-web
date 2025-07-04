@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ReactComponent as MemberManagementIcon } from '../shared/assets/icons/member/common/memberManagementIcon.svg';
 import CustomManagementButton from '../features/member/management/ui/CustomManagementButton';
 import JoinRejectModal from '../features/member/management/ui/JoinRejectModal';
-import { getApplicantListAPI, getMemberDetailAPI } from '../features/member/management/api/managementAPI';
+import { getApplicantListAPI, getMemberDetailAPI, putMemberApproveAPI } from '../features/member/management/api/managementAPI';
 
 // 멤버 상세정보 인터페이스
 interface MemberDetail {
@@ -86,6 +86,21 @@ function ApplicantDetailPage() {
     navigate(`/member/management/applicant/${nextId}`);
   };
 
+  // 멤버 승인 API 호출
+  const handleApprove = async () => {
+    try {
+      if (!memberDetail) return;
+      const data = {
+        userId: memberDetail.member.memberId
+      };
+      const res = await putMemberApproveAPI(data);
+      setMemberDetail(res.data);
+      alert('승인이 완료되었습니다.');
+    } catch (error) {
+      console.error('멤버 승인 실패:', error);
+    }
+  };
+
   return (
     <div className="pl-48 w-full flex">
       <div className="px-[8rem] py-[4rem] w-full flex flex-col items-start gap-10">
@@ -166,6 +181,7 @@ function ApplicantDetailPage() {
             <CustomManagementButton
               text="승인"
               option="positive"
+              onClick={handleApprove}
             />
             <CustomManagementButton
               text="거절"

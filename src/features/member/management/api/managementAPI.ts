@@ -50,7 +50,7 @@ export const getMemberDetailAPI = async (id: number) => {
 
 // 멤버 승인 api
 interface PutMemberApproveAPIRequest {
-  adminId: number;
+  adminId?: number;
   userId: number;
 }
 export const putMemberApproveAPI = async (data: PutMemberApproveAPIRequest) => {
