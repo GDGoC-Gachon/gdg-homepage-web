@@ -1,5 +1,6 @@
 import { useState } from "react";
 import FaQDeleteModal from "./FaQDeleteModal";
+import { putFaqAPI } from "../api/faqAPI";
 
 interface FaQSettingCardProps {
   id?: number;
@@ -26,6 +27,23 @@ function FaQSettingCard({ id, question, answer, onDelete }: FaQSettingCardProps)
     setIsQuestion(originalQuestion);
     setIsAnswer(originalAnswer);
     setIsEdit(false);
+  };
+
+  // 수정 함수
+  const handleSave = async () => {
+    if (!id) return alert("FAQ ID가 없습니다.");
+    try {
+      const payload = {
+        question: isQuestion,
+        answer: isAnswer,
+      };
+      await putFaqAPI(id, payload);
+      alert("FAQ가 수정되었습니다.");
+      setIsEdit(false);
+    } catch (error) {
+      alert("FAQ 수정에 실패하였습니다.");
+      console.error("FAQ 수정 에러:", error);
+    }
   };
 
   return (
@@ -66,7 +84,7 @@ function FaQSettingCard({ id, question, answer, onDelete }: FaQSettingCardProps)
       <div className='w-full flex justify-end gap-5'>
         {isEdit ? (
           <>
-            <button onClick={() => setIsEdit(false)} className="w-36 h-10 bg-mainBlue text-white rounded-lg text-sm font-semibold hover:bg-[#3D72CB]">
+            <button onClick={handleSave} className="w-36 h-10 bg-mainBlue text-white rounded-lg text-sm font-semibold hover:bg-[#3D72CB]">
               저장하기
             </button>
             <button onClick={handleCancel} className="w-36 h-10 border border-mainBlue text-mainBlue rounded-lg text-sm font-semibold hover:border-[#C6D9FF] hover:bg-[#C6D9FF] hover:text-white">
