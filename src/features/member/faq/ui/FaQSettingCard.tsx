@@ -2,12 +2,13 @@ import { useState } from "react";
 import FaQDeleteModal from "./FaQDeleteModal";
 
 interface FaQSettingCardProps {
+  id?: number;
   question: string;
   answer: string;
   onDelete: () => void;
 }
 
-function FaQSettingCard({ question, answer, onDelete }: FaQSettingCardProps) {
+function FaQSettingCard({ id, question, answer, onDelete }: FaQSettingCardProps) {
   const [isEdit, setIsEdit] = useState(false);
   const [isQuestion, setIsQuestion] = useState(question);
   const [isAnswer, setIsAnswer] = useState(answer);
