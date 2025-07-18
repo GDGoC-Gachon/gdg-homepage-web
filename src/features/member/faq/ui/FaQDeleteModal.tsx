@@ -1,9 +1,9 @@
-interface FaQDeleteModalProps {
+interface FaqDeleteModalProps {
   onClose: () => void;
   onConfirm: () => void;
 }
 
-function FaQDeleteModal({ onClose, onConfirm }: FaQDeleteModalProps) {
+function FaqDeleteModal({ onClose, onConfirm }: FaqDeleteModalProps) {
   // 바깥을 누르면 닫히도록
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -50,4 +50,4 @@ function FaQDeleteModal({ onClose, onConfirm }: FaQDeleteModalProps) {
   );
 }
 
-export default FaQDeleteModal;
+export default FaqDeleteModal;

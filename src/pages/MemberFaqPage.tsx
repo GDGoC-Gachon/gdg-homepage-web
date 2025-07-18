@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ReactComponent as FaqIcon } from '../shared/assets/icons/member/common/memberFaqIcon.svg';
-import FaQSettingCard from '../features/member/faq/ui/FaQSettingCard';
+import FaqSettingCard from '../features/member/faq/ui/FaqSettingCard';
 import { getFaqAPI, postFaqAPI } from '../features/member/faq/api/faqAPI';
 
 interface Faq {
@@ -117,14 +117,14 @@ function MemberFaqPage() {
 
           {/* FAQ 리스트 */}
           <div className="mt-4 text-xl font-bold text-[#64748B]">FAQ 목록</div>
-          {faqList.map((faq, index) => (
-            <FaQSettingCard
-              key={index}
+          {faqList.map((faq) => (
+            <FaqSettingCard
+              key={faq.id}
               id={faq.id}
               question={faq.question}
               answer={faq.answer}
               onDelete={() => {
-                setFaqList(prev => prev.filter((_, i) => i !== index));
+                setFaqList((prev) => prev.filter((item) => item.id !== faq.id));
               }}
             />
           ))}

@@ -1,15 +1,15 @@
 import { useState } from "react";
-import FaQDeleteModal from "./FaQDeleteModal";
-import { putFaqAPI } from "../api/faqAPI";
+import FaqDeleteModal from "./FaqDeleteModal";
+import { deleteFaqAPI, putFaqAPI } from "../api/faqAPI";
 
-interface FaQSettingCardProps {
+interface FaqSettingCardProps {
   id?: number;
   question: string;
   answer: string;
   onDelete: () => void;
 }
 
-function FaQSettingCard({ id, question, answer, onDelete }: FaQSettingCardProps) {
+function FaqSettingCard({ id, question, answer, onDelete }: FaqSettingCardProps) {
   const [isEdit, setIsEdit] = useState(false);
   const [isQuestion, setIsQuestion] = useState(question);
   const [isAnswer, setIsAnswer] = useState(answer);
@@ -105,11 +105,19 @@ function FaQSettingCard({ id, question, answer, onDelete }: FaQSettingCardProps)
 
       {/* 삭제 모달 */}
       {isModalVisible && (
-        <FaQDeleteModal
+        <FaqDeleteModal
           onClose={() => setIsModalVisible(false)}
-          onConfirm={() => {
-            onDelete();
-            setIsModalVisible(false);
+          onConfirm={async () => {
+            if (!id) return alert("FAQ ID가 없습니다.");
+            try {
+              await deleteFaqAPI(id);
+              alert("FAQ가 삭제되었습니다.");
+              onDelete();
+              setIsModalVisible(false);
+            } catch (error) {
+              alert("FAQ 삭제에 실패했습니다.");
+              console.error("FAQ 삭제 에러:", error);
+            }
           }}
         />
       )}
@@ -117,4 +125,4 @@ function FaQSettingCard({ id, question, answer, onDelete }: FaQSettingCardProps)
   );
 }
 
-export default FaQSettingCard;
+export default FaqSettingCard;
