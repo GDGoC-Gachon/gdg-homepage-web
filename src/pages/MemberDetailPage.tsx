@@ -190,7 +190,7 @@ function MemberDetailPage() {
               onChange={() => setSelectedRole("member")}
               label={
                 <>
-                  <strong>Organizer:</strong> 커뮤니티 그라운드 접근 권한을 가집니다.
+                  <strong>Member:</strong> 커뮤니티 그라운드 접근 권한을 가집니다.
                 </>
               }
             />

@@ -81,3 +81,15 @@ export const postLoginAPI = async (data: PostLoginAPIRequest) => {
     throw error;
   }
 };
+
+// 로그아웃 api
+export const postLogoutAPI = async () => {
+  try {
+    const response = await api.post('/api/v1/member/logout');
+    console.log('로그아웃 API 연동 성공:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('로그아웃 API 연동 실패:', error);
+    throw error;
+  }
+};
