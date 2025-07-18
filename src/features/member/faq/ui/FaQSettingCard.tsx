@@ -1,13 +1,15 @@
 import { useState } from "react";
-import FaQDeleteModal from "./FaQDeleteModal";
+import FaqDeleteModal from "./FaqDeleteModal";
+import { deleteFaqAPI, putFaqAPI } from "../api/faqAPI";
 
-interface FaQSettingCardProps {
+interface FaqSettingCardProps {
+  id?: number;
   question: string;
   answer: string;
   onDelete: () => void;
 }
 
-function FaQSettingCard({ question, answer, onDelete }: FaQSettingCardProps) {
+function FaqSettingCard({ id, question, answer, onDelete }: FaqSettingCardProps) {
   const [isEdit, setIsEdit] = useState(false);
   const [isQuestion, setIsQuestion] = useState(question);
   const [isAnswer, setIsAnswer] = useState(answer);
@@ -25,6 +27,23 @@ function FaQSettingCard({ question, answer, onDelete }: FaQSettingCardProps) {
     setIsQuestion(originalQuestion);
     setIsAnswer(originalAnswer);
     setIsEdit(false);
+  };
+
+  // 수정 함수
+  const handleSave = async () => {
+    if (!id) return alert("FAQ ID가 없습니다.");
+    try {
+      const payload = {
+        question: isQuestion,
+        answer: isAnswer,
+      };
+      await putFaqAPI(id, payload);
+      alert("FAQ가 수정되었습니다.");
+      setIsEdit(false);
+    } catch (error) {
+      alert("FAQ 수정에 실패하였습니다.");
+      console.error("FAQ 수정 에러:", error);
+    }
   };
 
   return (
@@ -65,7 +84,7 @@ function FaQSettingCard({ question, answer, onDelete }: FaQSettingCardProps) {
       <div className='w-full flex justify-end gap-5'>
         {isEdit ? (
           <>
-            <button onClick={() => setIsEdit(false)} className="w-36 h-10 bg-mainBlue text-white rounded-lg text-sm font-semibold hover:bg-[#3D72CB]">
+            <button onClick={handleSave} className="w-36 h-10 bg-mainBlue text-white rounded-lg text-sm font-semibold hover:bg-[#3D72CB]">
               저장하기
             </button>
             <button onClick={handleCancel} className="w-36 h-10 border border-mainBlue text-mainBlue rounded-lg text-sm font-semibold hover:border-[#C6D9FF] hover:bg-[#C6D9FF] hover:text-white">
@@ -86,11 +105,19 @@ function FaQSettingCard({ question, answer, onDelete }: FaQSettingCardProps) {
 
       {/* 삭제 모달 */}
       {isModalVisible && (
-        <FaQDeleteModal
+        <FaqDeleteModal
           onClose={() => setIsModalVisible(false)}
-          onConfirm={() => {
-            onDelete();
-            setIsModalVisible(false);
+          onConfirm={async () => {
+            if (!id) return alert("FAQ ID가 없습니다.");
+            try {
+              await deleteFaqAPI(id);
+              alert("FAQ가 삭제되었습니다.");
+              onDelete();
+              setIsModalVisible(false);
+            } catch (error) {
+              alert("FAQ 삭제에 실패했습니다.");
+              console.error("FAQ 삭제 에러:", error);
+            }
           }}
         />
       )}
@@ -98,4 +125,4 @@ function FaQSettingCard({ question, answer, onDelete }: FaQSettingCardProps) {
   );
 }
 
-export default FaQSettingCard;
+export default FaqSettingCard;

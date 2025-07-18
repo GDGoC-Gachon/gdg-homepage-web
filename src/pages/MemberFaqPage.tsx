@@ -1,20 +1,73 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactComponent as FaqIcon } from '../shared/assets/icons/member/common/memberFaqIcon.svg';
-import FaQSettingCard from '../features/member/faq/ui/FaQSettingCard';
+import FaqSettingCard from '../features/member/faq/ui/FaqSettingCard';
+import { getFaqAPI, postFaqAPI } from '../features/member/faq/api/faqAPI';
+
+interface Faq {
+  id: number;
+  question: string;
+  answer: string;
+}
 
 function MemberFaqPage() {
   const [questionInput, setQuestionInput] = useState('');
   const [answerInput, setAnswerInput] = useState('');
-  const [faqList, setFaqList] = useState<{ question: string; answer: string }[]>([]);
+  const [faqList, setFaqList] = useState<{
+    id?: number;
+    question: string;
+    answer: string;
+  }[]>([]);
 
-  const handleAddFaq = () => {
-    if (!questionInput.trim() || !answerInput.trim()) return;
+  
+  // FAQ 생성 함수
+  // const handleAddFaq = () => {
+  //   if (!questionInput.trim() || !answerInput.trim()) return;
 
-    setFaqList(prev => [...prev, { question: questionInput, answer: answerInput }]);
-    setQuestionInput('');
-    setAnswerInput('');
+  //   setFaqList(prev => [...prev, { question: questionInput, answer: answerInput }]);
+  //   setQuestionInput('');
+  //   setAnswerInput('');
+  // };
+  const handleAddFaq = async () => {
+    try {
+      if (!questionInput.trim() || !answerInput.trim()) return;
+
+      const newItem = {
+        question: questionInput,
+        answer: answerInput,
+      };
+
+      await postFaqAPI(newItem);
+      await fetchFaqs();
+
+      setQuestionInput('');
+      setAnswerInput('');
+      alert("FAQ를 생성하였습니다.");
+    } catch (error) {
+      console.error("FAQ 생성 실패:", error);
+      alert("FAQ 생성에 실패하였습니다.");
+    }
   };
 
+  // 가입 일정 조회 함수
+  const fetchFaqs = async () => {
+      try {
+        const res = await getFaqAPI();
+        if (res?.success && Array.isArray(res.data)) {
+          const formatted = (res.data as Faq[]).map((item) => ({
+            id: item.id,
+            question: item.question,
+            answer: item.answer,
+          }));
+          setFaqList(formatted);
+        }
+      } catch (err) {
+        console.error('FAQ 목록 조회 실패:', err);
+      }
+    };
+  useEffect(() => {
+    fetchFaqs();
+  }, []);
+  
   return (
     <div className="pl-48 w-full flex">
       <div className="px-[8rem] py-[4rem] w-full flex flex-col items-start gap-10">
@@ -64,13 +117,14 @@ function MemberFaqPage() {
 
           {/* FAQ 리스트 */}
           <div className="mt-4 text-xl font-bold text-[#64748B]">FAQ 목록</div>
-          {faqList.map((faq, index) => (
-            <FaQSettingCard
-              key={index}
+          {faqList.map((faq) => (
+            <FaqSettingCard
+              key={faq.id}
+              id={faq.id}
               question={faq.question}
               answer={faq.answer}
               onDelete={() => {
-                setFaqList(prev => prev.filter((_, i) => i !== index));
+                setFaqList((prev) => prev.filter((item) => item.id !== faq.id));
               }}
             />
           ))}
