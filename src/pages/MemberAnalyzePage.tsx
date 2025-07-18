@@ -26,13 +26,21 @@ function MemberAnalyzePage() {
       }
       try {
         const data = await getAdminAnalyticAPI();
-        setAnalytics(data);
+        setAnalytics(data.data);
       } catch {
         console.error("분석결과 조회 api 호출 중 에러 발생");
       }
     };
     fetchAnalytics();
   }, []);
+
+  // 인기 관심 분야 포맷 함수
+  function parseFirstTech(raw?: string): string | null {
+    if (!raw) return null;
+    const cleaned = raw.replace(/[[\]\s]/g, '');
+    const list = cleaned.split(',');
+    return list[0] || null;
+  }
 
   return (
     <div className="pl-48 w-full flex">
@@ -58,17 +66,17 @@ function MemberAnalyzePage() {
               changeNum={analytics?.registerIncrease ?? 0}
             />
             <AnalyzeCard
-              value={analytics?.deactivateMemberCount ?? 0}
-              title='페이지 뷰'
-              changeNum={analytics?.deactivationsIncrease ?? 0}
-            />
-            <AnalyzeCard
               value={analytics?.pageView ?? 0}
-              title='탈퇴'
+              title='페이지 뷰'
               changeNum={analytics?.pageViewIncrease ?? 0}
             />
             <AnalyzeCard
-              value={analytics?.popularStack ?? 0}
+              value={analytics?.deactivateMemberCount ?? 0}
+              title='탈퇴'
+              changeNum={analytics?.deactivationsIncrease ?? 0}
+            />
+            <AnalyzeCard
+              value={parseFirstTech(analytics?.popularStack) ?? "-"}
               title='인기 관심 분야'
             />
           </div>

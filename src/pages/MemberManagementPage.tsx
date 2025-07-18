@@ -1,12 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ReactComponent as MemberManagementIcon } from '../shared/assets/icons/member/common/memberManagementIcon.svg';
 import MemberListCard from '../features/member/management/ui/MemberListCard';
-import { memberList, applyMemberList } from '../features/member/management/model/memberList';
+import { getMemberListAPI, getApplicantListAPI } from '../features/member/management/api/managementAPI';
+
+// 응답값 타입
+interface MemberListItemType {
+  memberId: number;
+  name: string;
+  email: string;
+  grade: string;
+  studentId: string;
+  phoneNumber: string;
+  role: string;
+  approved: boolean;
+}
 
 function MemberManagementPage() {
   // 상태 관리
-  const [memberButton, setMemberButton] = useState('member');
+  const [memberList, setMemberList] = useState<MemberListItemType[]>([]);
+  const [applicantList, setApplicantList] = useState<MemberListItemType[]>([]);
+  const [memberButton, setMemberButton] = useState<'member' | 'apply'>('member');
   
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const commonParams = { page: 1, size: 100 };
+        if (memberButton === 'member') {
+          const res = await getMemberListAPI(commonParams);
+          if (res.success && Array.isArray(res.data.result)) {
+            setMemberList(res.data.result);
+          }
+        } else {
+          const res = await getApplicantListAPI(commonParams);
+          if (res.success && Array.isArray(res.data.result)) {
+            setApplicantList(res.data.result);
+          }
+        }
+      } catch (err) {
+        console.error('멤버/신청자 목록 조회 실패:', err);
+      }
+    };
+
+    fetchData();
+  }, [memberButton]);
+
   return (
     <div className="pl-48 w-full flex">
       <div className="px-[8rem] py-[4rem] w-full flex flex-col items-start gap-10">
@@ -39,32 +76,15 @@ function MemberManagementPage() {
               <div className="w-[7rem] overflow-hidden">휴대폰 번호</div>
               <div className="w-[7rem] overflow-hidden">역할</div>
             </div>
-            {memberButton === 'member' ? (memberList.map((list, index) => (
-              <MemberListCard
-                key={index}
-                name={list.name}
-                email={list.email}
-                grade={list.grade}
-                number={list.number}
-                phoneNumber={list.phoneNumber}
-                role={list.role}
-                isMember={true}
-              />
-            ))) : (
-              applyMemberList.map((list, index) => (
-                <MemberListCard
-                  key={index}
-                  name={list.name}
-                  email={list.email}
-                  grade={list.grade}
-                  number={list.number}
-                  phoneNumber={list.phoneNumber}
-                  role={list.role}
-                  isMember={false}
-                />
-              ))
-            )
-          }
+            {
+              memberButton === 'member'
+                ? memberList.map((list, index) => (
+                    <MemberListCard key={index} {...list} isMember={true} />
+                  ))
+                : applicantList.map((list, index) => (
+                    <MemberListCard key={index} {...list} isMember={false} />
+                  ))
+            }
           </div>
 
         </div>

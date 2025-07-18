@@ -18,6 +18,12 @@ const config: UserConfigExport = defineConfig({
         secure: false,
         rewrite: (path) => path.replace(/^\/admin/, '/admin'),
       },
+      '/pageView': {
+        target: 'http://13.124.225.23:8080',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/pageView/, '/pageView'),
+      },
     },
   },
 });

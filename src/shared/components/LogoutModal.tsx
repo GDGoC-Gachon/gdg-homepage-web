@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { postLogoutAPI } from "../../features/auth/api/authAPI";
+import api from "../../app/API";
 
 interface LogoutModalProps {
   onClose: () => void;
@@ -18,10 +20,17 @@ function LogoutModal({ onClose }: LogoutModalProps) {
     e.stopPropagation();
   };
 
-  // 버튼 핸들러
-  const handleModalclose = () => {
-    navigate('/');
-    onClose();
+  // 로그아웃 함수
+  const handleLogout = async () => {
+    try {
+      await postLogoutAPI();
+      localStorage.removeItem('accessToken');
+      delete api.defaults.headers.common['Authorization'];
+      navigate('/');
+      onClose();
+    } catch {
+      console.log('로그아웃 실패');
+    }
   };
 
   return (
@@ -49,7 +58,7 @@ function LogoutModal({ onClose }: LogoutModalProps) {
           <button
             className="mb-4 w-28 h-8 border border-[1.5px] border-mainBlue rounded-lg text-sm text-mainBlue font-semibold transition-all duration-150 ease-in-out
                       hover:border-[#C6D9FF] hover:text-[#FFF] hover:bg-[#C6D9FF]"
-            onClick={() => handleModalclose()}
+            onClick={() => handleLogout()}
           >
             확인
           </button>
