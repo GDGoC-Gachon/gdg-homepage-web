@@ -5,6 +5,7 @@ import { findPasswordSchema, FindPasswordFormData } from "../features/auth/model
 import CustomInput from "../features/auth/ui/CustomInput";
 import SendEmailModal from "../features/auth/ui/SendEmailModal";
 import ErrorText from "../features/auth/ui/ErrorText";
+import { postRequestPasswordAPI } from "../features/auth/api/authAPI";
 
 function FindPasswordPage() {
   // 상태 관리
@@ -23,12 +24,20 @@ function FindPasswordPage() {
     },
   });
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setEmail(e.target.value);
-  // };
+  // 비밀번호 찾기
   const onSubmit = (data: FindPasswordFormData) => {
     setEmail(data.email);
     setIsModalVisible(true);
+    handleRequestPassword();
+  };
+
+  // 비밀번호 재설정 API 요청
+  const handleRequestPassword = async () => {
+    try {
+      await postRequestPasswordAPI();
+    } catch {
+      console.log('비밀번호 재설정 요청 실패');
+    }
   };
 
   return (

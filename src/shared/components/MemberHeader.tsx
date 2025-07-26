@@ -19,9 +19,6 @@ function MemberHeader() {
     role: string,
   }>();
 
-  // 직책: member, team, root
-  const position = "team" as "member" | "team" | "root";
-
   const navigate = useNavigate();
 
   // 버튼 스타일에 동적으로 active 클래스 추가
@@ -84,7 +81,7 @@ function MemberHeader() {
             커뮤니티 그라운드
           </button>
         </div>
-        {position !== "member" && (
+        {myPageInfo?.role !== "MEMBER" && (
           <>
             <p className="mt-6">----------------------</p>
             <div className="mt-6 flex items-end gap-2">
