@@ -20,6 +20,7 @@ import MemberManagementPage from '../pages/MemberManagementPage';
 import MemberFaqPage from '../pages/MemberFaqPage';
 import MemberDetailPage from '../pages/MemberDetailPage';
 import ApplicantDetailPage from '../pages/ApplicantDetailPage';
+import NotFoundPage from '../pages/NotFoundPage';
 
 function App() {
   return (
@@ -71,6 +72,9 @@ function App() {
         {/* 멤버 설정 페이지 */}
         <Route path='/member/faq' element={<MemberFaqPage />} />
       </Route>
+
+      {/* 404 페이지 */}
+      <Route path='*' element={<NotFoundPage />} />
     </Routes>
   );
 }
