@@ -14,9 +14,6 @@ export function FAQToggle({ faq, isClose, onToggle }: FAQToggleProps) {
       <div className="flex justify-between">
         <div className="text-lg font-bold">{faq.question}</div>
         <div className="cursor-pointer" onClick={onToggle}>
-          {/**열린 상태라면 (isClose=false) 마이너스 버튼
-           * 닫힌 상태라면 (isClose=true) 플러스 버튼
-           */}
           {!isClose ? (
             <FontAwesomeIcon
               icon={faCircleMinus}

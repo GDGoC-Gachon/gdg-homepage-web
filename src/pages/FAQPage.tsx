@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { FAQData } from "../features/faq/model/FAQData";
+import { useState, useEffect } from "react";
 import { FAQToggle } from "../features/faq/ui/FAQToggle";
 import LOGO from "../shared/assets/images/common/earth_logo.png";
 import { FAQButton } from "../features/faq/ui/FAQButton";
+import { getFaqAPI } from "../features/member/faq/api/faqAPI";
+import { FAQItem } from "../features/faq/type/FAQItem";
 
 function FAQPage() {
   const [closeQAs, setCloseQAs] = useState<Set<number>>(new Set()); // 닫혀있는 답변 상태
+  const [faqList, setFaqList] = useState<FAQItem[]>([]);
 
   // 답변 토글 함수
   const toggleQA = (id: number) => {
@@ -19,6 +21,27 @@ function FAQPage() {
       return newQAs;
     });
   };
+
+  // FAQ 조회 API 호출
+  const fetchFaqs = async () => {
+      try {
+        const res = await getFaqAPI();
+        if (res?.success && Array.isArray(res.data)) {
+          const formatted = (res.data as FAQItem[]).map((item) => ({
+            id: item.id,
+            question: item.question,
+            answer: item.answer,
+          }));
+          setFaqList(formatted);
+        }
+      } catch (err) {
+        console.error('FAQ 목록 조회 실패:', err);
+      }
+    };
+  useEffect(() => {
+    fetchFaqs();
+  }, []);
+
 
   // 카카오톡 문의하러가기
   const inquiryKaKao = () => {
@@ -34,12 +57,12 @@ function FAQPage() {
         </div>
       </div>
       <div className="w-full max-w-3xl pt-20 flex flex-col items-center">
-        {FAQData.map((faq) => (
+        {faqList.map((faq) => (
           <FAQToggle
             key={faq.id}
             faq={faq}
-            isClose={!closeQAs.has(faq.id)}
-            onToggle={() => toggleQA(faq.id)}
+            isClose={!closeQAs.has(faq.id!)}
+            onToggle={() => toggleQA(faq.id!)}
           />
         ))}
       </div>
