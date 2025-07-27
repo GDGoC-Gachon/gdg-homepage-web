@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ReactComponent as MemberManagementIcon } from '../shared/assets/icons/member/common/memberManagementIcon.svg';
 import CustomManagementButton from '../features/member/management/ui/CustomManagementButton';
 import JoinRejectModal from '../features/member/management/ui/JoinRejectModal';
-import { getApplicantListAPI, getMemberDetailAPI, putMemberApproveAPI } from '../features/member/management/api/managementAPI';
+import { getApplicantListAPI, getMemberDetailAPI, putMemberApproveAPI, putMemberRejectAPI } from '../features/member/management/api/managementAPI';
 import { CareerEnum, careerMapper, GradeEnum, gradeMapper, RoleEnum, roleMapper, StackEnum, stackMapper } from '../shared/utils/enumMapper';
 
 // 멤버 상세정보 인터페이스
@@ -103,10 +103,33 @@ function ApplicantDetailPage() {
         const nextId = applicantList[currentIndex + 1].memberId;
         navigate(`/member/management/applicant/${nextId}`);
       } else {
-        navigate('/member/managemnt');
+        navigate('/member/management');
       }
     } catch (error) {
       console.error('멤버 승인 실패:', error);
+    }
+  };
+
+  // 멤버 거절 API 호출
+  const handleReject = async () => {
+    try {
+      if (!memberDetail) return;
+      const data = {
+        userId: memberDetail.member.memberId
+      };
+      const res = await putMemberRejectAPI(data);
+      setMemberDetail(res.data);
+      alert('거절이 완료되었습니다.');
+
+      // 승인 후 다음 멤버로 자동 이동
+      if (!isLast) {
+        const nextId = applicantList[currentIndex + 1].memberId;
+        navigate(`/member/management/applicant/${nextId}`);
+      } else {
+        navigate('/member/management');
+      }
+    } catch (error) {
+      console.error('멤버 거절 실패:', error);
     }
   };
 
@@ -208,7 +231,7 @@ function ApplicantDetailPage() {
       </div>
 
       {/* 모달 */}
-      {isModalVisible && <JoinRejectModal onClose={() => setIsModalVisible(false)} />}
+      {isModalVisible && <JoinRejectModal onClose={() => setIsModalVisible(false)} onConfirm={handleReject} />}
     </div>
   );
 }
