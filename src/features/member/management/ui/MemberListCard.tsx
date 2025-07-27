@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
+import { GradeEnum, gradeMapper, RoleEnum, roleMapper } from "../../../../shared/utils/enumMapper";
 
 interface MemberListCardProps {
   memberId: number;
   name: string;
   email: string;
-  grade: string;
+  grade: GradeEnum;
   studentId: string;
   phoneNumber: string;
-  role: string;
+  role: RoleEnum;
   isMember: boolean;
 }
 
@@ -24,10 +25,10 @@ function MemberListCard({ memberId, name, email, grade, studentId, phoneNumber, 
       <div className="flex gap-10">
         <div className="w-[5rem] truncate">{name}</div>
         <div className="w-[12rem] truncate">{email}</div>
-        <div className="w-[5rem] truncate">{grade}</div>
+        <div className="w-[5rem] truncate">{gradeMapper(grade)}</div>
         <div className="w-[5rem] truncate">{studentId}</div>
         <div className="w-[7rem] truncate">{phoneNumber}</div>
-        <div>{role}</div>
+        <div>{roleMapper(role)}</div>
       </div>
       <div
         onClick={handleNavigate}

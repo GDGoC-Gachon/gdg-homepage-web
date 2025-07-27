@@ -5,6 +5,7 @@ import CustomRadioBox from '../features/auth/ui/CustomRadioBox';
 import CustomManagementButton from '../features/member/management/ui/CustomManagementButton';
 import MemberExileModal from '../features/member/management/ui/MemberExileModal';
 import { getMemberDetailAPI, getMemberListAPI } from '../features/member/management/api/managementAPI';
+import { CareerEnum, careerMapper, GradeEnum, gradeMapper, RoleEnum, roleMapper, StackEnum, stackMapper } from '../shared/utils/enumMapper';
 
 // 멤버 상세정보 인터페이스
 interface MemberDetail {
@@ -12,15 +13,16 @@ interface MemberDetail {
     memberId: number;
     email: string;
     name: string;
-    grade: string;
+    grade: GradeEnum;
     studentId: string;
     phoneNumber: string;
-    role: string;
+    role: RoleEnum;
     approved: boolean;
+    approvedAt: string;
   };
   major: string;
-  field: string;
-  stack: string;
+  field: string[];
+  stack: string[];
 }
 
 // 페이지 전환용 인터페이스
@@ -28,11 +30,12 @@ interface Member {
   memberId: number;
   email: string;
   name: string;
-  grade: string;
+  grade: GradeEnum;
   studentId: string;
   phoneNumber: string;
-  role: string;
+  role: RoleEnum;
   approved: boolean;
+  approvedAt: string;
 }
 
 function MemberDetailPage() {
@@ -67,7 +70,7 @@ function MemberDetailPage() {
     const fetchMemberList = async () => {
       try {
         const res = await getMemberListAPI({ page: 1, size: 100 });
-        setMemberList(res.data.data.result);
+        setMemberList(res.data.result);
       } catch (error) {
         console.error('신청자 목록 조회 실패:', error);
       }
@@ -121,7 +124,7 @@ function MemberDetailPage() {
                   </p>
                   <p className="font-bold">
                     학년:&nbsp;
-                    <span className="font-normal">{memberDetail?.member.grade}</span>
+                    <span className="font-normal">{gradeMapper(memberDetail?.member.grade)}</span>
                   </p>
                   <p className="font-bold">
                     학번:&nbsp;
@@ -129,7 +132,7 @@ function MemberDetailPage() {
                   </p>
                   <p className="font-bold">
                     역할:&nbsp;
-                    <span className="font-normal">{memberDetail?.member.role}</span>
+                    <span className="font-normal">{roleMapper(memberDetail?.member.role)}</span>
                   </p>
                 </div>
                 <div className="w-80 flex flex-col gap-2">
@@ -143,18 +146,36 @@ function MemberDetailPage() {
                   </p>
                   <p className="font-bold">
                     가입일:&nbsp;
-                    {/* <span className="font-normal">2025/02/26</span> */}
+                    <span className="font-normal">
+                      {memberDetail?.member.approvedAt &&
+                        new Date(memberDetail.member.approvedAt).toLocaleDateString('ko-KR', {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                        }).replace(/\./g, '').replace(/ /g, '.')
+                      }
+                    </span>
                   </p>
                 </div>
               </div>
               <div className="flex flex-col gap-2">
                 <p className="font-bold">
                   관심 기술 분야:&nbsp;
-                  <span className="font-normal">{memberDetail?.field}</span>
+                  {memberDetail?.field?.map((item, index) => (
+                    <span key={index} className="font-normal">
+                      {careerMapper(item as CareerEnum)}
+                      {index !== memberDetail.field.length - 1 && ', '}
+                    </span>
+                  ))}
                 </p>
                 <p className="font-bold">
                   보유/관심 기술 스택:&nbsp;
-                  <span className="font-normal">{memberDetail?.stack}</span>
+                  <span className="font-normal">{memberDetail?.stack?.map((item, index) => (
+                    <span key={index} className="font-normal">
+                      {stackMapper(item as StackEnum)}
+                      {index !== memberDetail.stack.length - 1 && ', '}
+                    </span>
+                  ))}</span>
                 </p>
               </div>
             </div>

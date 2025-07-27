@@ -10,10 +10,13 @@ type FAQToggleProps = {
 
 export function FAQToggle({ faq, isClose, onToggle }: FAQToggleProps) {
   return (
-    <div className="w-full flex flex-col gap-y-5 border-t py-6 border-black-100 font-productSans">
+    <div
+      onClick={onToggle}
+      className="w-full flex flex-col gap-y-3 border-t py-6 border-black-100 font-productSans cursor-pointer"
+    >
       <div className="flex justify-between">
         <div className="text-lg font-bold">{faq.question}</div>
-        <div className="cursor-pointer" onClick={onToggle}>
+        <div>
           {!isClose ? (
             <FontAwesomeIcon
               icon={faCircleMinus}

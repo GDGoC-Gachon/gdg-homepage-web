@@ -10,13 +10,15 @@ import { ReactComponent as ManagementIcon } from '../assets/icons/member/common/
 import { ReactComponent as FaqIcon } from '../assets/icons/member/common/memberFaqIcon.svg';
 import LogoutModal from './LogoutModal';
 import { getMyPageAPI } from '../../features/auth/api/authAPI';
+import { RoleEnum, roleMapper } from '../utils/enumMapper';
 
 function MemberHeader() {
   // 상태 관리
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [myPageInfo, setMyPageInfo] = useState<{
     name: string,
-    role: string,
+    role: RoleEnum,
+    approved: boolean,
   }>();
 
   const navigate = useNavigate();
@@ -81,7 +83,7 @@ function MemberHeader() {
             커뮤니티 그라운드
           </button>
         </div>
-        {myPageInfo?.role !== "MEMBER" && (
+        {myPageInfo?.role !== RoleEnum.MEMBER && (
           <>
             <p className="mt-6">----------------------</p>
             <div className="mt-6 flex items-end gap-2">
@@ -137,7 +139,7 @@ function MemberHeader() {
       </div>
 
       <div className="flex flex-col items-start">
-        <div className="px-4 py-[0.08rem] rounded-full bg-mainBlue flex-center text-mainWhite text-[0.6rem]">{myPageInfo?.role ?? 'MEMBER'}</div>
+        <div className="px-4 py-[0.08rem] rounded-full bg-mainBlue flex-center text-mainWhite text-[0.6rem]">{roleMapper(myPageInfo?.role)}</div>
         <div className="mt-2 flex items-center gap-2 text-sm text-[#171D23]">
           <img
             className="w-8 h-8 rounded-full"

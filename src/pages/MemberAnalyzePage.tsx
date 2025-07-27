@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ReactComponent as AnalyzeIcon } from '../shared/assets/icons/member/common/memberAnalyzeIcon.svg';
 import AnalyzeCard from '../features/member/analyze/ui/AnalyzeCard';
 import { getAdminAnalyticAPI } from '../features/member/analyze/api/analyzeAPI';
+import { StackEnum, stackMapper } from '../shared/utils/enumMapper';
 
 function MemberAnalyzePage() {
   const [analytics, setAnalytics] = useState<{
@@ -76,7 +77,7 @@ function MemberAnalyzePage() {
               changeNum={analytics?.deactivationsIncrease ?? 0}
             />
             <AnalyzeCard
-              value={parseFirstTech(analytics?.popularStack) ?? "-"}
+              value={stackMapper(parseFirstTech(analytics?.popularStack) as StackEnum)}
               title='인기 관심 분야'
             />
           </div>
