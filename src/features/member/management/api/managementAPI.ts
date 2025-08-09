@@ -1,4 +1,5 @@
 import api from "../../../../app/API";
+import { RoleEnum } from "../../../../shared/utils/enumMapper";
 
 // 신청자 목록 조회 api
 interface GetApplicantListAPIRequest {
@@ -82,8 +83,9 @@ export const putMemberRejectAPI = async (data: PutMemberRejectAPIRequest) => {
 
 // 멤버 권한 수정 api
 interface PutMemberRoleAPIRequest {
-  adminId: number;
-  userId: number;
+  adminId?: number;
+  memberId: number;
+  role: RoleEnum;
 }
 export const putMemberRoleAPI = async (data: PutMemberRoleAPIRequest) => {
   try {

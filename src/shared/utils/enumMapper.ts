@@ -4,6 +4,7 @@ export enum RoleEnum {
   MEMBER = 'ROLE_MEMBER',
   TEAM_MEMBER = 'ROLE_TEAM_MEMBER',
   TEAM_LEADER = 'ROLE_TEAM_LEADER',
+  ORGANIZER = 'ROLE_ORGANIZER',
 }
 // 역할 타입 매퍼
 export const roleMapper = (role: RoleEnum | undefined): string => {
@@ -16,6 +17,8 @@ export const roleMapper = (role: RoleEnum | undefined): string => {
       return 'Team Member'; 
     case RoleEnum.TEAM_LEADER:
       return 'Leader';
+    case RoleEnum.ORGANIZER:
+      return 'Organizer';
     default:
       return '알 수 없음';
   }
