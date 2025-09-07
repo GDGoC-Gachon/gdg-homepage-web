@@ -1,4 +1,5 @@
 import api from "../../../../app/API";
+import { RoleEnum } from "../../../../shared/utils/enumMapper";
 
 // 신청자 목록 조회 api
 interface GetApplicantListAPIRequest {
@@ -64,10 +65,27 @@ export const putMemberApproveAPI = async (data: PutMemberApproveAPIRequest) => {
   }
 };
 
+// 멤버 거절 api
+interface PutMemberRejectAPIRequest {
+  adminId?: number;
+  userId: number;
+}
+export const putMemberRejectAPI = async (data: PutMemberRejectAPIRequest) => {
+  try {
+    const response = await api.put('/admin/v1/member/reject', data);
+    console.log('멤버 거절 api 연동 성공:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('멤버 거절 api 연동 실패:', error);
+    throw error;
+  }
+};
+
 // 멤버 권한 수정 api
 interface PutMemberRoleAPIRequest {
-  adminId: number;
-  userId: number;
+  adminId?: number;
+  memberId: number;
+  role: RoleEnum;
 }
 export const putMemberRoleAPI = async (data: PutMemberRoleAPIRequest) => {
   try {

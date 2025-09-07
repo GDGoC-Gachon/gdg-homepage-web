@@ -2,31 +2,15 @@ import { useEffect, useState } from 'react';
 import { ReactComponent as FaqIcon } from '../shared/assets/icons/member/common/memberFaqIcon.svg';
 import FaqSettingCard from '../features/member/faq/ui/FaqSettingCard';
 import { getFaqAPI, postFaqAPI } from '../features/member/faq/api/faqAPI';
-
-interface Faq {
-  id: number;
-  question: string;
-  answer: string;
-}
+import { FAQItem } from '../features/faq/type/FAQItem';
 
 function MemberFaqPage() {
   const [questionInput, setQuestionInput] = useState('');
   const [answerInput, setAnswerInput] = useState('');
-  const [faqList, setFaqList] = useState<{
-    id?: number;
-    question: string;
-    answer: string;
-  }[]>([]);
+  const [faqList, setFaqList] = useState<FAQItem[]>([]);
 
   
   // FAQ 생성 함수
-  // const handleAddFaq = () => {
-  //   if (!questionInput.trim() || !answerInput.trim()) return;
-
-  //   setFaqList(prev => [...prev, { question: questionInput, answer: answerInput }]);
-  //   setQuestionInput('');
-  //   setAnswerInput('');
-  // };
   const handleAddFaq = async () => {
     try {
       if (!questionInput.trim() || !answerInput.trim()) return;
@@ -48,12 +32,12 @@ function MemberFaqPage() {
     }
   };
 
-  // 가입 일정 조회 함수
+  // FAQ 조회 API 호출
   const fetchFaqs = async () => {
       try {
         const res = await getFaqAPI();
         if (res?.success && Array.isArray(res.data)) {
-          const formatted = (res.data as Faq[]).map((item) => ({
+          const formatted = (res.data as FAQItem[]).map((item) => ({
             id: item.id,
             question: item.question,
             answer: item.answer,

@@ -20,6 +20,7 @@ function SignupStep1Page() {
   const [isSending, setIsSending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [isEmailVerificationVisible, setIsEmailVerificationVisible] = useState(false);
 
   const navigate = useNavigate();
   
@@ -50,6 +51,7 @@ function SignupStep1Page() {
       const email = watch("email");
       const message = await postEmailSendAPI({ email });
       alert(message.data);
+      setIsEmailVerificationVisible(true);
     } catch (error) {
       console.error("이메일 인증 요청 실패:", error);
       alert("인증 코드 전송에 실패하였습니다.");
@@ -101,11 +103,12 @@ function SignupStep1Page() {
         </div>
         {errors.email && <p className="text-[#FF2929] text-sm ml-2">{errors.email.message}</p>}
 
-        <div className="mt-8 flex items-center justify-between">
-          <CustomInput
-            {...register("verificationCode")}
-            type="text"
-            width="30rem"
+        {isEmailVerificationVisible && (
+          <div className="mt-8 flex items-center justify-between">
+            <CustomInput
+              {...register("verificationCode")}
+              type="text"
+              width="30rem"
             placeholder="인증 번호"
             hasError={!!errors.verificationCode}
           />
@@ -115,9 +118,10 @@ function SignupStep1Page() {
             onClick={handleEmailVerification}
           />
         </div>
-        {errors.verificationCode && (
-          <p className="text-[#FF2929] text-sm ml-2">{errors.verificationCode.message}</p>
-        )}
+      )}
+      {errors.verificationCode && (
+        <p className="text-[#FF2929] text-sm ml-2">{errors.verificationCode.message}</p>
+      )}
       </div>
 
       {/* 비밀번호 */}

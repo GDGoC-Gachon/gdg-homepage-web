@@ -94,6 +94,18 @@ export const postLogoutAPI = async () => {
   }
 };
 
+// 비밀번호 재설정 요청 api
+export const postRequestPasswordAPI = async () => {
+  try {
+    const response = await api.post('/api/v1/member/request');
+    console.log('비밀번호 재설정 요청 API 연동 성공:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('비밀번호 재설정 요청 API 연동 실패:', error);
+    throw error;
+  }
+};
+
 // 마이페이지 조회 api
 export const getMyPageAPI = async () => {
   try {

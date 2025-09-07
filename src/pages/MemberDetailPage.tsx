@@ -4,7 +4,8 @@ import { ReactComponent as MemberManagementIcon } from '../shared/assets/icons/m
 import CustomRadioBox from '../features/auth/ui/CustomRadioBox';
 import CustomManagementButton from '../features/member/management/ui/CustomManagementButton';
 import MemberExileModal from '../features/member/management/ui/MemberExileModal';
-import { getMemberDetailAPI, getMemberListAPI } from '../features/member/management/api/managementAPI';
+import { getMemberDetailAPI, getMemberListAPI, putMemberRoleAPI } from '../features/member/management/api/managementAPI';
+import { CareerEnum, careerMapper, GradeEnum, gradeMapper, RoleEnum, roleMapper, StackEnum, stackMapper } from '../shared/utils/enumMapper';
 
 // 멤버 상세정보 인터페이스
 interface MemberDetail {
@@ -12,15 +13,16 @@ interface MemberDetail {
     memberId: number;
     email: string;
     name: string;
-    grade: string;
+    grade: GradeEnum;
     studentId: string;
     phoneNumber: string;
-    role: string;
+    role: RoleEnum;
     approved: boolean;
+    approvedAt: string;
   };
   major: string;
-  field: string;
-  stack: string;
+  field: string[];
+  stack: string[];
 }
 
 // 페이지 전환용 인터페이스
@@ -28,19 +30,20 @@ interface Member {
   memberId: number;
   email: string;
   name: string;
-  grade: string;
+  grade: GradeEnum;
   studentId: string;
   phoneNumber: string;
-  role: string;
+  role: RoleEnum;
   approved: boolean;
+  approvedAt: string;
 }
 
 function MemberDetailPage() {
   // 상태 관리
-  const [selectedRole, setSelectedRole] = useState("team-member");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [memberDetail, setMemberDetail] = useState<MemberDetail | null>(null);
   const [memberList, setMemberList] = useState<Member[]>([]);
+  const [selectedRole, setSelectedRole] = useState<RoleEnum | null>(null);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -55,6 +58,7 @@ function MemberDetailPage() {
       try {
         const res = await getMemberDetailAPI(Number(id));
         setMemberDetail(res.data);
+        setSelectedRole(res.data.member.role);
       } catch (error) {
         console.error('멤버 상세 조회 실패:', error);
       }
@@ -67,13 +71,30 @@ function MemberDetailPage() {
     const fetchMemberList = async () => {
       try {
         const res = await getMemberListAPI({ page: 1, size: 100 });
-        setMemberList(res.data.data.result);
+        setMemberList(res.data.result);
       } catch (error) {
         console.error('신청자 목록 조회 실패:', error);
       }
     };
     fetchMemberList();
   }, []);
+
+  // 멤버 권한 수정 API 호출
+  const handleRoleUpdate = async () => {
+    try {
+      if (!memberDetail || !selectedRole) return;
+      const data = {
+        memberId: memberDetail.member.memberId,
+        role: selectedRole
+      };
+      await putMemberRoleAPI(data);
+      const fresh = await getMemberDetailAPI(memberDetail.member.memberId);
+      setMemberDetail(fresh.data);
+      alert('역할이 변경되었습니다.');
+    } catch (error) {
+      console.error('멤버 권한 수정 실패:', error);
+    }
+  };
 
   // 이전 페이지 이동
   const handlePrev = () => {
@@ -117,44 +138,62 @@ function MemberDetailPage() {
                 <div className="w-72 flex flex-col gap-2">
                   <p className="font-bold">
                     이름:&nbsp;
-                    <span className="font-normal">{memberDetail?.member.name}</span>
+                    <span className="font-normal">{memberDetail?.member?.name}</span>
                   </p>
                   <p className="font-bold">
                     학년:&nbsp;
-                    <span className="font-normal">{memberDetail?.member.grade}</span>
+                    <span className="font-normal">{gradeMapper(memberDetail?.member?.grade)}</span>
                   </p>
                   <p className="font-bold">
                     학번:&nbsp;
-                    <span className="font-normal">{memberDetail?.member.studentId}</span>
+                    <span className="font-normal">{memberDetail?.member?.studentId}</span>
                   </p>
                   <p className="font-bold">
                     역할:&nbsp;
-                    <span className="font-normal">{memberDetail?.member.role}</span>
+                    <span className="font-normal">{roleMapper(memberDetail?.member?.role)}</span>
                   </p>
                 </div>
                 <div className="w-80 flex flex-col gap-2">
                   <p className="font-bold">
                     이메일:&nbsp;
-                    <span className="font-normal">{memberDetail?.member.email}</span>
+                    <span className="font-normal">{memberDetail?.member?.email}</span>
                   </p>
                   <p className="font-bold">
                     휴대폰 번호:&nbsp;
-                    <span className="font-normal">{memberDetail?.member.phoneNumber}</span>
+                    <span className="font-normal">{memberDetail?.member?.phoneNumber}</span>
                   </p>
                   <p className="font-bold">
                     가입일:&nbsp;
-                    {/* <span className="font-normal">2025/02/26</span> */}
+                    <span className="font-normal">
+                      {memberDetail?.member?.approvedAt &&
+                        new Date(memberDetail.member?.approvedAt).toLocaleDateString('ko-KR', {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                        }).replace(/\./g, '').replace(/ /g, '.')
+                      }
+                    </span>
                   </p>
                 </div>
               </div>
               <div className="flex flex-col gap-2">
                 <p className="font-bold">
                   관심 기술 분야:&nbsp;
-                  <span className="font-normal">{memberDetail?.field}</span>
+                  {memberDetail?.field?.map((item, index) => (
+                    <span key={index} className="font-normal">
+                      {careerMapper(item as CareerEnum)}
+                      {index !== memberDetail.field?.length - 1 && ', '}
+                    </span>
+                  ))}
                 </p>
                 <p className="font-bold">
                   보유/관심 기술 스택:&nbsp;
-                  <span className="font-normal">{memberDetail?.stack}</span>
+                  <span className="font-normal">{memberDetail?.stack?.map((item, index) => (
+                    <span key={index} className="font-normal">
+                      {stackMapper(item as StackEnum)}
+                      {index !== memberDetail.stack?.length - 1 && ', '}
+                    </span>
+                  ))}</span>
                 </p>
               </div>
             </div>
@@ -168,8 +207,8 @@ function MemberDetailPage() {
           </div>
           <div className="pt-1 pl-6 flex flex-col gap-2">
             <CustomRadioBox
-              isChecked={selectedRole === "organizer"}
-              onChange={() => setSelectedRole("organizer")}
+              isChecked={selectedRole === RoleEnum.ORGANIZER}
+              onChange={() => setSelectedRole(RoleEnum.ORGANIZER)}
               label={
                 <>
                   <strong>Organizer:</strong> 운영진 가입 신청 승인/ 회원 역할 변경 권한을 포함한 모든 권한을 가집니다.
@@ -177,8 +216,8 @@ function MemberDetailPage() {
               }
             />
             <CustomRadioBox
-              isChecked={selectedRole === "team-member"}
-              onChange={() => setSelectedRole("team-member")}
+              isChecked={selectedRole === RoleEnum.TEAM_MEMBER}
+              onChange={() => setSelectedRole(RoleEnum.TEAM_MEMBER)}
               label={
                 <>
                   <strong>Team Member:</strong> 운영진 가입 신청 승인/ 회원 역할 변경 권한을 제외한 모든 권한을 가집니다.
@@ -186,8 +225,8 @@ function MemberDetailPage() {
               }
             />
             <CustomRadioBox
-              isChecked={selectedRole === "member"}
-              onChange={() => setSelectedRole("member")}
+              isChecked={selectedRole === RoleEnum.MEMBER}
+              onChange={() => setSelectedRole(RoleEnum.MEMBER)}
               label={
                 <>
                   <strong>Member:</strong> 커뮤니티 그라운드 접근 권한을 가집니다.
@@ -198,6 +237,7 @@ function MemberDetailPage() {
               <CustomManagementButton
                 text="저장"
                 option="positive"
+                onClick={handleRoleUpdate}
               />
             </div>
           </div>

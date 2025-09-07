@@ -2,16 +2,17 @@ import { useState, useEffect } from 'react';
 import { ReactComponent as MemberManagementIcon } from '../shared/assets/icons/member/common/memberManagementIcon.svg';
 import MemberListCard from '../features/member/management/ui/MemberListCard';
 import { getMemberListAPI, getApplicantListAPI } from '../features/member/management/api/managementAPI';
+import { GradeEnum, RoleEnum } from '../shared/utils/enumMapper';
 
 // 응답값 타입
 interface MemberListItemType {
   memberId: number;
   name: string;
   email: string;
-  grade: string;
+  grade: GradeEnum;
   studentId: string;
   phoneNumber: string;
-  role: string;
+  role: RoleEnum;
   approved: boolean;
 }
 

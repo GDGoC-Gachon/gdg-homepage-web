@@ -1,8 +1,9 @@
 interface JoinRejectModalProps {
   onClose: () => void;
+  onConfirm: () => void;
 }
 
-function JoinRejectModal({ onClose }: JoinRejectModalProps) {
+function JoinRejectModal({ onClose, onConfirm }: JoinRejectModalProps) {
   // 바깥을 누르면 닫히도록
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -16,6 +17,7 @@ function JoinRejectModal({ onClose }: JoinRejectModalProps) {
 
   // 버튼 핸들러
   const handleModalclose = () => {
+    onConfirm();
     onClose();
   };
 
